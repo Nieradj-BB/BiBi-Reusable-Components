@@ -1,0 +1,8 @@
+/*
+ * Library guard (this repo only): drop Tailwind's default colour palette,
+ * including white and black, so only theme tokens produce colour utilities.
+ * Must load before the theme.
+ */
+@theme {
+  --color-*: initial;
+}

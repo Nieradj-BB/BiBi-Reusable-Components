@@ -1,0 +1,24 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "skeleton",
+  "title": "Skeleton",
+  "description": "Pulsing muted placeholders in the shape of the content that is loading.",
+  "dependencies": [
+    "class-variance-authority@0.7.1"
+  ],
+  "registryDependencies": [
+    "Nieradj-BB/BiBi-Reusable-Components/theme#v0.1.0",
+    "Nieradj-BB/BiBi-Reusable-Components/utils#v0.1.0"
+  ],
+  "files": [
+    {
+      "path": "registry/bb/ui/skeleton.tsx",
+      "content": "import * as React from \"react\"\nimport { cva, type VariantProps } from \"class-variance-authority\"\n\nimport { cn } from \"@/lib/utils\"\n\nconst skeletonVariants = cva(\n  \"block h-4 w-full rounded-md bg-muted motion-safe:animate-pulse\",\n  {\n    variants: {\n      shape: {\n        text: \"\",\n        sm: \"h-3.5\",\n        title: \"h-5\",\n        value: \"h-9\",\n        row: \"h-12 rounded-xl\",\n        circle: \"size-10 flex-none rounded-full\",\n      },\n      width: {\n        full: \"w-full\",\n        \"90\": \"w-9/10\",\n        \"80\": \"w-4/5\",\n        \"75\": \"w-3/4\",\n        \"60\": \"w-3/5\",\n        \"40\": \"w-2/5\",\n        \"25\": \"w-1/4\",\n      },\n    },\n    defaultVariants: {\n      shape: \"text\",\n    },\n  }\n)\n\nfunction Skeleton({\n  className,\n  shape = \"text\",\n  width,\n  ...props\n}: React.ComponentProps<\"div\"> & VariantProps<typeof skeletonVariants>) {\n  return (\n    <div\n      data-slot=\"skeleton\"\n      data-shape={shape}\n      aria-hidden=\"true\"\n      className={cn(skeletonVariants({ shape, width }), className)}\n      {...props}\n    />\n  )\n}\n\n// One loading area: a visually hidden status text plus the hidden shapes.\nfunction SkeletonGroup({\n  label,\n  className,\n  children,\n  ...props\n}: React.ComponentProps<\"div\"> & { label: string }) {\n  return (\n    <div\n      data-slot=\"skeleton-group\"\n      className={cn(\"relative\", className)}\n      {...props}\n    >\n      <span role=\"status\" className=\"sr-only\">\n        {label}\n      </span>\n      {children}\n    </div>\n  )\n}\n\nexport { Skeleton, SkeletonGroup, skeletonVariants }\n",
+      "type": "registry:ui"
+    }
+  ],
+  "categories": [
+    "feedback"
+  ],
+  "type": "registry:ui"
+}

@@ -1,0 +1,7 @@
+/* Storybook and test entry point. Apps use the `theme` registry item instead. */
+@import "tailwindcss" source(none);
+@import "./library-guard.css";
+@import "../registry/bb/theme/theme.css";
+
+@source "../registry";
+@source "../stories";

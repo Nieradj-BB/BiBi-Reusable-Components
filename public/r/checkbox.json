@@ -1,0 +1,25 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "checkbox",
+  "title": "Checkbox",
+  "description": "Turns an independent option on or off, or selects rows; supports a mixed (indeterminate) state.",
+  "dependencies": [
+    "radix-ui@1.8.1",
+    "lucide-react@1.69.0"
+  ],
+  "registryDependencies": [
+    "Nieradj-BB/BiBi-Reusable-Components/theme#v0.1.0",
+    "Nieradj-BB/BiBi-Reusable-Components/utils#v0.1.0"
+  ],
+  "files": [
+    {
+      "path": "registry/bb/ui/checkbox.tsx",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\nimport { CheckIcon, MinusIcon } from \"lucide-react\"\nimport { Checkbox as CheckboxPrimitive } from \"radix-ui\"\n\nimport { cn } from \"@/lib/utils\"\n\nfunction Checkbox({\n  className,\n  id,\n  label,\n  description,\n  \"aria-describedby\": ariaDescribedBy,\n  ...props\n}: React.ComponentProps<typeof CheckboxPrimitive.Root> & {\n  /** Visible label next to the box; renders the checkbox as a labelled row. */\n  label?: React.ReactNode\n  /** Help text under the label, linked with aria-describedby. */\n  description?: React.ReactNode\n}) {\n  const generatedId = React.useId()\n  const isField = label !== undefined || description !== undefined\n  const controlId = id ?? (isField ? generatedId : undefined)\n  const descriptionId = `${controlId}-description`\n\n  const control = (\n    <CheckboxPrimitive.Root\n      data-slot=\"checkbox\"\n      id={controlId}\n      aria-describedby={\n        [description ? descriptionId : undefined, ariaDescribedBy]\n          .filter(Boolean)\n          .join(\" \") || undefined\n      }\n      className={cn(\n        \"peer group/checkbox relative size-4 shrink-0 cursor-pointer rounded-md border border-muted-foreground bg-card text-brand-cyan-foreground transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring disabled:cursor-not-allowed data-[state=checked]:border-brand-cyan data-[state=checked]:bg-brand-cyan data-[state=indeterminate]:border-brand-cyan data-[state=indeterminate]:bg-brand-cyan\",\n        isField ? \"col-start-1 row-start-1 mt-0.5\" : \"disabled:opacity-50\",\n        className\n      )}\n      {...props}\n    >\n      <CheckboxPrimitive.Indicator\n        data-slot=\"checkbox-indicator\"\n        className=\"grid place-content-center text-current\"\n      >\n        <CheckIcon\n          aria-hidden=\"true\"\n          className=\"size-3.5 group-data-[state=indeterminate]/checkbox:hidden\"\n        />\n        <MinusIcon\n          aria-hidden=\"true\"\n          className=\"hidden size-3.5 group-data-[state=indeterminate]/checkbox:block\"\n        />\n      </CheckboxPrimitive.Indicator>\n    </CheckboxPrimitive.Root>\n  )\n\n  if (!isField) return control\n\n  return (\n    <div\n      data-slot=\"checkbox-field\"\n      className=\"grid grid-cols-[1rem_minmax(0,1fr)] items-start gap-x-2 py-0.5 text-sm text-foreground has-disabled:opacity-50\"\n    >\n      {control}\n      {label !== undefined && (\n        <label\n          data-slot=\"checkbox-label\"\n          htmlFor={controlId}\n          className=\"col-start-2 cursor-pointer peer-disabled:cursor-not-allowed\"\n        >\n          {label}\n        </label>\n      )}\n      {description !== undefined && (\n        <p\n          data-slot=\"checkbox-description\"\n          id={descriptionId}\n          className=\"col-start-2 text-xs text-muted-foreground\"\n        >\n          {description}\n        </p>\n      )}\n    </div>\n  )\n}\n\nexport { Checkbox }\n",
+      "type": "registry:ui"
+    }
+  ],
+  "categories": [
+    "inputs-and-forms"
+  ],
+  "type": "registry:ui"
+}

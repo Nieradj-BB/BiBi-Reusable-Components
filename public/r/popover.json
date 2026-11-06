@@ -1,0 +1,25 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "popover",
+  "title": "Popover",
+  "description": "A small panel anchored to a button, for a short explanation (toggletip) or a quick one-field form.",
+  "dependencies": [
+    "radix-ui@1.8.1",
+    "lucide-react@1.69.0"
+  ],
+  "registryDependencies": [
+    "Nieradj-BB/BiBi-Reusable-Components/theme#v0.1.0",
+    "Nieradj-BB/BiBi-Reusable-Components/utils#v0.1.0"
+  ],
+  "files": [
+    {
+      "path": "registry/bb/ui/popover.tsx",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\nimport { InfoIcon } from \"lucide-react\"\nimport { Popover as PopoverPrimitive } from \"radix-ui\"\n\nimport { cn } from \"@/lib/utils\"\n\nfunction Popover({\n  ...props\n}: React.ComponentProps<typeof PopoverPrimitive.Root>) {\n  return <PopoverPrimitive.Root data-slot=\"popover\" {...props} />\n}\n\nfunction PopoverTrigger({\n  ...props\n}: React.ComponentProps<typeof PopoverPrimitive.Trigger>) {\n  return <PopoverPrimitive.Trigger data-slot=\"popover-trigger\" {...props} />\n}\n\nfunction PopoverContent({\n  className,\n  align = \"start\",\n  sideOffset = 6,\n  ...props\n}: React.ComponentProps<typeof PopoverPrimitive.Content>) {\n  return (\n    <PopoverPrimitive.Portal>\n      <PopoverPrimitive.Content\n        data-slot=\"popover-content\"\n        align={align}\n        sideOffset={sideOffset}\n        className={cn(\n          \"z-50 flex max-w-xs flex-col gap-2 rounded-xl border border-border bg-card p-3 text-sm/relaxed text-foreground shadow-panel focus:outline-none\",\n          className\n        )}\n        {...props}\n      />\n    </PopoverPrimitive.Portal>\n  )\n}\n\nfunction PopoverClose({\n  ...props\n}: React.ComponentProps<typeof PopoverPrimitive.Close>) {\n  return <PopoverPrimitive.Close data-slot=\"popover-close\" {...props} />\n}\n\nfunction PopoverAnchor({\n  ...props\n}: React.ComponentProps<typeof PopoverPrimitive.Anchor>) {\n  return <PopoverPrimitive.Anchor data-slot=\"popover-anchor\" {...props} />\n}\n\nfunction PopoverFooter({ className, ...props }: React.ComponentProps<\"div\">) {\n  return (\n    <div\n      data-slot=\"popover-footer\"\n      className={cn(\"flex justify-end gap-2\", className)}\n      {...props}\n    />\n  )\n}\n\n/** Bold navy term at the start of an explanation line. */\nfunction PopoverTerm({ className, ...props }: React.ComponentProps<\"strong\">) {\n  return (\n    <strong\n      data-slot=\"popover-term\"\n      className={cn(\"font-semibold text-primary\", className)}\n      {...props}\n    />\n  )\n}\n\n/** Round info button that opens a short explanation (toggletip). */\nfunction InfoPopover({\n  topic,\n  children,\n  align = \"end\",\n  side,\n  sideOffset,\n  className,\n  contentClassName,\n  ...props\n}: React.ComponentProps<typeof PopoverPrimitive.Root> & {\n  /** Names the trigger and the panel: \"Uitleg bij <topic>\". */\n  topic: string\n  align?: React.ComponentProps<typeof PopoverPrimitive.Content>[\"align\"]\n  side?: React.ComponentProps<typeof PopoverPrimitive.Content>[\"side\"]\n  sideOffset?: number\n  className?: string\n  contentClassName?: string\n}) {\n  const label = `Uitleg bij ${topic}`\n\n  return (\n    <Popover {...props}>\n      <PopoverTrigger\n        data-slot=\"info-popover-trigger\"\n        aria-label={label}\n        className={cn(\n          \"inline-grid size-8 shrink-0 cursor-pointer place-items-center rounded-full bg-transparent p-0 text-muted-foreground transition-colors hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring [&_svg]:size-4\",\n          className\n        )}\n      >\n        <InfoIcon aria-hidden=\"true\" />\n      </PopoverTrigger>\n      <PopoverContent\n        aria-label={label}\n        align={align}\n        side={side}\n        sideOffset={sideOffset}\n        className={contentClassName}\n      >\n        {children}\n      </PopoverContent>\n    </Popover>\n  )\n}\n\nexport {\n  InfoPopover,\n  Popover,\n  PopoverAnchor,\n  PopoverClose,\n  PopoverContent,\n  PopoverFooter,\n  PopoverTerm,\n  PopoverTrigger,\n}\n",
+      "type": "registry:ui"
+    }
+  ],
+  "categories": [
+    "overlays"
+  ],
+  "type": "registry:ui"
+}

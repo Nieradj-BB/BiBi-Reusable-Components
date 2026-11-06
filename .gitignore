@@ -1,0 +1,23 @@
+# Dependencies
+node_modules/
+
+# Build output (public/r is committed: GitHub serves the built registry)
+storybook-static/
+dist/
+
+# Tests
+coverage/
+test-results/
+playwright-report/
+.vitest-attachments/
+__screenshots__/
+
+# Logs and local files
+*.log
+.DS_Store
+Thumbs.db
+.env
+.env.local
+.vscode/*
+!.vscode/extensions.json
+registry.partial.json

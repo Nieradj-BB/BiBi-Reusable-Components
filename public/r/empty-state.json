@@ -1,0 +1,25 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "empty-state",
+  "title": "EmptyState",
+  "description": "A dashed box that says nothing is here yet, how items appear, and what to do next.",
+  "dependencies": [
+    "class-variance-authority@0.7.1",
+    "lucide-react@1.69.0"
+  ],
+  "registryDependencies": [
+    "Nieradj-BB/BiBi-Reusable-Components/theme#v0.1.0",
+    "Nieradj-BB/BiBi-Reusable-Components/utils#v0.1.0"
+  ],
+  "files": [
+    {
+      "path": "registry/bb/ui/empty-state.tsx",
+      "content": "import * as React from \"react\"\nimport { cva, type VariantProps } from \"class-variance-authority\"\nimport { type LucideIcon } from \"lucide-react\"\n\nimport { cn } from \"@/lib/utils\"\n\nconst emptyStateVariants = cva(\n  \"flex min-w-0 flex-col items-center rounded-xl border border-dashed border-border-strong text-center\",\n  {\n    variants: {\n      size: {\n        default: \"p-10\",\n        compact: \"p-6\",\n        inline:\n          \"flex-row flex-wrap justify-between gap-x-4 gap-y-2 px-5 py-4 text-left\",\n      },\n      inset: {\n        true: \"rounded-none border-0\",\n        false: \"\",\n      },\n    },\n    defaultVariants: {\n      size: \"default\",\n      inset: false,\n    },\n  }\n)\n\nfunction EmptyState({\n  className,\n  size = \"default\",\n  inset = false,\n  icon: Icon,\n  title,\n  description,\n  action,\n  ...props\n}: Omit<React.ComponentProps<\"div\">, \"title\"> &\n  VariantProps<typeof emptyStateVariants> & {\n    /** Decorative lucide icon in a cyan circle (default size only). */\n    icon?: LucideIcon\n    /** Short title (default size only). */\n    title?: React.ReactNode\n    /** What is missing and how items appear. */\n    description: React.ReactNode\n    /** A Button or link that fixes the empty state. */\n    action?: React.ReactNode\n  }) {\n  const isDefault = size === \"default\" || size === null\n\n  return (\n    <div\n      data-slot=\"empty-state\"\n      data-size={size}\n      className={cn(emptyStateVariants({ size, inset }), className)}\n      {...props}\n    >\n      {isDefault && Icon && (\n        <span\n          data-slot=\"empty-state-icon\"\n          aria-hidden=\"true\"\n          className=\"mb-4 flex size-12 items-center justify-center rounded-full bg-brand-ice text-brand-cyan\"\n        >\n          <Icon className=\"size-6\" aria-hidden=\"true\" />\n        </span>\n      )}\n      {isDefault && title && (\n        <p\n          data-slot=\"empty-state-title\"\n          className=\"font-heading text-lg font-bold text-primary\"\n        >\n          {title}\n        </p>\n      )}\n      <p\n        data-slot=\"empty-state-description\"\n        className={cn(\n          \"max-w-[48ch] text-sm text-muted-foreground\",\n          isDefault && \"mt-1\",\n          size === \"inline\" && \"max-w-none\"\n        )}\n      >\n        {description}\n      </p>\n      {action && (\n        <div\n          data-slot=\"empty-state-action\"\n          className={cn(\n            \"flex flex-wrap justify-center gap-2\",\n            isDefault && \"mt-5\",\n            size === \"compact\" && \"mt-3\"\n          )}\n        >\n          {action}\n        </div>\n      )}\n    </div>\n  )\n}\n\nexport { EmptyState, emptyStateVariants }\n",
+      "type": "registry:ui"
+    }
+  ],
+  "categories": [
+    "feedback"
+  ],
+  "type": "registry:ui"
+}

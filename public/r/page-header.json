@@ -1,0 +1,25 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "page-header",
+  "title": "PageHeader",
+  "description": "The top block of every page: title, one-line subtitle and the short cyan accent stripe, with optional actions, breadcrumbs, eyebrow and a slot for tabs or search.",
+  "dependencies": [
+    "lucide-react@1.69.0",
+    "radix-ui@1.8.1"
+  ],
+  "registryDependencies": [
+    "Nieradj-BB/BiBi-Reusable-Components/theme#v0.1.0",
+    "Nieradj-BB/BiBi-Reusable-Components/utils#v0.1.0"
+  ],
+  "files": [
+    {
+      "path": "registry/bb/ui/page-header.tsx",
+      "content": "import * as React from \"react\"\nimport { ChevronRightIcon } from \"lucide-react\"\nimport { Slot } from \"radix-ui\"\n\nimport { cn } from \"@/lib/utils\"\n\nfunction PageHeader({\n  title,\n  subtitle,\n  eyebrow,\n  breadcrumbs,\n  actions,\n  className,\n  children,\n  ...props\n}: Omit<React.ComponentProps<\"div\">, \"title\"> & {\n  title: React.ReactNode\n  subtitle?: React.ReactNode\n  eyebrow?: React.ReactNode\n  /** Rendered above the title, e.g. `<PageHeaderBreadcrumbs>`. */\n  breadcrumbs?: React.ReactNode\n  /** Buttons for the page's main commands. */\n  actions?: React.ReactNode\n}) {\n  return (\n    <div\n      data-slot=\"page-header\"\n      className={cn(\n        \"shrink-0 border-b border-border bg-background p-6 lg:px-8\",\n        className\n      )}\n      {...props}\n    >\n      {breadcrumbs && (\n        <div data-slot=\"page-header-breadcrumbs-slot\" className=\"mb-3 -ml-1\">\n          {breadcrumbs}\n        </div>\n      )}\n      <div className=\"flex flex-wrap items-start justify-between gap-4\">\n        <div className=\"min-w-0\">\n          {eyebrow && (\n            <p\n              data-slot=\"page-header-eyebrow\"\n              className=\"mb-1 text-xs font-bold tracking-widest text-brand-cyan uppercase\"\n            >\n              {eyebrow}\n            </p>\n          )}\n          <h1 data-slot=\"page-header-title\" className=\"text-3xl\">\n            {title}\n          </h1>\n          {subtitle && (\n            <p\n              data-slot=\"page-header-subtitle\"\n              className=\"mt-1 text-base text-muted-foreground\"\n            >\n              {subtitle}\n            </p>\n          )}\n          <span\n            data-slot=\"page-header-stripe\"\n            aria-hidden=\"true\"\n            className=\"mt-4 block h-1 w-16 rounded-full bg-brand-cyan\"\n          />\n        </div>\n        {actions && (\n          <div\n            data-slot=\"page-header-actions\"\n            className=\"flex shrink-0 flex-wrap gap-2\"\n          >\n            {actions}\n          </div>\n        )}\n      </div>\n      {children && (\n        <div data-slot=\"page-header-slot\" className=\"mt-5\">\n          {children}\n        </div>\n      )}\n    </div>\n  )\n}\n\nfunction PageHeaderBreadcrumbs({\n  className,\n  children,\n  \"aria-label\": ariaLabel = \"Kruimelpad\",\n  ...props\n}: React.ComponentProps<\"nav\">) {\n  return (\n    <nav\n      data-slot=\"page-header-breadcrumbs\"\n      aria-label={ariaLabel}\n      className={cn(\"min-w-0\", className)}\n      {...props}\n    >\n      <ol className=\"flex flex-wrap items-center gap-1 text-sm\">{children}</ol>\n    </nav>\n  )\n}\n\nfunction PageHeaderBreadcrumbItem({\n  className,\n  children,\n  ...props\n}: React.ComponentProps<\"li\">) {\n  return (\n    <li\n      data-slot=\"page-header-breadcrumb-item\"\n      className={cn(\"group/crumb flex min-w-0 items-center gap-1\", className)}\n      {...props}\n    >\n      <ChevronRightIcon\n        aria-hidden=\"true\"\n        className=\"size-3.5 shrink-0 text-muted-foreground group-first/crumb:hidden\"\n      />\n      {children}\n    </li>\n  )\n}\n\nconst crumbClassName = \"block min-h-6 max-w-56 truncate rounded-md px-1 py-0.5\"\n\nfunction PageHeaderBreadcrumbLink({\n  className,\n  asChild = false,\n  ...props\n}: React.ComponentProps<\"a\"> & { asChild?: boolean }) {\n  const Comp = asChild ? Slot.Root : \"a\"\n\n  return (\n    <Comp\n      data-slot=\"page-header-breadcrumb-link\"\n      className={cn(\n        crumbClassName,\n        \"text-muted-foreground no-underline transition-colors hover:bg-accent hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring\",\n        className\n      )}\n      {...props}\n    />\n  )\n}\n\nfunction PageHeaderBreadcrumbPage({\n  className,\n  ...props\n}: React.ComponentProps<\"span\">) {\n  return (\n    <span\n      data-slot=\"page-header-breadcrumb-page\"\n      aria-current=\"page\"\n      className={cn(crumbClassName, \"font-semibold text-foreground\", className)}\n      {...props}\n    />\n  )\n}\n\nexport {\n  PageHeader,\n  PageHeaderBreadcrumbs,\n  PageHeaderBreadcrumbItem,\n  PageHeaderBreadcrumbLink,\n  PageHeaderBreadcrumbPage,\n}\n",
+      "type": "registry:ui"
+    }
+  ],
+  "categories": [
+    "navigation-and-layout"
+  ],
+  "type": "registry:ui"
+}

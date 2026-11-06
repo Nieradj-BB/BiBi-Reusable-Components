@@ -1,0 +1,27 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "form-rhf",
+  "title": "Form (react-hook-form)",
+  "description": "Optional react-hook-form binding for FormField: label, help text and error message wired to a react-hook-form field.",
+  "dependencies": [
+    "react-hook-form@7.91.0",
+    "radix-ui@1.8.1"
+  ],
+  "registryDependencies": [
+    "Nieradj-BB/BiBi-Reusable-Components/theme#v0.1.0",
+    "Nieradj-BB/BiBi-Reusable-Components/utils#v0.1.0",
+    "Nieradj-BB/BiBi-Reusable-Components/label#v0.1.0",
+    "Nieradj-BB/BiBi-Reusable-Components/form-field#v0.1.0"
+  ],
+  "files": [
+    {
+      "path": "registry/bb/ui/form-rhf.tsx",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\nimport { Slot } from \"radix-ui\"\nimport {\n  Controller,\n  FormProvider,\n  useFormContext,\n  useFormState,\n  type ControllerProps,\n  type FieldPath,\n  type FieldValues,\n} from \"react-hook-form\"\n\nimport { cn } from \"@/lib/utils\"\nimport {\n  FormFieldError,\n  FormFieldHelp,\n  FormFieldRoot,\n} from \"@/components/ui/form-field\"\nimport { Label } from \"@/components/ui/label\"\n\nconst Form = FormProvider\n\ntype FormFieldContextValue<\n  TFieldValues extends FieldValues = FieldValues,\n  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,\n> = {\n  name: TName\n}\n\nconst FormFieldContext = React.createContext<FormFieldContextValue | null>(null)\n\nfunction FormField<\n  TFieldValues extends FieldValues = FieldValues,\n  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,\n>(props: ControllerProps<TFieldValues, TName>) {\n  return (\n    <FormFieldContext.Provider value={{ name: props.name }}>\n      <Controller {...props} />\n    </FormFieldContext.Provider>\n  )\n}\n\ntype FormItemContextValue = {\n  id: string\n  hasDescription: boolean\n  registerDescription: () => () => void\n}\n\nconst FormItemContext = React.createContext<FormItemContextValue | null>(null)\n\nfunction useFormField() {\n  const fieldContext = React.useContext(FormFieldContext)\n  const itemContext = React.useContext(FormItemContext)\n  const { getFieldState } = useFormContext()\n  const formState = useFormState({ name: fieldContext?.name })\n\n  if (!fieldContext) {\n    throw new Error(\"useFormField should be used within <FormField>\")\n  }\n  if (!itemContext) {\n    throw new Error(\"useFormField should be used within <FormItem>\")\n  }\n\n  const fieldState = getFieldState(fieldContext.name, formState)\n  const { id, hasDescription } = itemContext\n\n  return {\n    id,\n    name: fieldContext.name,\n    formItemId: `${id}-form-item`,\n    formDescriptionId: `${id}-form-item-description`,\n    formMessageId: `${id}-form-item-message`,\n    hasDescription,\n    ...fieldState,\n  }\n}\n\nfunction FormItem(props: React.ComponentProps<\"div\">) {\n  const id = React.useId()\n  const [descriptions, setDescriptions] = React.useState(0)\n\n  const registerDescription = React.useCallback(() => {\n    setDescriptions((count) => count + 1)\n    return () => setDescriptions((count) => count - 1)\n  }, [])\n\n  const value = React.useMemo(\n    () => ({ id, hasDescription: descriptions > 0, registerDescription }),\n    [id, descriptions, registerDescription]\n  )\n\n  return (\n    <FormItemContext.Provider value={value}>\n      <FormFieldRoot data-slot=\"form-item\" {...props} />\n    </FormItemContext.Provider>\n  )\n}\n\nfunction FormLabel({\n  className,\n  ...props\n}: React.ComponentProps<typeof Label>) {\n  const { error, formItemId } = useFormField()\n\n  return (\n    <Label\n      data-slot=\"form-label\"\n      data-error={!!error}\n      htmlFor={formItemId}\n      className={cn(\"mb-1\", className)}\n      {...props}\n    />\n  )\n}\n\nfunction FormControl(props: React.ComponentProps<typeof Slot.Root>) {\n  const {\n    error,\n    formItemId,\n    formDescriptionId,\n    formMessageId,\n    hasDescription,\n  } = useFormField()\n\n  const describedBy =\n    [\n      hasDescription ? formDescriptionId : undefined,\n      error ? formMessageId : undefined,\n    ]\n      .filter(Boolean)\n      .join(\" \") || undefined\n\n  return (\n    <Slot.Root\n      data-slot=\"form-control\"\n      id={formItemId}\n      aria-describedby={describedBy}\n      aria-invalid={error ? true : undefined}\n      {...props}\n    />\n  )\n}\n\nfunction FormDescription(props: React.ComponentProps<\"p\">) {\n  const { formDescriptionId } = useFormField()\n  const item = React.useContext(FormItemContext)\n  const register = item?.registerDescription\n\n  React.useEffect(() => register?.(), [register])\n\n  return (\n    <FormFieldHelp\n      data-slot=\"form-description\"\n      id={formDescriptionId}\n      {...props}\n    />\n  )\n}\n\nfunction FormMessage({ children, ...props }: React.ComponentProps<\"p\">) {\n  const { error, formMessageId } = useFormField()\n  const body = error ? String(error.message ?? \"\") : children\n\n  if (!body) {\n    return null\n  }\n\n  return (\n    <FormFieldError data-slot=\"form-message\" id={formMessageId} {...props}>\n      {body}\n    </FormFieldError>\n  )\n}\n\nexport {\n  useFormField,\n  Form,\n  FormItem,\n  FormLabel,\n  FormControl,\n  FormDescription,\n  FormMessage,\n  FormField,\n}\n",
+      "type": "registry:ui"
+    }
+  ],
+  "categories": [
+    "inputs-and-forms"
+  ],
+  "type": "registry:ui"
+}

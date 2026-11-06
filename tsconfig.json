@@ -1,0 +1,45 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["ES2023", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "moduleDetection": "force",
+    "jsx": "react-jsx",
+    "types": ["vite/client", "node"],
+    "strict": true,
+    "noEmit": true,
+    "isolatedModules": true,
+    "allowImportingTsExtensions": true,
+    "resolveJsonModule": true,
+    "allowJs": false,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitOverride": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "paths": {
+      "@/lib/utils": ["./registry/bb/lib/utils.ts"],
+      "@/lib/*": ["./registry/bb/lib/*"],
+      "@/hooks/*": ["./registry/bb/hooks/*"],
+      "@/components/ui/*": ["./registry/bb/ui/*"],
+      "@/components/*": ["./registry/bb/blocks/*"],
+      "@/registry/*": ["./registry/*"]
+    }
+  },
+  "include": [
+    "registry/**/*.ts",
+    "registry/**/*.tsx",
+    "stories/**/*.ts",
+    "stories/**/*.tsx",
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    ".storybook/**/*.ts",
+    ".storybook/**/*.tsx",
+    "scripts/**/*.ts",
+    "*.config.ts"
+  ],
+  "exclude": ["node_modules", "storybook-static", "public"]
+}

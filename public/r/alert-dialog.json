@@ -1,0 +1,26 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "alert-dialog",
+  "title": "AlertDialog",
+  "description": "A modal confirmation that states the consequence of an action and waits for an explicit choice.",
+  "dependencies": [
+    "radix-ui@1.8.1",
+    "class-variance-authority@0.7.1"
+  ],
+  "registryDependencies": [
+    "Nieradj-BB/BiBi-Reusable-Components/theme#v0.1.0",
+    "Nieradj-BB/BiBi-Reusable-Components/utils#v0.1.0",
+    "Nieradj-BB/BiBi-Reusable-Components/button#v0.1.0"
+  ],
+  "files": [
+    {
+      "path": "registry/bb/ui/alert-dialog.tsx",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\nimport { type VariantProps } from \"class-variance-authority\"\nimport { AlertDialog as AlertDialogPrimitive } from \"radix-ui\"\n\nimport { buttonVariants } from \"@/components/ui/button\"\nimport { cn } from \"@/lib/utils\"\n\nfunction AlertDialog({\n  ...props\n}: React.ComponentProps<typeof AlertDialogPrimitive.Root>) {\n  return <AlertDialogPrimitive.Root data-slot=\"alert-dialog\" {...props} />\n}\n\nfunction AlertDialogTrigger({\n  ...props\n}: React.ComponentProps<typeof AlertDialogPrimitive.Trigger>) {\n  return (\n    <AlertDialogPrimitive.Trigger data-slot=\"alert-dialog-trigger\" {...props} />\n  )\n}\n\nfunction AlertDialogPortal({\n  ...props\n}: React.ComponentProps<typeof AlertDialogPrimitive.Portal>) {\n  return (\n    <AlertDialogPrimitive.Portal data-slot=\"alert-dialog-portal\" {...props} />\n  )\n}\n\nfunction AlertDialogOverlay({\n  className,\n  ...props\n}: React.ComponentProps<typeof AlertDialogPrimitive.Overlay>) {\n  return (\n    <AlertDialogPrimitive.Overlay\n      data-slot=\"alert-dialog-overlay\"\n      className={cn(\"fixed inset-0 z-50 bg-primary/40\", className)}\n      {...props}\n    />\n  )\n}\n\nfunction AlertDialogContent({\n  className,\n  ...props\n}: React.ComponentProps<typeof AlertDialogPrimitive.Content>) {\n  return (\n    <AlertDialogPortal>\n      <AlertDialogOverlay />\n      <AlertDialogPrimitive.Content\n        data-slot=\"alert-dialog-content\"\n        className={cn(\n          \"fixed top-1/2 left-1/2 z-50 grid max-h-[calc(100dvh-2rem)] w-[calc(100%-2rem)] max-w-md -translate-1/2 gap-5 overflow-y-auto rounded-xl border border-border bg-card p-6 text-left text-foreground shadow-panel focus:outline-none\",\n          className\n        )}\n        {...props}\n      />\n    </AlertDialogPortal>\n  )\n}\n\nfunction AlertDialogHeader({\n  className,\n  ...props\n}: React.ComponentProps<\"div\">) {\n  return (\n    <div\n      data-slot=\"alert-dialog-header\"\n      className={cn(\"flex min-w-0 flex-col gap-2\", className)}\n      {...props}\n    />\n  )\n}\n\nfunction AlertDialogFooter({\n  className,\n  ...props\n}: React.ComponentProps<\"div\">) {\n  return (\n    <div\n      data-slot=\"alert-dialog-footer\"\n      className={cn(\n        \"flex flex-col-reverse gap-2 sm:flex-row sm:flex-wrap sm:items-center sm:justify-end\",\n        className\n      )}\n      {...props}\n    />\n  )\n}\n\nfunction AlertDialogTitle({\n  className,\n  ...props\n}: React.ComponentProps<typeof AlertDialogPrimitive.Title>) {\n  return (\n    <AlertDialogPrimitive.Title\n      data-slot=\"alert-dialog-title\"\n      className={cn(\"text-lg/snug\", className)}\n      {...props}\n    />\n  )\n}\n\n/** Renders a `div`, so the consequence can hold paragraphs or a list. */\nfunction AlertDialogDescription({\n  className,\n  ...props\n}: React.ComponentProps<\"div\">) {\n  return (\n    <AlertDialogPrimitive.Description asChild>\n      <div\n        data-slot=\"alert-dialog-description\"\n        className={cn(\n          \"flex flex-col gap-2 text-sm text-muted-foreground\",\n          className\n        )}\n        {...props}\n      />\n    </AlertDialogPrimitive.Description>\n  )\n}\n\ntype ActionButtonProps = Pick<\n  VariantProps<typeof buttonVariants>,\n  \"variant\" | \"size\"\n>\n\nfunction AlertDialogAction({\n  className,\n  variant = \"default\",\n  size = \"default\",\n  ...props\n}: React.ComponentProps<typeof AlertDialogPrimitive.Action> &\n  ActionButtonProps) {\n  return (\n    <AlertDialogPrimitive.Action\n      data-slot=\"alert-dialog-action\"\n      className={cn(buttonVariants({ variant, size }), className)}\n      {...props}\n    />\n  )\n}\n\nfunction AlertDialogCancel({\n  className,\n  variant = \"outline\",\n  size = \"default\",\n  children = \"Annuleren\",\n  ...props\n}: React.ComponentProps<typeof AlertDialogPrimitive.Cancel> &\n  ActionButtonProps) {\n  return (\n    <AlertDialogPrimitive.Cancel\n      data-slot=\"alert-dialog-cancel\"\n      className={cn(buttonVariants({ variant, size }), className)}\n      {...props}\n    >\n      {children}\n    </AlertDialogPrimitive.Cancel>\n  )\n}\n\nexport {\n  AlertDialog,\n  AlertDialogAction,\n  AlertDialogCancel,\n  AlertDialogContent,\n  AlertDialogDescription,\n  AlertDialogFooter,\n  AlertDialogHeader,\n  AlertDialogOverlay,\n  AlertDialogPortal,\n  AlertDialogTitle,\n  AlertDialogTrigger,\n}\n",
+      "type": "registry:ui"
+    }
+  ],
+  "categories": [
+    "overlays"
+  ],
+  "type": "registry:ui"
+}

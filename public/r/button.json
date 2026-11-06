@@ -1,0 +1,26 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "button",
+  "title": "Button",
+  "description": "Starts an action: cyan for the main action, navy, outline and ghost for everything around it, red for removing data.",
+  "dependencies": [
+    "class-variance-authority@0.7.1",
+    "lucide-react@1.69.0",
+    "radix-ui@1.8.1"
+  ],
+  "registryDependencies": [
+    "Nieradj-BB/BiBi-Reusable-Components/theme#v0.1.0",
+    "Nieradj-BB/BiBi-Reusable-Components/utils#v0.1.0"
+  ],
+  "files": [
+    {
+      "path": "registry/bb/ui/button.tsx",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\nimport { cva, type VariantProps } from \"class-variance-authority\"\nimport { LoaderCircleIcon } from \"lucide-react\"\nimport { Slot } from \"radix-ui\"\n\nimport { cn } from \"@/lib/utils\"\n\nconst buttonVariants = cva(\n  \"inline-flex shrink-0 cursor-pointer items-center justify-center gap-2 rounded-md border border-transparent text-sm font-medium whitespace-nowrap no-underline transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring disabled:cursor-not-allowed disabled:opacity-50 data-[loading=true]:cursor-progress [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4\",\n  {\n    variants: {\n      variant: {\n        default:\n          \"bg-brand-cyan text-brand-cyan-foreground not-disabled:hover:bg-brand-cyan/90\",\n        navy: \"bg-primary text-primary-foreground not-disabled:hover:bg-primary/90\",\n        outline:\n          \"border-border bg-card text-foreground not-disabled:hover:bg-accent\",\n        ghost: \"bg-transparent text-foreground not-disabled:hover:bg-accent\",\n        destructive:\n          \"bg-destructive text-destructive-foreground not-disabled:hover:bg-destructive/90\",\n      },\n      size: {\n        default: \"h-9 px-4\",\n        sm: \"h-8 px-3 text-xs\",\n        lg: \"h-11 px-6\",\n        icon: \"size-9\",\n        \"icon-sm\": \"size-8\",\n        \"icon-lg\": \"size-11\",\n      },\n    },\n    defaultVariants: {\n      variant: \"default\",\n      size: \"default\",\n    },\n  }\n)\n\nfunction Button({\n  className,\n  variant = \"default\",\n  size = \"default\",\n  asChild = false,\n  loading = false,\n  onClick,\n  children,\n  ...props\n}: React.ComponentProps<\"button\"> &\n  VariantProps<typeof buttonVariants> & {\n    asChild?: boolean\n    loading?: boolean\n  }) {\n  const Comp = asChild ? Slot.Root : \"button\"\n\n  // Loading keeps the button enabled so it keeps focus; repeat clicks are ignored.\n  function handleClick(event: React.MouseEvent<HTMLButtonElement>) {\n    if (loading) {\n      event.preventDefault()\n      return\n    }\n    onClick?.(event)\n  }\n\n  return (\n    <Comp\n      data-slot=\"button\"\n      data-variant={variant}\n      data-size={size}\n      data-loading={loading || undefined}\n      aria-busy={loading || undefined}\n      className={cn(\n        buttonVariants({ variant, size }),\n        loading && \"[&>svg:not([data-slot=button-spinner])]:hidden\",\n        className\n      )}\n      onClick={handleClick}\n      {...props}\n    >\n      {loading && (\n        <LoaderCircleIcon\n          data-slot=\"button-spinner\"\n          aria-hidden=\"true\"\n          className=\"motion-safe:animate-spin\"\n        />\n      )}\n      {asChild ? <Slot.Slottable>{children}</Slot.Slottable> : children}\n    </Comp>\n  )\n}\n\nexport { Button, buttonVariants }\n",
+      "type": "registry:ui"
+    }
+  ],
+  "categories": [
+    "actions"
+  ],
+  "type": "registry:ui"
+}

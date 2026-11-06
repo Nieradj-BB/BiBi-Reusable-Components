@@ -1,0 +1,125 @@
+/*
+ * Blue Bricks theme for Tailwind CSS 4.
+ * Source of truth for the `theme` registry item: `npm run build:registry`
+ * copies these rules into registry.json (scripts/sync-theme.mjs).
+ * Colour values are fixed. Never add, change, darken or lighten one.
+ */
+@import "@fontsource-variable/figtree";
+
+:root {
+  --background: #f3fafd;
+  --foreground: #0a0a0c;
+  --card: #ffffff;
+  --card-foreground: #0a0a0c;
+  --popover: #ffffff;
+  --popover-foreground: #0a0a0c;
+  --primary: #222a54;
+  --primary-foreground: #ffffff;
+  --secondary: #e9edf6;
+  --secondary-foreground: #222a54;
+  --muted: #f5f5f6;
+  --muted-foreground: #72727b;
+  --accent: #f5f5f6;
+  --accent-foreground: #0a0a0c;
+  --destructive: #dc3545;
+  --destructive-foreground: #ffffff;
+  --success: #67b871;
+  --border: #e8e8eb;
+  --border-strong: #c9c9d1;
+  --input: #e8e8eb;
+  --ring: #0298d5;
+  --brand-navy: #222a54;
+  --brand-cyan: #0298d5;
+  --brand-cyan-foreground: #ffffff;
+  --brand-sky: #35b8e7;
+  --brand-ice: #e6f5fc;
+  --chart-1: #0298d5;
+  --chart-2: #4a5aa8;
+  --chart-3: #ea580c;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-success: var(--success);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-brand-navy: var(--brand-navy);
+  --color-brand-cyan: var(--brand-cyan);
+  --color-brand-cyan-foreground: var(--brand-cyan-foreground);
+  --color-brand-sky: var(--brand-sky);
+  --color-brand-ice: var(--brand-ice);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --font-sans:
+    "Figtree Variable", Figtree, ui-sans-serif, system-ui, sans-serif;
+  --font-heading:
+    "Figtree Variable", Figtree, ui-sans-serif, system-ui, sans-serif;
+  /* Tailwind's default radius values, pinned so apps set up with `shadcn init` keep 6px controls and 12px cards. */
+  --radius-sm: 0.25rem;
+  --radius-md: 0.375rem;
+  --radius-lg: 0.5rem;
+  --radius-xl: 0.75rem;
+  --shadow-tile: 0 1px 2px rgb(34 42 84 / 0.05);
+  --shadow-tile-hover: 0 4px 14px rgb(34 42 84 / 0.1);
+  --shadow-card: 0 1px 3px rgb(34 42 84 / 0.08);
+  --shadow-panel: -1px 0 20px rgb(34 42 84 / 0.07);
+  --ease-enter: cubic-bezier(0.2, 0.7, 0.3, 1);
+}
+
+@keyframes enter {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Entrance: fade with a 6px rise. Stagger items with style={{ "--enter-index": i }} (28ms each, capped at 12). */
+@utility animate-enter {
+  animation: enter 320ms cubic-bezier(0.2, 0.7, 0.3, 1) both;
+  animation-delay: calc(min(var(--enter-index, 0), 12) * 28ms);
+}
+
+/* Top level rather than nested in the utility, so `shadcn add` merges it once. */
+@media (prefers-reduced-motion: reduce) {
+  .animate-enter {
+    animation: none;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background font-sans text-foreground antialiased;
+  }
+  h1,
+  h2,
+  h3 {
+    @apply font-heading text-primary;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+  }
+}

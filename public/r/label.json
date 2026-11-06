@@ -1,0 +1,24 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "label",
+  "title": "Label",
+  "description": "The visible name above a form control or group, with an optional required mark or optional hint.",
+  "dependencies": [
+    "radix-ui@1.8.1"
+  ],
+  "registryDependencies": [
+    "Nieradj-BB/BiBi-Reusable-Components/theme#v0.1.0",
+    "Nieradj-BB/BiBi-Reusable-Components/utils#v0.1.0"
+  ],
+  "files": [
+    {
+      "path": "registry/bb/ui/label.tsx",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\nimport { Label as LabelPrimitive } from \"radix-ui\"\n\nimport { cn } from \"@/lib/utils\"\n\nconst labelClassName =\n  \"block text-sm font-semibold text-primary select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50\"\n\ntype LabelExtras = {\n  /** Shows a red asterisk. The control itself carries `required`. */\n  required?: boolean\n  /** Shows the optional hint after the text. */\n  optional?: boolean\n  /** Text of the optional hint. */\n  optionalHint?: React.ReactNode\n}\n\nfunction LabelMarks({\n  required,\n  optional,\n  optionalHint = \"(optioneel)\",\n}: LabelExtras) {\n  return (\n    <>\n      {required && (\n        <span\n          data-slot=\"label-required\"\n          aria-hidden=\"true\"\n          className=\"ml-0.5 text-destructive\"\n        >\n          *\n        </span>\n      )}\n      {optional && (\n        <span\n          data-slot=\"label-hint\"\n          className=\"ml-1 inline-block font-normal text-muted-foreground\"\n        >\n          {optionalHint}\n        </span>\n      )}\n    </>\n  )\n}\n\ntype LabelProps = React.ComponentProps<typeof LabelPrimitive.Root> &\n  LabelExtras & {\n    /** Renders a legend for a fieldset instead of a label. */\n    as?: \"label\" | \"legend\"\n  }\n\nfunction Label({\n  as = \"label\",\n  className,\n  children,\n  required,\n  optional,\n  optionalHint,\n  ...props\n}: LabelProps) {\n  const content = (\n    <>\n      {children}\n      <LabelMarks\n        required={required}\n        optional={optional}\n        optionalHint={optionalHint}\n      />\n    </>\n  )\n\n  if (as === \"legend\") {\n    return (\n      <legend\n        data-slot=\"label\"\n        className={cn(labelClassName, \"mb-2 p-0\", className)}\n        {...(props as React.ComponentProps<\"legend\">)}\n      >\n        {content}\n      </legend>\n    )\n  }\n\n  return (\n    <LabelPrimitive.Root\n      data-slot=\"label\"\n      className={cn(labelClassName, className)}\n      {...(props as React.ComponentProps<typeof LabelPrimitive.Root>)}\n    >\n      {content}\n    </LabelPrimitive.Root>\n  )\n}\n\nexport { Label }\n",
+      "type": "registry:ui"
+    }
+  ],
+  "categories": [
+    "inputs-and-forms"
+  ],
+  "type": "registry:ui"
+}

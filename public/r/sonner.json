@@ -1,0 +1,26 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "sonner",
+  "title": "Toast",
+  "description": "A short, temporary message in a corner of the screen that confirms a result or reports a failure without blocking the page. Themed Toaster for sonner; call toast() from sonner.",
+  "dependencies": [
+    "sonner@2.0.8",
+    "lucide-react@1.69.0"
+  ],
+  "registryDependencies": [
+    "Nieradj-BB/BiBi-Reusable-Components/theme#v0.1.0",
+    "Nieradj-BB/BiBi-Reusable-Components/utils#v0.1.0",
+    "Nieradj-BB/BiBi-Reusable-Components/button#v0.1.0"
+  ],
+  "files": [
+    {
+      "path": "registry/bb/ui/sonner.tsx",
+      "content": "\"use client\"\n\nimport type * as React from \"react\"\nimport {\n  CircleAlertIcon,\n  CircleCheckIcon,\n  InfoIcon,\n  LoaderCircleIcon,\n  TriangleAlertIcon,\n  XIcon,\n} from \"lucide-react\"\nimport { Toaster as Sonner, type ToasterProps } from \"sonner\"\n\nimport { cn } from \"@/lib/utils\"\nimport { buttonVariants } from \"@/components/ui/button\"\n\ntype ToastClassNames = NonNullable<\n  NonNullable<ToasterProps[\"toastOptions\"]>[\"classNames\"]\n>\n\n// sonner's own CSS is unlayered, so the few properties it also sets need `!`.\nconst toastClassNames: ToastClassNames = {\n  toast: cn(\n    \"group/toast grid w-(--width) grid-cols-[auto_minmax(0,1fr)_auto] items-start rounded-xl border border-border bg-card px-4 py-3 font-sans text-sm text-foreground shadow-panel\",\n    \"data-[type=error]:border-destructive/40\",\n    \"focus-visible:outline-2! focus-visible:outline-offset-2 focus-visible:outline-ring!\",\n    \"data-[mounted=false]:[--y:translateY(6px)]! motion-safe:duration-320! motion-safe:ease-enter! motion-reduce:transition-none!\",\n    \"data-[expanded=false]:data-[front=false]:*:opacity-0\"\n  ),\n  icon: \"col-start-1 row-start-1 mt-0.5 mr-3 flex text-muted-foreground in-data-[type=error]:text-destructive in-data-[type=success]:text-success [&_svg:not([class*='size-'])]:size-4\",\n  content: \"col-start-2 row-start-1 min-w-0\",\n  title: \"font-semibold in-data-[type=error]:text-destructive\",\n  description: \"mt-0.5 text-muted-foreground\",\n  actionButton: cn(\n    buttonVariants({ variant: \"outline\", size: \"sm\" }),\n    \"col-start-2 row-start-2 mt-2 justify-self-start group-has-data-cancel/toast:justify-self-end\"\n  ),\n  cancelButton: cn(\n    buttonVariants({ variant: \"ghost\", size: \"sm\" }),\n    \"col-start-2 row-start-2 mt-2 justify-self-start\"\n  ),\n  closeButton:\n    \"col-start-3 row-start-1 -my-1 -mr-2 ml-3 grid size-7 cursor-pointer place-items-center rounded-md text-muted-foreground transition-colors hover:bg-accent hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring [&_svg]:size-4\",\n}\n\nfunction mergeClassNames(extra: ToastClassNames | undefined): ToastClassNames {\n  if (!extra) return toastClassNames\n  const merged: ToastClassNames = { ...toastClassNames }\n  for (const key of Object.keys(extra) as (keyof ToastClassNames)[]) {\n    merged[key] = cn(toastClassNames[key], extra[key])\n  }\n  return merged\n}\n\nfunction Toaster({\n  className,\n  style,\n  icons,\n  toastOptions,\n  ...props\n}: ToasterProps) {\n  return (\n    <Sonner\n      theme=\"light\"\n      position=\"bottom-right\"\n      expand\n      closeButton\n      gap={8}\n      offset={16}\n      mobileOffset={16}\n      containerAriaLabel=\"Meldingen\"\n      className={className}\n      style={{ \"--width\": \"22rem\", ...style } as React.CSSProperties}\n      icons={{\n        success: <CircleCheckIcon className=\"size-4\" aria-hidden=\"true\" />,\n        info: <InfoIcon className=\"size-4\" aria-hidden=\"true\" />,\n        warning: <TriangleAlertIcon className=\"size-4\" aria-hidden=\"true\" />,\n        error: <CircleAlertIcon className=\"size-4\" aria-hidden=\"true\" />,\n        loading: (\n          <LoaderCircleIcon\n            className=\"size-4 motion-safe:animate-spin\"\n            aria-hidden=\"true\"\n          />\n        ),\n        close: <XIcon aria-hidden=\"true\" />,\n        ...icons,\n      }}\n      toastOptions={{\n        unstyled: true,\n        closeButtonAriaLabel: \"Melding sluiten\",\n        ...toastOptions,\n        classNames: mergeClassNames(toastOptions?.classNames),\n      }}\n      {...props}\n    />\n  )\n}\n\nexport { Toaster }\n",
+      "type": "registry:ui"
+    }
+  ],
+  "categories": [
+    "feedback"
+  ],
+  "type": "registry:ui"
+}

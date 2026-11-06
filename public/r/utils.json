@@ -1,0 +1,21 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "utils",
+  "title": "Utils",
+  "description": "cn(): merges class names with clsx and a tailwind-merge that knows the theme shadows and the heading font.",
+  "dependencies": [
+    "clsx@2.1.1",
+    "tailwind-merge@3.7.0"
+  ],
+  "files": [
+    {
+      "path": "registry/bb/lib/utils.ts",
+      "content": "import { clsx, type ClassValue } from \"clsx\"\nimport { extendTailwindMerge } from \"tailwind-merge\"\n\nconst twMerge = extendTailwindMerge({\n  extend: {\n    theme: {\n      shadow: [\"tile\", \"tile-hover\", \"card\", \"panel\"],\n      font: [\"heading\"],\n      animate: [\"enter\"],\n      ease: [\"enter\"],\n    },\n  },\n})\n\nexport function cn(...inputs: ClassValue[]) {\n  return twMerge(clsx(inputs))\n}\n",
+      "type": "registry:lib"
+    }
+  ],
+  "categories": [
+    "foundations"
+  ],
+  "type": "registry:lib"
+}

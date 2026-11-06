@@ -1,0 +1,25 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "tabs",
+  "title": "Tabs",
+  "description": "Switches between views of one subject inside a page, or between sub-pages as a row of links.",
+  "dependencies": [
+    "radix-ui@1.8.1",
+    "class-variance-authority@0.7.1"
+  ],
+  "registryDependencies": [
+    "Nieradj-BB/BiBi-Reusable-Components/theme#v0.1.0",
+    "Nieradj-BB/BiBi-Reusable-Components/utils#v0.1.0"
+  ],
+  "files": [
+    {
+      "path": "registry/bb/ui/tabs.tsx",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\nimport { cva, type VariantProps } from \"class-variance-authority\"\nimport { Slot, Tabs as TabsPrimitive } from \"radix-ui\"\n\nimport { cn } from \"@/lib/utils\"\n\nfunction Tabs({\n  className,\n  ...props\n}: React.ComponentProps<typeof TabsPrimitive.Root>) {\n  return (\n    <TabsPrimitive.Root\n      data-slot=\"tabs\"\n      className={cn(\"flex flex-col\", className)}\n      {...props}\n    />\n  )\n}\n\nconst tabsListVariants = cva(\"group/tabs-list flex flex-wrap gap-1\", {\n  variants: {\n    variant: {\n      underline: \"border-b border-border\",\n      pill: \"\",\n    },\n  },\n  defaultVariants: {\n    variant: \"underline\",\n  },\n})\n\nconst tabsTriggerClassName = cn(\n  \"inline-flex h-9 cursor-pointer items-center gap-1.5 rounded-md bg-transparent px-3 text-sm font-medium whitespace-nowrap text-foreground transition-colors hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring disabled:cursor-not-allowed disabled:bg-transparent disabled:opacity-50 *:data-[slot=badge]:tabular-nums [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4\",\n  \"group-data-[variant=underline]/tabs-list:-mb-px group-data-[variant=underline]/tabs-list:rounded-b-none group-data-[variant=underline]/tabs-list:border-b-2 group-data-[variant=underline]/tabs-list:border-transparent\",\n  \"aria-[current=page]:text-brand-cyan group-data-[variant=underline]/tabs-list:aria-[current=page]:border-brand-cyan data-[state=active]:text-brand-cyan group-data-[variant=underline]/tabs-list:data-[state=active]:border-brand-cyan\",\n  \"group-data-[variant=pill]/tabs-list:aria-[current=page]:bg-brand-ice group-data-[variant=pill]/tabs-list:data-[state=active]:bg-brand-ice\"\n)\n\nfunction TabsList({\n  className,\n  variant = \"underline\",\n  ...props\n}: React.ComponentProps<typeof TabsPrimitive.List> &\n  VariantProps<typeof tabsListVariants>) {\n  return (\n    <TabsPrimitive.List\n      data-slot=\"tabs-list\"\n      data-variant={variant}\n      className={cn(tabsListVariants({ variant }), className)}\n      {...props}\n    />\n  )\n}\n\nfunction TabsTrigger({\n  className,\n  ...props\n}: React.ComponentProps<typeof TabsPrimitive.Trigger>) {\n  return (\n    <TabsPrimitive.Trigger\n      data-slot=\"tabs-trigger\"\n      className={cn(tabsTriggerClassName, className)}\n      {...props}\n    />\n  )\n}\n\nfunction TabsContent({\n  className,\n  ...props\n}: React.ComponentProps<typeof TabsPrimitive.Content>) {\n  return (\n    <TabsPrimitive.Content\n      data-slot=\"tabs-content\"\n      className={cn(\n        \"flex-1 rounded-md pt-4 text-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring\",\n        className\n      )}\n      {...props}\n    />\n  )\n}\n\n// Route tabs: links in a <nav> with aria-current=\"page\", not ARIA tabs.\nfunction TabsNav({\n  className,\n  variant = \"pill\",\n  children,\n  ...props\n}: React.ComponentProps<\"nav\"> & VariantProps<typeof tabsListVariants>) {\n  return (\n    <nav data-slot=\"tabs-nav\" className={cn(\"flex\", className)} {...props}>\n      <div\n        data-slot=\"tabs-list\"\n        data-variant={variant}\n        className={tabsListVariants({ variant })}\n      >\n        {children}\n      </div>\n    </nav>\n  )\n}\n\nfunction TabsLink({\n  className,\n  active = false,\n  asChild = false,\n  ...props\n}: React.ComponentProps<\"a\"> & { active?: boolean; asChild?: boolean }) {\n  const Comp = asChild ? Slot.Root : \"a\"\n\n  return (\n    <Comp\n      data-slot=\"tabs-link\"\n      aria-current={active ? \"page\" : undefined}\n      className={cn(tabsTriggerClassName, className)}\n      {...props}\n    />\n  )\n}\n\nexport {\n  Tabs,\n  TabsList,\n  TabsTrigger,\n  TabsContent,\n  TabsNav,\n  TabsLink,\n  tabsListVariants,\n}\n",
+      "type": "registry:ui"
+    }
+  ],
+  "categories": [
+    "navigation-and-layout"
+  ],
+  "type": "registry:ui"
+}

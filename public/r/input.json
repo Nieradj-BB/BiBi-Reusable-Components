@@ -1,0 +1,24 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "input",
+  "title": "Input",
+  "description": "A single-line text field for values people type, such as names, amounts and e-mail addresses.",
+  "dependencies": [
+    "lucide-react@1.69.0"
+  ],
+  "registryDependencies": [
+    "Nieradj-BB/BiBi-Reusable-Components/theme#v0.1.0",
+    "Nieradj-BB/BiBi-Reusable-Components/utils#v0.1.0"
+  ],
+  "files": [
+    {
+      "path": "registry/bb/ui/input.tsx",
+      "content": "import * as React from \"react\"\nimport { type LucideIcon } from \"lucide-react\"\n\nimport { cn } from \"@/lib/utils\"\n\nfunction Input({\n  className,\n  type,\n  leadingIcon: LeadingIcon,\n  ...props\n}: React.ComponentProps<\"input\"> & {\n  /** Decorative lucide icon shown 12px from the left edge. */\n  leadingIcon?: LucideIcon\n}) {\n  const input = (\n    <input\n      type={type}\n      data-slot=\"input\"\n      className={cn(\n        \"block h-9 w-full min-w-0 rounded-md border border-input bg-card px-3 py-1 text-sm text-foreground shadow-tile transition-colors selection:bg-primary selection:text-primary-foreground file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50\",\n        \"not-disabled:hover:border-border-strong aria-invalid:border-destructive\",\n        \"focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring\",\n        LeadingIcon && \"pl-9\",\n        className\n      )}\n      {...props}\n    />\n  )\n\n  if (!LeadingIcon) return input\n\n  return (\n    <div data-slot=\"input-wrapper\" className=\"relative w-full min-w-0\">\n      <LeadingIcon\n        data-slot=\"input-icon\"\n        aria-hidden=\"true\"\n        className=\"pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground\"\n      />\n      {input}\n    </div>\n  )\n}\n\nexport { Input }\n",
+      "type": "registry:ui"
+    }
+  ],
+  "categories": [
+    "inputs-and-forms"
+  ],
+  "type": "registry:ui"
+}

@@ -1,0 +1,478 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry.json",
+  "name": "bb",
+  "homepage": "https://github.com/Nieradj-BB/BiBi-Reusable-Components",
+  "items": [
+    {
+      "name": "theme",
+      "type": "registry:theme",
+      "title": "Theme",
+      "description": "Blue Bricks design tokens for Tailwind CSS 4: colours, Figtree font, radius, shadows, the entrance animation and the base heading style.",
+      "categories": ["foundations"],
+      "dependencies": ["@fontsource-variable/figtree@5.3.0"],
+      "cssVars": {
+        "theme": {
+          "color-background": "var(--background)",
+          "color-foreground": "var(--foreground)",
+          "color-card": "var(--card)",
+          "color-card-foreground": "var(--card-foreground)",
+          "color-popover": "var(--popover)",
+          "color-popover-foreground": "var(--popover-foreground)",
+          "color-primary": "var(--primary)",
+          "color-primary-foreground": "var(--primary-foreground)",
+          "color-secondary": "var(--secondary)",
+          "color-secondary-foreground": "var(--secondary-foreground)",
+          "color-muted": "var(--muted)",
+          "color-muted-foreground": "var(--muted-foreground)",
+          "color-accent": "var(--accent)",
+          "color-accent-foreground": "var(--accent-foreground)",
+          "color-destructive": "var(--destructive)",
+          "color-destructive-foreground": "var(--destructive-foreground)",
+          "color-success": "var(--success)",
+          "color-border": "var(--border)",
+          "color-border-strong": "var(--border-strong)",
+          "color-input": "var(--input)",
+          "color-ring": "var(--ring)",
+          "color-brand-navy": "var(--brand-navy)",
+          "color-brand-cyan": "var(--brand-cyan)",
+          "color-brand-cyan-foreground": "var(--brand-cyan-foreground)",
+          "color-brand-sky": "var(--brand-sky)",
+          "color-brand-ice": "var(--brand-ice)",
+          "color-chart-1": "var(--chart-1)",
+          "color-chart-2": "var(--chart-2)",
+          "color-chart-3": "var(--chart-3)",
+          "font-sans": "\"Figtree Variable\", Figtree, ui-sans-serif, system-ui, sans-serif",
+          "font-heading": "\"Figtree Variable\", Figtree, ui-sans-serif, system-ui, sans-serif",
+          "radius-sm": "0.25rem",
+          "radius-md": "0.375rem",
+          "radius-lg": "0.5rem",
+          "radius-xl": "0.75rem",
+          "shadow-tile": "0 1px 2px rgb(34 42 84 / 0.05)",
+          "shadow-tile-hover": "0 4px 14px rgb(34 42 84 / 0.1)",
+          "shadow-card": "0 1px 3px rgb(34 42 84 / 0.08)",
+          "shadow-panel": "-1px 0 20px rgb(34 42 84 / 0.07)",
+          "ease-enter": "cubic-bezier(0.2, 0.7, 0.3, 1)"
+        },
+        "light": {
+          "background": "#f3fafd",
+          "foreground": "#0a0a0c",
+          "card": "#ffffff",
+          "card-foreground": "#0a0a0c",
+          "popover": "#ffffff",
+          "popover-foreground": "#0a0a0c",
+          "primary": "#222a54",
+          "primary-foreground": "#ffffff",
+          "secondary": "#e9edf6",
+          "secondary-foreground": "#222a54",
+          "muted": "#f5f5f6",
+          "muted-foreground": "#72727b",
+          "accent": "#f5f5f6",
+          "accent-foreground": "#0a0a0c",
+          "destructive": "#dc3545",
+          "destructive-foreground": "#ffffff",
+          "success": "#67b871",
+          "border": "#e8e8eb",
+          "border-strong": "#c9c9d1",
+          "input": "#e8e8eb",
+          "ring": "#0298d5",
+          "brand-navy": "#222a54",
+          "brand-cyan": "#0298d5",
+          "brand-cyan-foreground": "#ffffff",
+          "brand-sky": "#35b8e7",
+          "brand-ice": "#e6f5fc",
+          "chart-1": "#0298d5",
+          "chart-2": "#4a5aa8",
+          "chart-3": "#ea580c"
+        }
+      },
+      "css": {
+        "@import \"@fontsource-variable/figtree\"": {},
+        "@keyframes enter": {
+          "from": { "opacity": "0", "transform": "translateY(6px)" },
+          "to": { "opacity": "1", "transform": "translateY(0)" }
+        },
+        "@utility animate-enter": {
+          "animation": "enter 320ms cubic-bezier(0.2, 0.7, 0.3, 1) both",
+          "animation-delay": "calc(min(var(--enter-index, 0), 12) * 28ms)"
+        },
+        "@media (prefers-reduced-motion: reduce)": {
+          ".animate-enter": { "animation": "none" }
+        },
+        "@layer base": {
+          "*": { "@apply border-border": {} },
+          "body": {
+            "@apply bg-background font-sans text-foreground antialiased": {}
+          },
+          "h1, h2, h3": {
+            "@apply font-heading text-primary": {},
+            "font-weight": "800",
+            "letter-spacing": "-0.01em"
+          }
+        }
+      }
+    },
+    {
+      "name": "utils",
+      "type": "registry:lib",
+      "title": "Utils",
+      "description": "cn(): merges class names with clsx and a tailwind-merge that knows the theme shadows and the heading font.",
+      "categories": ["foundations"],
+      "dependencies": ["clsx@2.1.1", "tailwind-merge@3.7.0"],
+      "files": [{ "path": "registry/bb/lib/utils.ts", "type": "registry:lib" }]
+    },
+    {
+      "name": "button",
+      "type": "registry:ui",
+      "title": "Button",
+      "description": "Starts an action: cyan for the main action, navy, outline and ghost for everything around it, red for removing data.",
+      "categories": ["actions"],
+      "dependencies": [
+        "class-variance-authority@0.7.1",
+        "lucide-react@1.69.0",
+        "radix-ui@1.8.1"
+      ],
+      "registryDependencies": [
+        "Nieradj-BB/BiBi-Reusable-Components/theme#v0.1.0",
+        "Nieradj-BB/BiBi-Reusable-Components/utils#v0.1.0"
+      ],
+      "files": [{ "path": "registry/bb/ui/button.tsx", "type": "registry:ui" }]
+    },
+    {
+      "name": "input",
+      "type": "registry:ui",
+      "title": "Input",
+      "description": "A single-line text field for values people type, such as names, amounts and e-mail addresses.",
+      "categories": ["inputs-and-forms"],
+      "dependencies": ["lucide-react@1.69.0"],
+      "registryDependencies": [
+        "Nieradj-BB/BiBi-Reusable-Components/theme#v0.1.0",
+        "Nieradj-BB/BiBi-Reusable-Components/utils#v0.1.0"
+      ],
+      "files": [{ "path": "registry/bb/ui/input.tsx", "type": "registry:ui" }]
+    },
+    {
+      "name": "textarea",
+      "type": "registry:ui",
+      "title": "Textarea",
+      "description": "A multi-line text field for notes, descriptions and comments, optionally with a character counter.",
+      "categories": ["inputs-and-forms"],
+      "registryDependencies": [
+        "Nieradj-BB/BiBi-Reusable-Components/theme#v0.1.0",
+        "Nieradj-BB/BiBi-Reusable-Components/utils#v0.1.0"
+      ],
+      "files": [
+        { "path": "registry/bb/ui/textarea.tsx", "type": "registry:ui" }
+      ]
+    },
+    {
+      "name": "label",
+      "type": "registry:ui",
+      "title": "Label",
+      "description": "The visible name above a form control or group, with an optional required mark or optional hint.",
+      "categories": ["inputs-and-forms"],
+      "dependencies": ["radix-ui@1.8.1"],
+      "registryDependencies": [
+        "Nieradj-BB/BiBi-Reusable-Components/theme#v0.1.0",
+        "Nieradj-BB/BiBi-Reusable-Components/utils#v0.1.0"
+      ],
+      "files": [{ "path": "registry/bb/ui/label.tsx", "type": "registry:ui" }]
+    },
+    {
+      "name": "checkbox",
+      "type": "registry:ui",
+      "title": "Checkbox",
+      "description": "Turns an independent option on or off, or selects rows; supports a mixed (indeterminate) state.",
+      "categories": ["inputs-and-forms"],
+      "dependencies": ["radix-ui@1.8.1", "lucide-react@1.69.0"],
+      "registryDependencies": [
+        "Nieradj-BB/BiBi-Reusable-Components/theme#v0.1.0",
+        "Nieradj-BB/BiBi-Reusable-Components/utils#v0.1.0"
+      ],
+      "files": [
+        { "path": "registry/bb/ui/checkbox.tsx", "type": "registry:ui" }
+      ]
+    },
+    {
+      "name": "select",
+      "type": "registry:ui",
+      "title": "Select",
+      "description": "Picks one value from a known list in a dropdown that opens below the field.",
+      "categories": ["inputs-and-forms"],
+      "dependencies": ["radix-ui@1.8.1", "lucide-react@1.69.0"],
+      "registryDependencies": [
+        "Nieradj-BB/BiBi-Reusable-Components/theme#v0.1.0",
+        "Nieradj-BB/BiBi-Reusable-Components/utils#v0.1.0"
+      ],
+      "files": [{ "path": "registry/bb/ui/select.tsx", "type": "registry:ui" }]
+    },
+    {
+      "name": "badge",
+      "type": "registry:ui",
+      "title": "Badge",
+      "description": "A small pill label that shows a status, a category, a role or a count.",
+      "categories": ["data-display"],
+      "dependencies": ["class-variance-authority@0.7.1", "radix-ui@1.8.1"],
+      "registryDependencies": [
+        "Nieradj-BB/BiBi-Reusable-Components/theme#v0.1.0",
+        "Nieradj-BB/BiBi-Reusable-Components/utils#v0.1.0"
+      ],
+      "files": [{ "path": "registry/bb/ui/badge.tsx", "type": "registry:ui" }]
+    },
+    {
+      "name": "card",
+      "type": "registry:ui",
+      "title": "Card",
+      "description": "A surface with a thin border and 12px corners that groups related content, optionally with header, body, footer or media.",
+      "categories": ["data-display"],
+      "dependencies": ["class-variance-authority@0.7.1", "radix-ui@1.8.1"],
+      "registryDependencies": [
+        "Nieradj-BB/BiBi-Reusable-Components/theme#v0.1.0",
+        "Nieradj-BB/BiBi-Reusable-Components/utils#v0.1.0"
+      ],
+      "files": [{ "path": "registry/bb/ui/card.tsx", "type": "registry:ui" }]
+    },
+    {
+      "name": "skeleton",
+      "type": "registry:ui",
+      "title": "Skeleton",
+      "description": "Pulsing muted placeholders in the shape of the content that is loading.",
+      "categories": ["feedback"],
+      "dependencies": ["class-variance-authority@0.7.1"],
+      "registryDependencies": [
+        "Nieradj-BB/BiBi-Reusable-Components/theme#v0.1.0",
+        "Nieradj-BB/BiBi-Reusable-Components/utils#v0.1.0"
+      ],
+      "files": [
+        { "path": "registry/bb/ui/skeleton.tsx", "type": "registry:ui" }
+      ]
+    },
+    {
+      "name": "empty-state",
+      "type": "registry:ui",
+      "title": "EmptyState",
+      "description": "A dashed box that says nothing is here yet, how items appear, and what to do next.",
+      "categories": ["feedback"],
+      "dependencies": ["class-variance-authority@0.7.1", "lucide-react@1.69.0"],
+      "registryDependencies": [
+        "Nieradj-BB/BiBi-Reusable-Components/theme#v0.1.0",
+        "Nieradj-BB/BiBi-Reusable-Components/utils#v0.1.0"
+      ],
+      "files": [
+        { "path": "registry/bb/ui/empty-state.tsx", "type": "registry:ui" }
+      ]
+    },
+    {
+      "name": "dialog",
+      "type": "registry:ui",
+      "title": "Dialog",
+      "description": "A modal window for a short task or form that needs full attention before the user returns to the page.",
+      "categories": ["overlays"],
+      "dependencies": [
+        "radix-ui@1.8.1",
+        "lucide-react@1.69.0",
+        "class-variance-authority@0.7.1"
+      ],
+      "registryDependencies": [
+        "Nieradj-BB/BiBi-Reusable-Components/theme#v0.1.0",
+        "Nieradj-BB/BiBi-Reusable-Components/utils#v0.1.0",
+        "Nieradj-BB/BiBi-Reusable-Components/button#v0.1.0"
+      ],
+      "files": [{ "path": "registry/bb/ui/dialog.tsx", "type": "registry:ui" }]
+    },
+    {
+      "name": "alert-dialog",
+      "type": "registry:ui",
+      "title": "AlertDialog",
+      "description": "A modal confirmation that states the consequence of an action and waits for an explicit choice.",
+      "categories": ["overlays"],
+      "dependencies": ["radix-ui@1.8.1", "class-variance-authority@0.7.1"],
+      "registryDependencies": [
+        "Nieradj-BB/BiBi-Reusable-Components/theme#v0.1.0",
+        "Nieradj-BB/BiBi-Reusable-Components/utils#v0.1.0",
+        "Nieradj-BB/BiBi-Reusable-Components/button#v0.1.0"
+      ],
+      "files": [
+        { "path": "registry/bb/ui/alert-dialog.tsx", "type": "registry:ui" }
+      ]
+    },
+    {
+      "name": "sheet",
+      "type": "registry:ui",
+      "title": "Sheet",
+      "description": "A panel on the edge of the screen that shows details or a form next to the current page.",
+      "categories": ["overlays"],
+      "dependencies": ["radix-ui@1.8.1", "lucide-react@1.69.0"],
+      "registryDependencies": [
+        "Nieradj-BB/BiBi-Reusable-Components/theme#v0.1.0",
+        "Nieradj-BB/BiBi-Reusable-Components/utils#v0.1.0",
+        "Nieradj-BB/BiBi-Reusable-Components/button#v0.1.0"
+      ],
+      "files": [{ "path": "registry/bb/ui/sheet.tsx", "type": "registry:ui" }]
+    },
+    {
+      "name": "popover",
+      "type": "registry:ui",
+      "title": "Popover",
+      "description": "A small panel anchored to a button, for a short explanation (toggletip) or a quick one-field form.",
+      "categories": ["overlays"],
+      "dependencies": ["radix-ui@1.8.1", "lucide-react@1.69.0"],
+      "registryDependencies": [
+        "Nieradj-BB/BiBi-Reusable-Components/theme#v0.1.0",
+        "Nieradj-BB/BiBi-Reusable-Components/utils#v0.1.0"
+      ],
+      "files": [{ "path": "registry/bb/ui/popover.tsx", "type": "registry:ui" }]
+    },
+    {
+      "name": "tooltip",
+      "type": "registry:ui",
+      "title": "Tooltip",
+      "description": "A short text label that appears next to an icon button on hover and on keyboard focus.",
+      "categories": ["overlays"],
+      "dependencies": ["radix-ui@1.8.1"],
+      "registryDependencies": [
+        "Nieradj-BB/BiBi-Reusable-Components/theme#v0.1.0",
+        "Nieradj-BB/BiBi-Reusable-Components/utils#v0.1.0"
+      ],
+      "files": [{ "path": "registry/bb/ui/tooltip.tsx", "type": "registry:ui" }]
+    },
+    {
+      "name": "sonner",
+      "type": "registry:ui",
+      "title": "Toast",
+      "description": "A short, temporary message in a corner of the screen that confirms a result or reports a failure without blocking the page. Themed Toaster for sonner; call toast() from sonner.",
+      "categories": ["feedback"],
+      "dependencies": ["sonner@2.0.8", "lucide-react@1.69.0"],
+      "registryDependencies": [
+        "Nieradj-BB/BiBi-Reusable-Components/theme#v0.1.0",
+        "Nieradj-BB/BiBi-Reusable-Components/utils#v0.1.0",
+        "Nieradj-BB/BiBi-Reusable-Components/button#v0.1.0"
+      ],
+      "files": [{ "path": "registry/bb/ui/sonner.tsx", "type": "registry:ui" }]
+    },
+    {
+      "name": "tabs",
+      "type": "registry:ui",
+      "title": "Tabs",
+      "description": "Switches between views of one subject inside a page, or between sub-pages as a row of links.",
+      "categories": ["navigation-and-layout"],
+      "dependencies": ["radix-ui@1.8.1", "class-variance-authority@0.7.1"],
+      "registryDependencies": [
+        "Nieradj-BB/BiBi-Reusable-Components/theme#v0.1.0",
+        "Nieradj-BB/BiBi-Reusable-Components/utils#v0.1.0"
+      ],
+      "files": [{ "path": "registry/bb/ui/tabs.tsx", "type": "registry:ui" }]
+    },
+    {
+      "name": "form-field",
+      "type": "registry:ui",
+      "title": "FormField",
+      "description": "Wraps a control with its label, required or optional mark, help text and error message, wired for assistive technology. Works without a form library.",
+      "categories": ["inputs-and-forms"],
+      "dependencies": ["radix-ui@1.8.1"],
+      "registryDependencies": [
+        "Nieradj-BB/BiBi-Reusable-Components/theme#v0.1.0",
+        "Nieradj-BB/BiBi-Reusable-Components/utils#v0.1.0",
+        "Nieradj-BB/BiBi-Reusable-Components/label#v0.1.0"
+      ],
+      "files": [
+        { "path": "registry/bb/ui/form-field.tsx", "type": "registry:ui" }
+      ]
+    },
+    {
+      "name": "form-rhf",
+      "type": "registry:ui",
+      "title": "Form (react-hook-form)",
+      "description": "Optional react-hook-form binding for FormField: label, help text and error message wired to a react-hook-form field.",
+      "categories": ["inputs-and-forms"],
+      "dependencies": ["react-hook-form@7.91.0", "radix-ui@1.8.1"],
+      "registryDependencies": [
+        "Nieradj-BB/BiBi-Reusable-Components/theme#v0.1.0",
+        "Nieradj-BB/BiBi-Reusable-Components/utils#v0.1.0",
+        "Nieradj-BB/BiBi-Reusable-Components/label#v0.1.0",
+        "Nieradj-BB/BiBi-Reusable-Components/form-field#v0.1.0"
+      ],
+      "files": [
+        { "path": "registry/bb/ui/form-rhf.tsx", "type": "registry:ui" }
+      ]
+    },
+    {
+      "name": "data-table",
+      "type": "registry:block",
+      "title": "DataTable",
+      "description": "A bordered table for records, with sortable headers, row selection, row actions and right-aligned numbers.",
+      "categories": ["data-display"],
+      "dependencies": ["@tanstack/react-table@9.3.1", "lucide-react@1.69.0"],
+      "registryDependencies": [
+        "Nieradj-BB/BiBi-Reusable-Components/theme#v0.1.0",
+        "Nieradj-BB/BiBi-Reusable-Components/utils#v0.1.0",
+        "Nieradj-BB/BiBi-Reusable-Components/checkbox#v0.1.0",
+        "Nieradj-BB/BiBi-Reusable-Components/empty-state#v0.1.0",
+        "Nieradj-BB/BiBi-Reusable-Components/input#v0.1.0",
+        "Nieradj-BB/BiBi-Reusable-Components/label#v0.1.0",
+        "Nieradj-BB/BiBi-Reusable-Components/skeleton#v0.1.0"
+      ],
+      "files": [
+        {
+          "path": "registry/bb/blocks/data-table/data-table.tsx",
+          "type": "registry:component",
+          "target": "@components/data-table/data-table.tsx"
+        },
+        {
+          "path": "registry/bb/blocks/data-table/table.tsx",
+          "type": "registry:component",
+          "target": "@components/data-table/table.tsx"
+        }
+      ]
+    },
+    {
+      "name": "chart",
+      "type": "registry:ui",
+      "title": "Chart",
+      "description": "A chart card with a title, a one-sentence takeaway and bars in the three chart colours.",
+      "categories": ["data-display"],
+      "dependencies": ["recharts@3.10.1", "react-is@19.3.1"],
+      "registryDependencies": [
+        "Nieradj-BB/BiBi-Reusable-Components/theme#v0.1.0",
+        "Nieradj-BB/BiBi-Reusable-Components/utils#v0.1.0"
+      ],
+      "files": [{ "path": "registry/bb/ui/chart.tsx", "type": "registry:ui" }]
+    },
+    {
+      "name": "page-header",
+      "type": "registry:ui",
+      "title": "PageHeader",
+      "description": "The top block of every page: title, one-line subtitle and the short cyan accent stripe, with optional actions, breadcrumbs, eyebrow and a slot for tabs or search.",
+      "categories": ["navigation-and-layout"],
+      "dependencies": ["lucide-react@1.69.0", "radix-ui@1.8.1"],
+      "registryDependencies": [
+        "Nieradj-BB/BiBi-Reusable-Components/theme#v0.1.0",
+        "Nieradj-BB/BiBi-Reusable-Components/utils#v0.1.0"
+      ],
+      "files": [
+        { "path": "registry/bb/ui/page-header.tsx", "type": "registry:ui" }
+      ]
+    },
+    {
+      "name": "app-shell",
+      "type": "registry:block",
+      "title": "AppShell",
+      "description": "The frame of every app: a sidebar with the app name, navigation and signed-in user next to a scrolling content area, and a top bar with a menu on narrow screens.",
+      "categories": ["navigation-and-layout"],
+      "dependencies": ["lucide-react@1.69.0"],
+      "registryDependencies": [
+        "Nieradj-BB/BiBi-Reusable-Components/theme#v0.1.0",
+        "Nieradj-BB/BiBi-Reusable-Components/utils#v0.1.0",
+        "Nieradj-BB/BiBi-Reusable-Components/badge#v0.1.0",
+        "Nieradj-BB/BiBi-Reusable-Components/button#v0.1.0",
+        "Nieradj-BB/BiBi-Reusable-Components/sheet#v0.1.0"
+      ],
+      "files": [
+        {
+          "path": "registry/bb/blocks/app-shell/app-shell.tsx",
+          "type": "registry:component",
+          "target": "@components/app-shell/app-shell.tsx"
+        }
+      ]
+    }
+  ]
+}
