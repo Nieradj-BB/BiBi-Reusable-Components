@@ -3,7 +3,8 @@ import { readFileSync } from "node:fs"
 import { describe, expect, it } from "vitest"
 
 // The fixed values from docs/decisions.md (decisions 3, 11, 20). Changing a
-// value here needs an explicit decision first.
+// value here needs an explicit decision first. `warning` was added by decision
+// 24: it reuses the chart-3 orange, so no new colour value.
 const colours = {
   background: "#f3fafd",
   foreground: "#0a0a0c",
@@ -22,6 +23,7 @@ const colours = {
   destructive: "#dc3545",
   "destructive-foreground": "#ffffff",
   success: "#67b871",
+  warning: "#ea580c",
   border: "#e8e8eb",
   "border-strong": "#c9c9d1",
   input: "#e8e8eb",

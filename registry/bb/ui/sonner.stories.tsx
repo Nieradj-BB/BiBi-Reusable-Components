@@ -47,6 +47,12 @@ function showInfo() {
   })
 }
 
+function showWarning() {
+  toast.warning("Contract Jansen Bouw loopt over 14 dagen af", {
+    description: "Verleng het op tijd, anders stopt de facturatie.",
+  })
+}
+
 function showWithAction() {
   toast.success("Offerte-renovatie.pdf is verwijderd", {
     action: { label: "Ongedaan maken", onClick: onUndo },
@@ -159,6 +165,34 @@ export const Info: Story = {
     await waitFor(() =>
       expect(body.queryByText("Export gestart")).not.toBeInTheDocument()
     )
+  },
+}
+
+export const Warning: Story = {
+  render: () => (
+    <Button variant="outline" onClick={showWarning}>
+      Toon melding
+    </Button>
+  ),
+  play: async ({ canvas }) => {
+    await clearToasts()
+    await userEvent.click(canvas.getByRole("button", { name: "Toon melding" }))
+    const item = await findToast("Contract Jansen Bouw loopt over 14 dagen af")
+    await expect(
+      item.getByText("Verleng het op tijd, anders stopt de facturatie.")
+    ).toBeVisible()
+
+    const toastElement = body
+      .getByText("Contract Jansen Bouw loopt over 14 dagen af")
+      .closest<HTMLElement>("[data-sonner-toast]") as HTMLElement
+    await expect(toastElement).toHaveAttribute("data-type", "warning")
+    const border = getComputedStyle(toastElement).borderTopColor
+    const icon = toastElement.querySelector<HTMLElement>("[data-icon]")
+    await expect(icon).not.toBeNull()
+    // Border and icon share the warning colour; the title keeps the text colour.
+    await expect(getComputedStyle(icon as HTMLElement).color).toBe(border)
+    const title = item.getByText("Contract Jansen Bouw loopt over 14 dagen af")
+    await expect(getComputedStyle(title).color).not.toBe(border)
   },
 }
 

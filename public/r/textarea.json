@@ -4,8 +4,8 @@
   "title": "Textarea",
   "description": "A multi-line text field for notes, descriptions and comments, optionally with a character counter.",
   "registryDependencies": [
-    "Nieradj-BB/BiBi-Reusable-Components/theme#v0.1.0",
-    "Nieradj-BB/BiBi-Reusable-Components/utils#v0.1.0"
+    "Nieradj-BB/BiBi-Reusable-Components/theme#v0.2.0",
+    "Nieradj-BB/BiBi-Reusable-Components/utils#v0.2.0"
   ],
   "files": [
     {

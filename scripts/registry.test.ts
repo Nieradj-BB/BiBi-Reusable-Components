@@ -1,5 +1,5 @@
 import { spawnSync } from "node:child_process"
-import { readFileSync } from "node:fs"
+import { existsSync, readFileSync } from "node:fs"
 
 import { describe, expect, it } from "vitest"
 
@@ -65,6 +65,8 @@ describe("registry dependencies", () => {
 
     for (const item of items) {
       if (item.name === "theme" || !item.files) continue
+      // Declared but not built yet; the strict registry build catches these.
+      if (item.files.some((file) => !existsSync(file.path))) continue
       const packages = new Set<string>()
       const own = new Set<string>()
       for (const file of item.files) {

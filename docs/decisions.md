@@ -29,6 +29,8 @@ Decisions for the Blue Bricks design guide and component library, made on 4 Nove
 | 21 | Icons | lucide-react. |
 | 22 | Versioning | Semver git tags and a `CHANGELOG.md`. Stay on 0.x while things settle; breaking changes only in a major version. |
 | 23 | Theme modes | Light mode only. Charts use the three chart colours below. |
+| 24 | Warning colour | A `warning` token reuses the existing orange `#ea580c` for warning icons and borders only; warning text stays the normal text colour. No new colour value. Decided 9 November 2026. |
+| 25 | Date picker | Calendar and DatePicker use `react-day-picker` (the shadcn Calendar), pinned to an exact version. Decided 9 November 2026. |
 
 ## Fixed values
 
@@ -50,7 +52,7 @@ These values are fixed (decision 3). Names follow decision 10 when the theme is 
 | Light cyan | `#35b8e7` |
 | Text on cyan | `#ffffff` |
 | Cyan tint | `#e6f5fc` |
-| Orange (data highlight) | `#ea580c` |
+| Orange (data highlight; warning icons and borders, decision 24) | `#ea580c` |
 | Chart series 1, 2, 3 | `#0298d5`, `#4a5aa8`, `#ea580c` |
 | Border | `#e8e8eb` |
 | Strong border | `#c9c9d1` |

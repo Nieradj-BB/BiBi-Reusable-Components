@@ -29,6 +29,7 @@
           "color-destructive": "var(--destructive)",
           "color-destructive-foreground": "var(--destructive-foreground)",
           "color-success": "var(--success)",
+          "color-warning": "var(--warning)",
           "color-border": "var(--border)",
           "color-border-strong": "var(--border-strong)",
           "color-input": "var(--input)",
@@ -71,6 +72,7 @@
           "destructive": "#dc3545",
           "destructive-foreground": "#ffffff",
           "success": "#67b871",
+          "warning": "#ea580c",
           "border": "#e8e8eb",
           "border-strong": "#c9c9d1",
           "input": "#e8e8eb",
@@ -132,8 +134,8 @@
         "radix-ui@1.8.1"
       ],
       "registryDependencies": [
-        "Nieradj-BB/BiBi-Reusable-Components/theme#v0.1.0",
-        "Nieradj-BB/BiBi-Reusable-Components/utils#v0.1.0"
+        "Nieradj-BB/BiBi-Reusable-Components/theme#v0.2.0",
+        "Nieradj-BB/BiBi-Reusable-Components/utils#v0.2.0"
       ],
       "files": [{ "path": "registry/bb/ui/button.tsx", "type": "registry:ui" }]
     },
@@ -145,8 +147,8 @@
       "categories": ["inputs-and-forms"],
       "dependencies": ["lucide-react@1.69.0"],
       "registryDependencies": [
-        "Nieradj-BB/BiBi-Reusable-Components/theme#v0.1.0",
-        "Nieradj-BB/BiBi-Reusable-Components/utils#v0.1.0"
+        "Nieradj-BB/BiBi-Reusable-Components/theme#v0.2.0",
+        "Nieradj-BB/BiBi-Reusable-Components/utils#v0.2.0"
       ],
       "files": [{ "path": "registry/bb/ui/input.tsx", "type": "registry:ui" }]
     },
@@ -157,8 +159,8 @@
       "description": "A multi-line text field for notes, descriptions and comments, optionally with a character counter.",
       "categories": ["inputs-and-forms"],
       "registryDependencies": [
-        "Nieradj-BB/BiBi-Reusable-Components/theme#v0.1.0",
-        "Nieradj-BB/BiBi-Reusable-Components/utils#v0.1.0"
+        "Nieradj-BB/BiBi-Reusable-Components/theme#v0.2.0",
+        "Nieradj-BB/BiBi-Reusable-Components/utils#v0.2.0"
       ],
       "files": [
         { "path": "registry/bb/ui/textarea.tsx", "type": "registry:ui" }
@@ -172,8 +174,8 @@
       "categories": ["inputs-and-forms"],
       "dependencies": ["radix-ui@1.8.1"],
       "registryDependencies": [
-        "Nieradj-BB/BiBi-Reusable-Components/theme#v0.1.0",
-        "Nieradj-BB/BiBi-Reusable-Components/utils#v0.1.0"
+        "Nieradj-BB/BiBi-Reusable-Components/theme#v0.2.0",
+        "Nieradj-BB/BiBi-Reusable-Components/utils#v0.2.0"
       ],
       "files": [{ "path": "registry/bb/ui/label.tsx", "type": "registry:ui" }]
     },
@@ -185,12 +187,40 @@
       "categories": ["inputs-and-forms"],
       "dependencies": ["radix-ui@1.8.1", "lucide-react@1.69.0"],
       "registryDependencies": [
-        "Nieradj-BB/BiBi-Reusable-Components/theme#v0.1.0",
-        "Nieradj-BB/BiBi-Reusable-Components/utils#v0.1.0"
+        "Nieradj-BB/BiBi-Reusable-Components/theme#v0.2.0",
+        "Nieradj-BB/BiBi-Reusable-Components/utils#v0.2.0"
       ],
       "files": [
         { "path": "registry/bb/ui/checkbox.tsx", "type": "registry:ui" }
       ]
+    },
+    {
+      "name": "radio-group",
+      "type": "registry:ui",
+      "title": "RadioGroup",
+      "description": "Picks exactly one option from a short list that stays visible, vertical or horizontal, optionally with a description per option.",
+      "categories": ["inputs-and-forms"],
+      "registryDependencies": [
+        "Nieradj-BB/BiBi-Reusable-Components/theme#v0.2.0",
+        "Nieradj-BB/BiBi-Reusable-Components/utils#v0.2.0"
+      ],
+      "dependencies": ["radix-ui@1.8.1"],
+      "files": [
+        { "path": "registry/bb/ui/radio-group.tsx", "type": "registry:ui" }
+      ]
+    },
+    {
+      "name": "switch",
+      "type": "registry:ui",
+      "title": "Switch",
+      "description": "Turns a setting on or off with immediate effect, optionally with a label, state text or as a settings row.",
+      "categories": ["inputs-and-forms"],
+      "registryDependencies": [
+        "Nieradj-BB/BiBi-Reusable-Components/theme#v0.2.0",
+        "Nieradj-BB/BiBi-Reusable-Components/utils#v0.2.0"
+      ],
+      "dependencies": ["radix-ui@1.8.1"],
+      "files": [{ "path": "registry/bb/ui/switch.tsx", "type": "registry:ui" }]
     },
     {
       "name": "select",
@@ -200,10 +230,43 @@
       "categories": ["inputs-and-forms"],
       "dependencies": ["radix-ui@1.8.1", "lucide-react@1.69.0"],
       "registryDependencies": [
-        "Nieradj-BB/BiBi-Reusable-Components/theme#v0.1.0",
-        "Nieradj-BB/BiBi-Reusable-Components/utils#v0.1.0"
+        "Nieradj-BB/BiBi-Reusable-Components/theme#v0.2.0",
+        "Nieradj-BB/BiBi-Reusable-Components/utils#v0.2.0"
       ],
       "files": [{ "path": "registry/bb/ui/select.tsx", "type": "registry:ui" }]
+    },
+    {
+      "name": "calendar",
+      "type": "registry:ui",
+      "title": "Calendar",
+      "description": "A month grid for picking a single date or a date range, built on react-day-picker, with a cyan selected day and a ring on today.",
+      "categories": ["inputs-and-forms"],
+      "registryDependencies": [
+        "Nieradj-BB/BiBi-Reusable-Components/theme#v0.2.0",
+        "Nieradj-BB/BiBi-Reusable-Components/utils#v0.2.0",
+        "Nieradj-BB/BiBi-Reusable-Components/button#v0.2.0"
+      ],
+      "dependencies": ["lucide-react@1.69.0", "react-day-picker@10.0.2"],
+      "files": [
+        { "path": "registry/bb/ui/calendar.tsx", "type": "registry:ui" }
+      ]
+    },
+    {
+      "name": "date-picker",
+      "type": "registry:ui",
+      "title": "DatePicker",
+      "description": "A field-like button that opens a Calendar in a popover, for a single date or a range, with optional presets and invalid and disabled states.",
+      "categories": ["inputs-and-forms"],
+      "registryDependencies": [
+        "Nieradj-BB/BiBi-Reusable-Components/theme#v0.2.0",
+        "Nieradj-BB/BiBi-Reusable-Components/utils#v0.2.0",
+        "Nieradj-BB/BiBi-Reusable-Components/calendar#v0.2.0",
+        "Nieradj-BB/BiBi-Reusable-Components/popover#v0.2.0"
+      ],
+      "dependencies": ["lucide-react@1.69.0", "react-day-picker@10.0.2"],
+      "files": [
+        { "path": "registry/bb/ui/date-picker.tsx", "type": "registry:ui" }
+      ]
     },
     {
       "name": "badge",
@@ -213,8 +276,8 @@
       "categories": ["data-display"],
       "dependencies": ["class-variance-authority@0.7.1", "radix-ui@1.8.1"],
       "registryDependencies": [
-        "Nieradj-BB/BiBi-Reusable-Components/theme#v0.1.0",
-        "Nieradj-BB/BiBi-Reusable-Components/utils#v0.1.0"
+        "Nieradj-BB/BiBi-Reusable-Components/theme#v0.2.0",
+        "Nieradj-BB/BiBi-Reusable-Components/utils#v0.2.0"
       ],
       "files": [{ "path": "registry/bb/ui/badge.tsx", "type": "registry:ui" }]
     },
@@ -226,10 +289,45 @@
       "categories": ["data-display"],
       "dependencies": ["class-variance-authority@0.7.1", "radix-ui@1.8.1"],
       "registryDependencies": [
-        "Nieradj-BB/BiBi-Reusable-Components/theme#v0.1.0",
-        "Nieradj-BB/BiBi-Reusable-Components/utils#v0.1.0"
+        "Nieradj-BB/BiBi-Reusable-Components/theme#v0.2.0",
+        "Nieradj-BB/BiBi-Reusable-Components/utils#v0.2.0"
       ],
       "files": [{ "path": "registry/bb/ui/card.tsx", "type": "registry:ui" }]
+    },
+    {
+      "name": "stat-tile",
+      "type": "registry:ui",
+      "title": "StatTile",
+      "description": "A tile with one key number, its label and an optional caption, trend, loading state or link, for dashboard rows.",
+      "categories": ["data-display"],
+      "registryDependencies": [
+        "Nieradj-BB/BiBi-Reusable-Components/theme#v0.2.0",
+        "Nieradj-BB/BiBi-Reusable-Components/utils#v0.2.0",
+        "Nieradj-BB/BiBi-Reusable-Components/skeleton#v0.2.0"
+      ],
+      "dependencies": ["lucide-react@1.69.0", "radix-ui@1.8.1"],
+      "files": [
+        { "path": "registry/bb/ui/stat-tile.tsx", "type": "registry:ui" }
+      ]
+    },
+    {
+      "name": "accordion",
+      "type": "registry:ui",
+      "title": "Accordion",
+      "description": "Stacked sections whose content opens and closes under a heading button, with one or several open at a time.",
+      "categories": ["data-display"],
+      "registryDependencies": [
+        "Nieradj-BB/BiBi-Reusable-Components/theme#v0.2.0",
+        "Nieradj-BB/BiBi-Reusable-Components/utils#v0.2.0"
+      ],
+      "dependencies": [
+        "class-variance-authority@0.7.1",
+        "lucide-react@1.69.0",
+        "radix-ui@1.8.1"
+      ],
+      "files": [
+        { "path": "registry/bb/ui/accordion.tsx", "type": "registry:ui" }
+      ]
     },
     {
       "name": "skeleton",
@@ -239,8 +337,8 @@
       "categories": ["feedback"],
       "dependencies": ["class-variance-authority@0.7.1"],
       "registryDependencies": [
-        "Nieradj-BB/BiBi-Reusable-Components/theme#v0.1.0",
-        "Nieradj-BB/BiBi-Reusable-Components/utils#v0.1.0"
+        "Nieradj-BB/BiBi-Reusable-Components/theme#v0.2.0",
+        "Nieradj-BB/BiBi-Reusable-Components/utils#v0.2.0"
       ],
       "files": [
         { "path": "registry/bb/ui/skeleton.tsx", "type": "registry:ui" }
@@ -254,12 +352,38 @@
       "categories": ["feedback"],
       "dependencies": ["class-variance-authority@0.7.1", "lucide-react@1.69.0"],
       "registryDependencies": [
-        "Nieradj-BB/BiBi-Reusable-Components/theme#v0.1.0",
-        "Nieradj-BB/BiBi-Reusable-Components/utils#v0.1.0"
+        "Nieradj-BB/BiBi-Reusable-Components/theme#v0.2.0",
+        "Nieradj-BB/BiBi-Reusable-Components/utils#v0.2.0"
       ],
       "files": [
         { "path": "registry/bb/ui/empty-state.tsx", "type": "registry:ui" }
       ]
+    },
+    {
+      "name": "alert",
+      "type": "registry:ui",
+      "title": "Alert",
+      "description": "An inline message in the page that reports information, success, a warning or an error, optionally with a title and an action.",
+      "categories": ["feedback"],
+      "registryDependencies": [
+        "Nieradj-BB/BiBi-Reusable-Components/theme#v0.2.0",
+        "Nieradj-BB/BiBi-Reusable-Components/utils#v0.2.0"
+      ],
+      "dependencies": ["class-variance-authority@0.7.1"],
+      "files": [{ "path": "registry/bb/ui/alert.tsx", "type": "registry:ui" }]
+    },
+    {
+      "name": "spinner",
+      "type": "registry:ui",
+      "title": "Spinner",
+      "description": "A small rotating icon with a hidden status label that shows a short wait for a single action or area.",
+      "categories": ["feedback"],
+      "registryDependencies": [
+        "Nieradj-BB/BiBi-Reusable-Components/theme#v0.2.0",
+        "Nieradj-BB/BiBi-Reusable-Components/utils#v0.2.0"
+      ],
+      "dependencies": ["class-variance-authority@0.7.1", "lucide-react@1.69.0"],
+      "files": [{ "path": "registry/bb/ui/spinner.tsx", "type": "registry:ui" }]
     },
     {
       "name": "dialog",
@@ -273,9 +397,9 @@
         "class-variance-authority@0.7.1"
       ],
       "registryDependencies": [
-        "Nieradj-BB/BiBi-Reusable-Components/theme#v0.1.0",
-        "Nieradj-BB/BiBi-Reusable-Components/utils#v0.1.0",
-        "Nieradj-BB/BiBi-Reusable-Components/button#v0.1.0"
+        "Nieradj-BB/BiBi-Reusable-Components/theme#v0.2.0",
+        "Nieradj-BB/BiBi-Reusable-Components/utils#v0.2.0",
+        "Nieradj-BB/BiBi-Reusable-Components/button#v0.2.0"
       ],
       "files": [{ "path": "registry/bb/ui/dialog.tsx", "type": "registry:ui" }]
     },
@@ -287,9 +411,9 @@
       "categories": ["overlays"],
       "dependencies": ["radix-ui@1.8.1", "class-variance-authority@0.7.1"],
       "registryDependencies": [
-        "Nieradj-BB/BiBi-Reusable-Components/theme#v0.1.0",
-        "Nieradj-BB/BiBi-Reusable-Components/utils#v0.1.0",
-        "Nieradj-BB/BiBi-Reusable-Components/button#v0.1.0"
+        "Nieradj-BB/BiBi-Reusable-Components/theme#v0.2.0",
+        "Nieradj-BB/BiBi-Reusable-Components/utils#v0.2.0",
+        "Nieradj-BB/BiBi-Reusable-Components/button#v0.2.0"
       ],
       "files": [
         { "path": "registry/bb/ui/alert-dialog.tsx", "type": "registry:ui" }
@@ -303,9 +427,9 @@
       "categories": ["overlays"],
       "dependencies": ["radix-ui@1.8.1", "lucide-react@1.69.0"],
       "registryDependencies": [
-        "Nieradj-BB/BiBi-Reusable-Components/theme#v0.1.0",
-        "Nieradj-BB/BiBi-Reusable-Components/utils#v0.1.0",
-        "Nieradj-BB/BiBi-Reusable-Components/button#v0.1.0"
+        "Nieradj-BB/BiBi-Reusable-Components/theme#v0.2.0",
+        "Nieradj-BB/BiBi-Reusable-Components/utils#v0.2.0",
+        "Nieradj-BB/BiBi-Reusable-Components/button#v0.2.0"
       ],
       "files": [{ "path": "registry/bb/ui/sheet.tsx", "type": "registry:ui" }]
     },
@@ -317,8 +441,8 @@
       "categories": ["overlays"],
       "dependencies": ["radix-ui@1.8.1", "lucide-react@1.69.0"],
       "registryDependencies": [
-        "Nieradj-BB/BiBi-Reusable-Components/theme#v0.1.0",
-        "Nieradj-BB/BiBi-Reusable-Components/utils#v0.1.0"
+        "Nieradj-BB/BiBi-Reusable-Components/theme#v0.2.0",
+        "Nieradj-BB/BiBi-Reusable-Components/utils#v0.2.0"
       ],
       "files": [{ "path": "registry/bb/ui/popover.tsx", "type": "registry:ui" }]
     },
@@ -330,10 +454,25 @@
       "categories": ["overlays"],
       "dependencies": ["radix-ui@1.8.1"],
       "registryDependencies": [
-        "Nieradj-BB/BiBi-Reusable-Components/theme#v0.1.0",
-        "Nieradj-BB/BiBi-Reusable-Components/utils#v0.1.0"
+        "Nieradj-BB/BiBi-Reusable-Components/theme#v0.2.0",
+        "Nieradj-BB/BiBi-Reusable-Components/utils#v0.2.0"
       ],
       "files": [{ "path": "registry/bb/ui/tooltip.tsx", "type": "registry:ui" }]
+    },
+    {
+      "name": "dropdown-menu",
+      "type": "registry:ui",
+      "title": "DropdownMenu",
+      "description": "A menu of actions or options that opens from a button, with icons, shortcuts, labels, separators, checkbox and radio items, submenus and a destructive item.",
+      "categories": ["overlays"],
+      "registryDependencies": [
+        "Nieradj-BB/BiBi-Reusable-Components/theme#v0.2.0",
+        "Nieradj-BB/BiBi-Reusable-Components/utils#v0.2.0"
+      ],
+      "dependencies": ["lucide-react@1.69.0", "radix-ui@1.8.1"],
+      "files": [
+        { "path": "registry/bb/ui/dropdown-menu.tsx", "type": "registry:ui" }
+      ]
     },
     {
       "name": "sonner",
@@ -343,9 +482,9 @@
       "categories": ["feedback"],
       "dependencies": ["sonner@2.0.8", "lucide-react@1.69.0"],
       "registryDependencies": [
-        "Nieradj-BB/BiBi-Reusable-Components/theme#v0.1.0",
-        "Nieradj-BB/BiBi-Reusable-Components/utils#v0.1.0",
-        "Nieradj-BB/BiBi-Reusable-Components/button#v0.1.0"
+        "Nieradj-BB/BiBi-Reusable-Components/theme#v0.2.0",
+        "Nieradj-BB/BiBi-Reusable-Components/utils#v0.2.0",
+        "Nieradj-BB/BiBi-Reusable-Components/button#v0.2.0"
       ],
       "files": [{ "path": "registry/bb/ui/sonner.tsx", "type": "registry:ui" }]
     },
@@ -357,22 +496,39 @@
       "categories": ["navigation-and-layout"],
       "dependencies": ["radix-ui@1.8.1", "class-variance-authority@0.7.1"],
       "registryDependencies": [
-        "Nieradj-BB/BiBi-Reusable-Components/theme#v0.1.0",
-        "Nieradj-BB/BiBi-Reusable-Components/utils#v0.1.0"
+        "Nieradj-BB/BiBi-Reusable-Components/theme#v0.2.0",
+        "Nieradj-BB/BiBi-Reusable-Components/utils#v0.2.0"
       ],
       "files": [{ "path": "registry/bb/ui/tabs.tsx", "type": "registry:ui" }]
+    },
+    {
+      "name": "pagination",
+      "type": "registry:ui",
+      "title": "Pagination",
+      "description": "Moves through pages of a long list with previous and next buttons, page numbers, the current page, a page-size choice and the visible range.",
+      "categories": ["navigation-and-layout"],
+      "registryDependencies": [
+        "Nieradj-BB/BiBi-Reusable-Components/theme#v0.2.0",
+        "Nieradj-BB/BiBi-Reusable-Components/utils#v0.2.0",
+        "Nieradj-BB/BiBi-Reusable-Components/select#v0.2.0"
+      ],
+      "dependencies": ["class-variance-authority@0.7.1", "lucide-react@1.69.0"],
+      "files": [
+        { "path": "registry/bb/ui/pagination.tsx", "type": "registry:ui" }
+      ]
     },
     {
       "name": "form-field",
       "type": "registry:ui",
       "title": "FormField",
-      "description": "Wraps a control with its label, required or optional mark, help text and error message, wired for assistive technology. Works without a form library.",
+      "description": "Wraps a control with its label, required or optional mark, help text and error message, wired for assistive technology, plus group fields (fieldset), field rows and a form-level error. Works without a form library.",
       "categories": ["inputs-and-forms"],
-      "dependencies": ["radix-ui@1.8.1"],
+      "dependencies": ["radix-ui@1.8.1", "lucide-react@1.69.0"],
       "registryDependencies": [
-        "Nieradj-BB/BiBi-Reusable-Components/theme#v0.1.0",
-        "Nieradj-BB/BiBi-Reusable-Components/utils#v0.1.0",
-        "Nieradj-BB/BiBi-Reusable-Components/label#v0.1.0"
+        "Nieradj-BB/BiBi-Reusable-Components/theme#v0.2.0",
+        "Nieradj-BB/BiBi-Reusable-Components/utils#v0.2.0",
+        "Nieradj-BB/BiBi-Reusable-Components/label#v0.2.0",
+        "Nieradj-BB/BiBi-Reusable-Components/alert#v0.2.0"
       ],
       "files": [
         { "path": "registry/bb/ui/form-field.tsx", "type": "registry:ui" }
@@ -386,10 +542,10 @@
       "categories": ["inputs-and-forms"],
       "dependencies": ["react-hook-form@7.91.0", "radix-ui@1.8.1"],
       "registryDependencies": [
-        "Nieradj-BB/BiBi-Reusable-Components/theme#v0.1.0",
-        "Nieradj-BB/BiBi-Reusable-Components/utils#v0.1.0",
-        "Nieradj-BB/BiBi-Reusable-Components/label#v0.1.0",
-        "Nieradj-BB/BiBi-Reusable-Components/form-field#v0.1.0"
+        "Nieradj-BB/BiBi-Reusable-Components/theme#v0.2.0",
+        "Nieradj-BB/BiBi-Reusable-Components/utils#v0.2.0",
+        "Nieradj-BB/BiBi-Reusable-Components/label#v0.2.0",
+        "Nieradj-BB/BiBi-Reusable-Components/form-field#v0.2.0"
       ],
       "files": [
         { "path": "registry/bb/ui/form-rhf.tsx", "type": "registry:ui" }
@@ -399,17 +555,20 @@
       "name": "data-table",
       "type": "registry:block",
       "title": "DataTable",
-      "description": "A bordered table for records, with sortable headers, row selection, row actions and right-aligned numbers.",
+      "description": "A bordered table for records, with sortable headers, row selection, row actions, right-aligned numbers, search and filters, pagination (client or server side) and rows that open a detail page or panel.",
       "categories": ["data-display"],
       "dependencies": ["@tanstack/react-table@9.3.1", "lucide-react@1.69.0"],
       "registryDependencies": [
-        "Nieradj-BB/BiBi-Reusable-Components/theme#v0.1.0",
-        "Nieradj-BB/BiBi-Reusable-Components/utils#v0.1.0",
-        "Nieradj-BB/BiBi-Reusable-Components/checkbox#v0.1.0",
-        "Nieradj-BB/BiBi-Reusable-Components/empty-state#v0.1.0",
-        "Nieradj-BB/BiBi-Reusable-Components/input#v0.1.0",
-        "Nieradj-BB/BiBi-Reusable-Components/label#v0.1.0",
-        "Nieradj-BB/BiBi-Reusable-Components/skeleton#v0.1.0"
+        "Nieradj-BB/BiBi-Reusable-Components/theme#v0.2.0",
+        "Nieradj-BB/BiBi-Reusable-Components/utils#v0.2.0",
+        "Nieradj-BB/BiBi-Reusable-Components/button#v0.2.0",
+        "Nieradj-BB/BiBi-Reusable-Components/checkbox#v0.2.0",
+        "Nieradj-BB/BiBi-Reusable-Components/empty-state#v0.2.0",
+        "Nieradj-BB/BiBi-Reusable-Components/input#v0.2.0",
+        "Nieradj-BB/BiBi-Reusable-Components/label#v0.2.0",
+        "Nieradj-BB/BiBi-Reusable-Components/pagination#v0.2.0",
+        "Nieradj-BB/BiBi-Reusable-Components/select#v0.2.0",
+        "Nieradj-BB/BiBi-Reusable-Components/skeleton#v0.2.0"
       ],
       "files": [
         {
@@ -432,8 +591,8 @@
       "categories": ["data-display"],
       "dependencies": ["recharts@3.10.1", "react-is@19.3.1"],
       "registryDependencies": [
-        "Nieradj-BB/BiBi-Reusable-Components/theme#v0.1.0",
-        "Nieradj-BB/BiBi-Reusable-Components/utils#v0.1.0"
+        "Nieradj-BB/BiBi-Reusable-Components/theme#v0.2.0",
+        "Nieradj-BB/BiBi-Reusable-Components/utils#v0.2.0"
       ],
       "files": [{ "path": "registry/bb/ui/chart.tsx", "type": "registry:ui" }]
     },
@@ -445,8 +604,8 @@
       "categories": ["navigation-and-layout"],
       "dependencies": ["lucide-react@1.69.0", "radix-ui@1.8.1"],
       "registryDependencies": [
-        "Nieradj-BB/BiBi-Reusable-Components/theme#v0.1.0",
-        "Nieradj-BB/BiBi-Reusable-Components/utils#v0.1.0"
+        "Nieradj-BB/BiBi-Reusable-Components/theme#v0.2.0",
+        "Nieradj-BB/BiBi-Reusable-Components/utils#v0.2.0"
       ],
       "files": [
         { "path": "registry/bb/ui/page-header.tsx", "type": "registry:ui" }
@@ -460,11 +619,11 @@
       "categories": ["navigation-and-layout"],
       "dependencies": ["lucide-react@1.69.0"],
       "registryDependencies": [
-        "Nieradj-BB/BiBi-Reusable-Components/theme#v0.1.0",
-        "Nieradj-BB/BiBi-Reusable-Components/utils#v0.1.0",
-        "Nieradj-BB/BiBi-Reusable-Components/badge#v0.1.0",
-        "Nieradj-BB/BiBi-Reusable-Components/button#v0.1.0",
-        "Nieradj-BB/BiBi-Reusable-Components/sheet#v0.1.0"
+        "Nieradj-BB/BiBi-Reusable-Components/theme#v0.2.0",
+        "Nieradj-BB/BiBi-Reusable-Components/utils#v0.2.0",
+        "Nieradj-BB/BiBi-Reusable-Components/badge#v0.2.0",
+        "Nieradj-BB/BiBi-Reusable-Components/button#v0.2.0",
+        "Nieradj-BB/BiBi-Reusable-Components/sheet#v0.2.0"
       ],
       "files": [
         {

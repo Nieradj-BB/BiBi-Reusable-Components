@@ -10,13 +10,13 @@ A dashed box that says nothing is here yet, how items appear, and what to do nex
 
 ## When not to use
 
-- Errors: a callout (not in the library yet: ask for it in the library repo).
+- Errors: an [Alert](alert.md) with the `destructive` variant.
 - Loading: use a Skeleton.
 
 ## Install
 
 ```bash
-npx shadcn@latest add Nieradj-BB/BiBi-Reusable-Components/empty-state#v0.1.0
+npx shadcn@latest add Nieradj-BB/BiBi-Reusable-Components/empty-state#v0.2.0
 ```
 
 ## Usage

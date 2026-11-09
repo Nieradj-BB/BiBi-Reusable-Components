@@ -17,7 +17,7 @@ A chart card with a title, a one-sentence takeaway and bars in the three chart c
 ## Install
 
 ```bash
-npx shadcn@latest add Nieradj-BB/BiBi-Reusable-Components/chart#v0.1.0
+npx shadcn@latest add Nieradj-BB/BiBi-Reusable-Components/chart#v0.2.0
 ```
 
 ## Usage
@@ -111,7 +111,7 @@ Proportion and ranked bars need no recharts:
 />
 ```
 
-Offer the same numbers as a table as well, for example in a disclosure under the chart.
+Offer the same numbers as a table as well, for example in an [Accordion](accordion.md) under the chart.
 
 ## Props
 

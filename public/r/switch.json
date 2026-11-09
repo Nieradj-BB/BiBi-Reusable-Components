@@ -1,0 +1,24 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "switch",
+  "title": "Switch",
+  "description": "Turns a setting on or off with immediate effect, optionally with a label, state text or as a settings row.",
+  "dependencies": [
+    "radix-ui@1.8.1"
+  ],
+  "registryDependencies": [
+    "Nieradj-BB/BiBi-Reusable-Components/theme#v0.2.0",
+    "Nieradj-BB/BiBi-Reusable-Components/utils#v0.2.0"
+  ],
+  "files": [
+    {
+      "path": "registry/bb/ui/switch.tsx",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\nimport { Switch as SwitchPrimitive } from \"radix-ui\"\n\nimport { cn } from \"@/lib/utils\"\n\nfunction Switch({\n  className,\n  id,\n  label,\n  ...props\n}: React.ComponentProps<typeof SwitchPrimitive.Root> & {\n  /** Visible label after the switch; renders it as a labelled row. */\n  label?: React.ReactNode\n}) {\n  const generatedId = React.useId()\n  const isField = label !== undefined\n  const controlId = id ?? (isField ? generatedId : undefined)\n\n  const control = (\n    <SwitchPrimitive.Root\n      data-slot=\"switch\"\n      id={controlId}\n      className={cn(\n        \"peer inline-flex h-6 w-11 shrink-0 cursor-pointer items-center rounded-full bg-muted-foreground p-1 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring disabled:cursor-not-allowed data-[state=checked]:bg-brand-cyan motion-reduce:transition-none\",\n        !isField && \"disabled:opacity-50\",\n        className\n      )}\n      {...props}\n    >\n      <SwitchPrimitive.Thumb\n        data-slot=\"switch-thumb\"\n        className=\"pointer-events-none block size-4 rounded-full bg-card shadow-tile data-[state=checked]:translate-x-5 motion-safe:transition-transform\"\n      />\n    </SwitchPrimitive.Root>\n  )\n\n  if (!isField) return control\n\n  return (\n    <div\n      data-slot=\"switch-field\"\n      className=\"inline-flex items-center gap-2 text-sm text-foreground has-disabled:opacity-50\"\n    >\n      {control}\n      <label\n        data-slot=\"switch-label\"\n        htmlFor={controlId}\n        className=\"cursor-pointer peer-disabled:cursor-not-allowed\"\n      >\n        {label}\n      </label>\n    </div>\n  )\n}\n\nexport { Switch }\n",
+      "type": "registry:ui"
+    }
+  ],
+  "categories": [
+    "inputs-and-forms"
+  ],
+  "type": "registry:ui"
+}

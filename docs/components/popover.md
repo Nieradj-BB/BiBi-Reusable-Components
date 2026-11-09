@@ -9,14 +9,14 @@ A small panel anchored to a button, for a short explanation (toggletip) or a qui
 
 ## When not to use
 
-- Warnings or errors: a callout in the page (not in the library yet: ask for it in the library repo).
+- Warnings or errors: an [Alert](alert.md) in the page.
 - More than a few lines or fields: use Dialog or Sheet.
 - Hover hints on icon buttons: use Tooltip.
 
 ## Install
 
 ```bash
-npx shadcn@latest add Nieradj-BB/BiBi-Reusable-Components/popover#v0.1.0
+npx shadcn@latest add Nieradj-BB/BiBi-Reusable-Components/popover#v0.2.0
 ```
 
 ## Usage

@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite"
-import { Check, CircleAlert, Clock } from "lucide-react"
+import { Check, CircleAlert, Clock, TriangleAlert } from "lucide-react"
 import { expect } from "storybook/test"
 
 import { Badge } from "@/components/ui/badge"
@@ -24,6 +24,7 @@ const meta = {
         "secondary",
         "outline",
         "success",
+        "warning",
         "destructive",
         "brand",
       ],
@@ -60,6 +61,27 @@ export const Success: Story = {
         Betaald
       </>
     ),
+  },
+}
+
+export const Warning: Story = {
+  args: {
+    variant: "warning",
+    children: (
+      <>
+        <TriangleAlert aria-hidden="true" />
+        Verloopt binnenkort
+      </>
+    ),
+  },
+  play: async ({ canvas }) => {
+    const badge = canvas.getByText("Verloopt binnenkort")
+    await expect(badge).toHaveAttribute("data-variant", "warning")
+    await expect(badge).toHaveClass("border-warning", "text-foreground")
+    await expect(badge.querySelector("svg")).toHaveAttribute(
+      "aria-hidden",
+      "true"
+    )
   },
 }
 

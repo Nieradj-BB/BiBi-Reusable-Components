@@ -17,7 +17,7 @@ A modal window for a short task or form that needs full attention before the use
 ## Install
 
 ```bash
-npx shadcn@latest add Nieradj-BB/BiBi-Reusable-Components/dialog#v0.1.0
+npx shadcn@latest add Nieradj-BB/BiBi-Reusable-Components/dialog#v0.2.0
 ```
 
 Also installs `button` from this registry (the close button).

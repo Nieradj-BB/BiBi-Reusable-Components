@@ -7,11 +7,11 @@
     "lucide-react@1.69.0"
   ],
   "registryDependencies": [
-    "Nieradj-BB/BiBi-Reusable-Components/theme#v0.1.0",
-    "Nieradj-BB/BiBi-Reusable-Components/utils#v0.1.0",
-    "Nieradj-BB/BiBi-Reusable-Components/badge#v0.1.0",
-    "Nieradj-BB/BiBi-Reusable-Components/button#v0.1.0",
-    "Nieradj-BB/BiBi-Reusable-Components/sheet#v0.1.0"
+    "Nieradj-BB/BiBi-Reusable-Components/theme#v0.2.0",
+    "Nieradj-BB/BiBi-Reusable-Components/utils#v0.2.0",
+    "Nieradj-BB/BiBi-Reusable-Components/badge#v0.2.0",
+    "Nieradj-BB/BiBi-Reusable-Components/button#v0.2.0",
+    "Nieradj-BB/BiBi-Reusable-Components/sheet#v0.2.0"
   ],
   "files": [
     {

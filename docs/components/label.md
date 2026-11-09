@@ -15,7 +15,7 @@ The visible name above a form control or group, with an optional required mark o
 ## Install
 
 ```bash
-npx shadcn@latest add Nieradj-BB/BiBi-Reusable-Components/label#v0.1.0
+npx shadcn@latest add Nieradj-BB/BiBi-Reusable-Components/label#v0.2.0
 ```
 
 ## Usage

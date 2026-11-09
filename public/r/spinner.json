@@ -1,0 +1,25 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "spinner",
+  "title": "Spinner",
+  "description": "A small rotating icon with a hidden status label that shows a short wait for a single action or area.",
+  "dependencies": [
+    "class-variance-authority@0.7.1",
+    "lucide-react@1.69.0"
+  ],
+  "registryDependencies": [
+    "Nieradj-BB/BiBi-Reusable-Components/theme#v0.2.0",
+    "Nieradj-BB/BiBi-Reusable-Components/utils#v0.2.0"
+  ],
+  "files": [
+    {
+      "path": "registry/bb/ui/spinner.tsx",
+      "content": "import * as React from \"react\"\nimport { cva, type VariantProps } from \"class-variance-authority\"\nimport { Loader2Icon } from \"lucide-react\"\n\nimport { cn } from \"@/lib/utils\"\n\nconst spinnerVariants = cva(\"motion-safe:animate-spin\", {\n  variants: {\n    size: {\n      sm: \"size-3.5\",\n      default: \"size-4\",\n      lg: \"size-6\",\n    },\n  },\n  defaultVariants: {\n    size: \"default\",\n  },\n})\n\nfunction Spinner({\n  className,\n  size = \"default\",\n  label = \"Laden\",\n  role,\n  ...props\n}: React.ComponentProps<\"span\"> &\n  VariantProps<typeof spinnerVariants> & { label?: string }) {\n  // With visible status text nearby, the spinner is hidden and the text speaks.\n  const hidden =\n    props[\"aria-hidden\"] === true || props[\"aria-hidden\"] === \"true\"\n\n  return (\n    <span\n      data-slot=\"spinner\"\n      data-size={size}\n      role={role ?? (hidden ? undefined : \"status\")}\n      className={cn(\n        \"inline-flex shrink-0 items-center justify-center align-middle\",\n        className\n      )}\n      {...props}\n    >\n      <Loader2Icon\n        aria-hidden=\"true\"\n        focusable=\"false\"\n        className={spinnerVariants({ size })}\n      />\n      {!hidden && <span className=\"sr-only\">{label}</span>}\n    </span>\n  )\n}\n\nexport { Spinner, spinnerVariants }\n",
+      "type": "registry:ui"
+    }
+  ],
+  "categories": [
+    "feedback"
+  ],
+  "type": "registry:ui"
+}

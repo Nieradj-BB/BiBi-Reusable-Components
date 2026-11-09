@@ -16,7 +16,7 @@ A small pill label that shows a status, a category, a role or a count.
 ## Install
 
 ```bash
-npx shadcn@latest add Nieradj-BB/BiBi-Reusable-Components/badge#v0.1.0
+npx shadcn@latest add Nieradj-BB/BiBi-Reusable-Components/badge#v0.2.0
 ```
 
 ## Usage
@@ -49,13 +49,13 @@ export function InvoiceCount() {
 
 ## Props
 
-| Prop        | Type                                                                             | Default       | Notes                                                        |
-| ----------- | -------------------------------------------------------------------------------- | ------------- | ------------------------------------------------------------ |
-| `variant`   | `"default" \| "secondary" \| "outline" \| "success" \| "destructive" \| "brand"` | `"secondary"` | Tone of the badge.                                           |
-| `count`     | `boolean`                                                                        | `false`       | Tabular figures for numbers.                                 |
-| `asChild`   | `boolean`                                                                        | `false`       | Render the child element (Radix Slot) with the badge styles. |
-| `className` | `string`                                                                         |               | Merged with `cn()`.                                          |
-| ...         | `React.ComponentProps<"span">`                                                   |               | Passed to the `<span>`.                                      |
+| Prop        | Type                                                                                          | Default       | Notes                                                        |
+| ----------- | --------------------------------------------------------------------------------------------- | ------------- | ------------------------------------------------------------ |
+| `variant`   | `"default" \| "secondary" \| "outline" \| "success" \| "warning" \| "destructive" \| "brand"` | `"secondary"` | Tone of the badge.                                           |
+| `count`     | `boolean`                                                                                     | `false`       | Tabular figures for numbers.                                 |
+| `asChild`   | `boolean`                                                                                     | `false`       | Render the child element (Radix Slot) with the badge styles. |
+| `className` | `string`                                                                                      |               | Merged with `cn()`.                                          |
+| ...         | `React.ComponentProps<"span">`                                                                |               | Passed to the `<span>`.                                      |
 
 `badgeVariants({ variant, count })` returns the classes for use on other elements.
 
@@ -69,6 +69,7 @@ All badges: 12px medium text on a 16px line, 2px by 10px padding, a 1px border a
 | `secondary`   | Navy tint, navy text (the default) | Everyday status and counts   |
 | `outline`     | Grey border, muted text            | Finished or secondary states |
 | `success`     | Green border and icon, dark text   | Paid, done, approved         |
+| `warning`     | Orange border and icon, dark text  | Expiring soon, needs a check |
 | `destructive` | Red text on a 40% red border       | Expired, failed, blocked     |
 | `brand`       | Cyan text on ice                   | New or running items         |
 
@@ -80,5 +81,5 @@ Badges have no interactive states.
 - Count badges add the unit as screen-reader text (`3 <span className="sr-only">nieuw</span>`) and keep the separating spaces outside hidden elements.
 - A badge is not interactive. If one must act as a control, wrap it in a real button at least 24px high with a focus ring.
 - Place `destructive` badges on a card or table surface: red text reaches 4.5:1 on white but not on the page background.
-- `brand` (cyan on ice) is an accepted brand-colour contrast exception. Success text stays dark because green text fails AA.
+- `brand` (cyan on ice) is an accepted brand-colour contrast exception. Success and warning text stay dark because green and orange text fail AA; the orange (warning token) is only for the border and icon.
 - Decorative icons get `aria-hidden="true"`.

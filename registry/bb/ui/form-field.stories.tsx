@@ -3,8 +3,17 @@ import type { Meta, StoryObj } from "@storybook/react-vite"
 import { expect, userEvent } from "storybook/test"
 
 import { Button } from "@/components/ui/button"
-import { FormActions, FormField, FormStack } from "@/components/ui/form-field"
+import { Checkbox } from "@/components/ui/checkbox"
+import {
+  FormActions,
+  FormField,
+  FormFieldGroup,
+  FormFieldRow,
+  FormError as FormLevelError,
+  FormStack,
+} from "@/components/ui/form-field"
 import { Input } from "@/components/ui/input"
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import {
   Select,
   SelectContent,
@@ -250,5 +259,202 @@ export const RequiredSelect: Story = {
     const trigger = canvas.getByRole("combobox", { name: "Status" })
     await expect(trigger).toHaveAttribute("aria-required", "true")
     await expect(trigger).not.toHaveAttribute("required")
+  },
+}
+
+const deliveryOptions = ["E-mail", "Post", "Klantportaal"]
+
+function DeliveryGroup() {
+  const [selected, setSelected] = React.useState<string[]>([])
+
+  return (
+    <FormFieldGroup
+      legend="Factuur versturen via"
+      required
+      help="Kies een of meer manieren."
+      error={
+        selected.length === 0
+          ? "Kies minstens één manier om de factuur te versturen."
+          : undefined
+      }
+    >
+      {deliveryOptions.map((option) => (
+        <Checkbox
+          key={option}
+          label={option}
+          checked={selected.includes(option)}
+          onCheckedChange={(checked) =>
+            setSelected((current) =>
+              checked === true
+                ? [...current, option]
+                : current.filter((item) => item !== option)
+            )
+          }
+        />
+      ))}
+    </FormFieldGroup>
+  )
+}
+
+export const GroupWithError: Story = {
+  name: "Group with error",
+  args: { label: "Factuur versturen via", children: <Input /> },
+  render: () => <DeliveryGroup />,
+  play: async ({ canvas }) => {
+    // Checkbox groups have no aria-required: the legend says it in hidden text.
+    const group = canvas.getByRole("group", {
+      name: "Factuur versturen via (verplicht)",
+    })
+    await expect(group).toHaveAccessibleDescription(
+      "Kies een of meer manieren. Kies minstens één manier om de factuur te versturen."
+    )
+    await expect(canvas.getByRole("alert")).toHaveTextContent(
+      "Kies minstens één manier om de factuur te versturen."
+    )
+
+    const post = canvas.getByRole("checkbox", { name: "Post" })
+    await userEvent.click(post)
+    await expect(post).toBeChecked()
+    await expect(canvas.queryByRole("alert")).not.toBeInTheDocument()
+    await expect(group).toHaveAccessibleDescription(
+      "Kies een of meer manieren."
+    )
+
+    await userEvent.click(post)
+    await expect(canvas.getByRole("alert")).toBeInTheDocument()
+    post.blur()
+  },
+}
+
+// Test only (hidden from the sidebar): a render function passes the group
+// error and required on to a RadioGroup as aria-invalid and aria-required.
+export const RadioGroupField: Story = {
+  name: "Radio group field",
+  tags: ["!dev", "!autodocs"],
+  args: { label: "Betaaltermijn", children: <Input /> },
+  render: () => (
+    <FormFieldGroup
+      legend="Betaaltermijn"
+      required
+      error="Kies een betaaltermijn."
+    >
+      {(group) => (
+        <RadioGroup name="term" {...group}>
+          <RadioGroupItem value="14" label="14 dagen" />
+          <RadioGroupItem value="30" label="30 dagen" />
+        </RadioGroup>
+      )}
+    </FormFieldGroup>
+  ),
+  play: async ({ canvas }) => {
+    await expect(
+      canvas.getByRole("group", { name: "Betaaltermijn" })
+    ).toHaveAccessibleDescription("Kies een betaaltermijn.")
+    const radioGroup = canvas.getByRole("radiogroup")
+    await expect(radioGroup).toHaveAttribute("aria-invalid", "true")
+    await expect(radioGroup).toHaveAttribute("aria-required", "true")
+  },
+}
+
+export const FieldRow: Story = {
+  name: "Field row",
+  args: { label: "Voornaam", children: <Input /> },
+  decorators: [
+    (Story) => (
+      <div className="w-full max-w-xl">
+        <Story />
+      </div>
+    ),
+  ],
+  render: () => (
+    <FormStack>
+      <FormFieldRow>
+        <FormField label="Voornaam" required>
+          <Input type="text" defaultValue="Sanne" autoComplete="given-name" />
+        </FormField>
+        <FormField label="Achternaam" required>
+          <Input
+            type="text"
+            defaultValue="de Vries"
+            autoComplete="family-name"
+          />
+        </FormField>
+      </FormFieldRow>
+      <FormField label="E-mailadres" required>
+        <Input
+          type="email"
+          defaultValue="s.devries@hofstede.nl"
+          autoComplete="email"
+        />
+      </FormField>
+    </FormStack>
+  ),
+  play: async ({ canvas }) => {
+    const first = canvas.getByRole("textbox", { name: "Voornaam" })
+    const last = canvas.getByRole("textbox", { name: "Achternaam" })
+    await expect(first).toBeRequired()
+    await expect(last).toHaveValue("de Vries")
+    // Side by side when there is room, in reading order.
+    const firstBox = first.getBoundingClientRect()
+    const lastBox = last.getBoundingClientRect()
+    await expect(lastBox.left).toBeGreaterThan(firstBox.right)
+    await expect(lastBox.top).toBe(firstBox.top)
+  },
+}
+
+export const FormError: Story = {
+  name: "Form error",
+  args: { label: "Klantnaam", children: <Input /> },
+  decorators: [
+    (Story) => (
+      <div className="w-full max-w-xl">
+        <Story />
+      </div>
+    ),
+  ],
+  render: () => (
+    <FormStack asChild>
+      <form
+        noValidate
+        aria-label="Klant toevoegen"
+        onSubmit={(event) => event.preventDefault()}
+      >
+        <FormField label="Klantnaam" required>
+          <Input name="client" type="text" defaultValue="Hofstede Advies" />
+        </FormField>
+        <FormField label="E-mailadres voor facturen" required>
+          <Input
+            name="email"
+            type="email"
+            defaultValue="facturen@hofstede.nl"
+          />
+        </FormField>
+        <FormLevelError title="Klant niet opgeslagen">
+          De server reageert niet. Je gegevens staan nog in het formulier;
+          probeer het zo opnieuw.
+        </FormLevelError>
+        <FormActions>
+          <Button variant="outline" type="button">
+            Annuleren
+          </Button>
+          <Button type="submit">Klant toevoegen</Button>
+        </FormActions>
+      </form>
+    </FormStack>
+  ),
+  play: async ({ canvas }) => {
+    const alert = canvas.getByRole("alert")
+    await expect(alert).toHaveTextContent("Klant niet opgeslagen")
+    await expect(alert).toHaveTextContent(
+      "De server reageert niet. Je gegevens staan nog in het formulier; probeer het zo opnieuw."
+    )
+    // Directly above the actions; the fields themselves stay valid.
+    const actions = canvas
+      .getByRole("button", { name: "Klant toevoegen" })
+      .closest("[data-slot='form-actions']")
+    await expect(alert.nextElementSibling).toBe(actions)
+    await expect(
+      canvas.getByRole("textbox", { name: "Klantnaam" })
+    ).not.toHaveAttribute("aria-invalid")
   },
 }

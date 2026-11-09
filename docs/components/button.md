@@ -17,7 +17,7 @@ Starts an action: cyan for the main action, navy, outline and ghost for everythi
 ## Install
 
 ```bash
-npx shadcn@latest add Nieradj-BB/BiBi-Reusable-Components/button#v0.1.0
+npx shadcn@latest add Nieradj-BB/BiBi-Reusable-Components/button#v0.2.0
 ```
 
 ## Usage

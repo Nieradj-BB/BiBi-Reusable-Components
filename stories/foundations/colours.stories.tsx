@@ -182,6 +182,12 @@ const groups: Group[] = [
         classes: "bg-success, text-success (icons only)",
         note: "Not for text and never the only cue: below 3:1 on card and background.",
       },
+      {
+        name: "warning",
+        use: "Warning icons and borders only; warning text stays foreground. Same value as chart-3 (decision 24).",
+        classes: "text-warning (icons only), border-warning",
+        note: "3.56:1 on card: passes 3:1 for icons and borders, not for text.",
+      },
     ],
   },
   {

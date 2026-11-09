@@ -24,6 +24,7 @@
   --destructive: #dc3545;
   --destructive-foreground: #ffffff;
   --success: #67b871;
+  --warning: #ea580c;
   --border: #e8e8eb;
   --border-strong: #c9c9d1;
   --input: #e8e8eb;
@@ -56,6 +57,7 @@
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
   --color-success: var(--success);
+  --color-warning: var(--warning);
   --color-border: var(--border);
   --color-border-strong: var(--border-strong);
   --color-input: var(--input);

@@ -8,14 +8,14 @@ Picks one value from a known list in a dropdown that opens below the field.
 
 ## When not to use
 
-- 2 to 4 options that should stay visible: a radio group (not in the library yet: ask for it in the library repo).
+- 2 to 4 options that should stay visible: a [RadioGroup](radio-group.md).
 - Long lists people need to search in.
 - Actions: use a button or menu.
 
 ## Install
 
 ```bash
-npx shadcn@latest add Nieradj-BB/BiBi-Reusable-Components/select#v0.1.0
+npx shadcn@latest add Nieradj-BB/BiBi-Reusable-Components/select#v0.2.0
 ```
 
 ## Usage

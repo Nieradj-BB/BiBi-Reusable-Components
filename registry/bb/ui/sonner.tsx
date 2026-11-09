@@ -22,12 +22,12 @@ type ToastClassNames = NonNullable<
 const toastClassNames: ToastClassNames = {
   toast: cn(
     "group/toast grid w-(--width) grid-cols-[auto_minmax(0,1fr)_auto] items-start rounded-xl border border-border bg-card px-4 py-3 font-sans text-sm text-foreground shadow-panel",
-    "data-[type=error]:border-destructive/40",
+    "data-[type=error]:border-destructive/40 data-[type=warning]:border-warning",
     "focus-visible:outline-2! focus-visible:outline-offset-2 focus-visible:outline-ring!",
     "data-[mounted=false]:[--y:translateY(6px)]! motion-safe:duration-320! motion-safe:ease-enter! motion-reduce:transition-none!",
     "data-[expanded=false]:data-[front=false]:*:opacity-0"
   ),
-  icon: "col-start-1 row-start-1 mt-0.5 mr-3 flex text-muted-foreground in-data-[type=error]:text-destructive in-data-[type=success]:text-success [&_svg:not([class*='size-'])]:size-4",
+  icon: "col-start-1 row-start-1 mt-0.5 mr-3 flex text-muted-foreground in-data-[type=error]:text-destructive in-data-[type=success]:text-success in-data-[type=warning]:text-warning [&_svg:not([class*='size-'])]:size-4",
   content: "col-start-2 row-start-1 min-w-0",
   title: "font-semibold in-data-[type=error]:text-destructive",
   description: "mt-0.5 text-muted-foreground",

@@ -1,0 +1,24 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "alert",
+  "title": "Alert",
+  "description": "An inline message in the page that reports information, success, a warning or an error, optionally with a title and an action.",
+  "dependencies": [
+    "class-variance-authority@0.7.1"
+  ],
+  "registryDependencies": [
+    "Nieradj-BB/BiBi-Reusable-Components/theme#v0.2.0",
+    "Nieradj-BB/BiBi-Reusable-Components/utils#v0.2.0"
+  ],
+  "files": [
+    {
+      "path": "registry/bb/ui/alert.tsx",
+      "content": "import * as React from \"react\"\nimport { cva, type VariantProps } from \"class-variance-authority\"\n\nimport { cn } from \"@/lib/utils\"\n\nconst alertVariants = cva(\n  \"grid w-full grid-cols-[0_1fr] items-start gap-y-1 rounded-md border px-4 py-3 text-sm text-foreground has-[>svg]:grid-cols-[--spacing(4)_1fr] has-[>svg]:gap-x-3 [&>svg]:mt-0.5 [&>svg]:size-4 [&>svg]:shrink-0\",\n  {\n    variants: {\n      variant: {\n        info: \"border-border bg-muted [&>svg]:text-muted-foreground\",\n        success: \"border-success [&>svg]:text-success\",\n        warning: \"border-warning [&>svg]:text-warning\",\n        // Card fill: red text fails 4.5:1 on the page background.\n        destructive: \"border-destructive/40 bg-card text-destructive\",\n      },\n      size: {\n        default: \"\",\n        compact: \"px-3 py-2 has-[>svg]:gap-x-2\",\n      },\n    },\n    defaultVariants: {\n      variant: \"info\",\n      size: \"default\",\n    },\n  }\n)\n\ntype AlertVariant = NonNullable<VariantProps<typeof alertVariants>[\"variant\"]>\n\n// Only errors interrupt; warnings and results are polite, info is a note.\nconst alertRoles: Record<AlertVariant, React.AriaRole> = {\n  info: \"note\",\n  success: \"status\",\n  warning: \"status\",\n  destructive: \"alert\",\n}\n\nfunction Alert({\n  className,\n  variant = \"info\",\n  size = \"default\",\n  role,\n  ...props\n}: React.ComponentProps<\"div\"> & VariantProps<typeof alertVariants>) {\n  const resolvedVariant = variant ?? \"info\"\n\n  return (\n    <div\n      data-slot=\"alert\"\n      data-variant={resolvedVariant}\n      data-size={size}\n      role={role ?? alertRoles[resolvedVariant]}\n      className={cn(alertVariants({ variant, size }), className)}\n      {...props}\n    />\n  )\n}\n\nfunction AlertTitle({ className, ...props }: React.ComponentProps<\"div\">) {\n  return (\n    <div\n      data-slot=\"alert-title\"\n      className={cn(\"col-start-2 font-semibold\", className)}\n      {...props}\n    />\n  )\n}\n\nfunction AlertDescription({\n  className,\n  ...props\n}: React.ComponentProps<\"div\">) {\n  return (\n    <div\n      data-slot=\"alert-description\"\n      className={cn(\n        \"col-start-2 min-w-0 wrap-break-word [&_p]:not-last:mb-1\",\n        className\n      )}\n      {...props}\n    />\n  )\n}\n\nfunction AlertAction({ className, ...props }: React.ComponentProps<\"div\">) {\n  return (\n    <div\n      data-slot=\"alert-action\"\n      className={cn(\"col-start-2 mt-2 flex flex-wrap gap-2\", className)}\n      {...props}\n    />\n  )\n}\n\nexport { Alert, AlertTitle, AlertDescription, AlertAction, alertVariants }\n",
+      "type": "registry:ui"
+    }
+  ],
+  "categories": [
+    "feedback"
+  ],
+  "type": "registry:ui"
+}

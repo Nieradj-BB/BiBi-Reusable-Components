@@ -26,6 +26,10 @@ const stateVariants: Record<string, string> = {
   "aria-expanded": '[aria-expanded="true"]',
   "aria-selected": '[aria-selected="true"]',
   "aria-checked": '[aria-checked="true"]',
+  // Calendar day buttons (react-day-picker, shadcn Calendar)
+  "data-[selected-single=true]": '[data-selected-single="true"]',
+  "data-[range-start=true]": '[data-range-start="true"]',
+  "data-[range-end=true]": '[data-range-end="true"]',
 }
 
 const resting = brandTokens.flatMap((token) => [

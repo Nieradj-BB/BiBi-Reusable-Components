@@ -15,7 +15,7 @@ Pulsing muted placeholders in the shape of the content that is loading.
 ## Install
 
 ```bash
-npx shadcn@latest add Nieradj-BB/BiBi-Reusable-Components/skeleton#v0.1.0
+npx shadcn@latest add Nieradj-BB/BiBi-Reusable-Components/skeleton#v0.2.0
 ```
 
 ## Usage

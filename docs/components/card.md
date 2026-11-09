@@ -17,7 +17,7 @@ A white surface with a thin border and 12px corners that groups related content,
 ## Install
 
 ```bash
-npx shadcn@latest add Nieradj-BB/BiBi-Reusable-Components/card#v0.1.0
+npx shadcn@latest add Nieradj-BB/BiBi-Reusable-Components/card#v0.2.0
 ```
 
 ## Usage

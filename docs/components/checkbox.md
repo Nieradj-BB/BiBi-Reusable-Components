@@ -9,13 +9,13 @@ Turns an independent option on or off, or selects rows; supports a mixed (indete
 
 ## When not to use
 
-- A setting that takes effect immediately: a switch (not in the library yet: ask for it in the library repo).
-- One choice from several: use Select (a radio group is not in the library yet: ask for it in the library repo).
+- A setting that takes effect immediately: use [Switch](switch.md).
+- One choice from several: use [RadioGroup](radio-group.md) for a short list that stays visible, or [Select](select.md) for a longer one.
 
 ## Install
 
 ```bash
-npx shadcn@latest add Nieradj-BB/BiBi-Reusable-Components/checkbox#v0.1.0
+npx shadcn@latest add Nieradj-BB/BiBi-Reusable-Components/checkbox#v0.2.0
 ```
 
 ## Usage
@@ -90,12 +90,12 @@ A 16px box with a 6px radius and a 1px muted border on white. The row is a two-c
 | Focus         | 2px cyan outline with a 2px offset on the box |
 | Disabled      | The whole row at 50%, not-allowed cursor      |
 
-Stack checkboxes in a column with an 8px gap; group them in a `fieldset` with `Label as="legend"`.
+Stack checkboxes in a column with an 8px gap; group them in a `fieldset` with `Label as="legend"`. In a form, use `FormFieldGroup` ([FormField](form-field.md)) for the legend, help and one group error.
 
 ## Accessibility
 
 - Built on Radix Checkbox: `role="checkbox"` with `aria-checked`; Space toggles it.
 - Indeterminate is exposed as `aria-checked="mixed"` (`checked="indeterminate"`).
 - The label is part of the click target; rows are at least 24px high.
-- Group related checkboxes in a `fieldset` with a legend; the description is linked with `aria-describedby`.
+- Group related checkboxes in a `fieldset` with a legend (in a form, `FormFieldGroup`); the description is linked with `aria-describedby`.
 - The white check on cyan is an accepted brand-colour contrast exception (decision 5).

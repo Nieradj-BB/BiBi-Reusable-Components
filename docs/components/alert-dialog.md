@@ -15,7 +15,7 @@ A modal confirmation that states the consequence of an action and waits for an e
 ## Install
 
 ```bash
-npx shadcn@latest add Nieradj-BB/BiBi-Reusable-Components/alert-dialog#v0.1.0
+npx shadcn@latest add Nieradj-BB/BiBi-Reusable-Components/alert-dialog#v0.2.0
 ```
 
 Also installs `button` from this registry (`buttonVariants` styles the actions).

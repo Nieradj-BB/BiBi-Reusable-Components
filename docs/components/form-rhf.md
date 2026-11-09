@@ -15,7 +15,7 @@ Optional react-hook-form binding for FormField: label, help text and error messa
 ## Install
 
 ```bash
-npx shadcn@latest add Nieradj-BB/BiBi-Reusable-Components/form-rhf#v0.1.0
+npx shadcn@latest add Nieradj-BB/BiBi-Reusable-Components/form-rhf#v0.2.0
 ```
 
 This also installs `form-field`, `label`, `react-hook-form` and `radix-ui`. Install `zod` and `@hookform/resolvers` yourself when you validate with a schema.
@@ -110,4 +110,4 @@ react-hook-form focuses the first invalid field on submit (`shouldFocusError`, o
 - The label points at the control id; `aria-describedby` only lists a description that is rendered and the message while there is an error.
 - The control gets `aria-invalid="true"` while the field has an error; the message has `role="alert"`.
 - Use `noValidate` on the form so the schema messages replace the browser's own bubbles.
-- Groups of checkboxes: wrap them in a `fieldset` with `<Label as="legend">`.
+- Groups of checkboxes: wrap them in a `fieldset` with `<Label as="legend">`, or use `FormFieldGroup` ([FormField](form-field.md)) for the legend, help and one group error.

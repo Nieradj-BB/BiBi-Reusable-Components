@@ -15,7 +15,7 @@ The frame of every app: a sidebar with the app name, navigation and signed-in us
 ## Install
 
 ```bash
-npx shadcn@latest add Nieradj-BB/BiBi-Reusable-Components/app-shell#v0.1.0
+npx shadcn@latest add Nieradj-BB/BiBi-Reusable-Components/app-shell#v0.2.0
 ```
 
 Also installs `badge`, `button` and `sheet` from this registry. The block lands in `components/app-shell/app-shell.tsx`.

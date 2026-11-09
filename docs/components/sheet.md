@@ -16,7 +16,7 @@ A panel on the edge of the screen that shows details or a form next to the curre
 ## Install
 
 ```bash
-npx shadcn@latest add Nieradj-BB/BiBi-Reusable-Components/sheet#v0.1.0
+npx shadcn@latest add Nieradj-BB/BiBi-Reusable-Components/sheet#v0.2.0
 ```
 
 Also installs `button` from this registry (the close button).

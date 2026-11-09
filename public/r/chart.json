@@ -8,8 +8,8 @@
     "react-is@19.3.1"
   ],
   "registryDependencies": [
-    "Nieradj-BB/BiBi-Reusable-Components/theme#v0.1.0",
-    "Nieradj-BB/BiBi-Reusable-Components/utils#v0.1.0"
+    "Nieradj-BB/BiBi-Reusable-Components/theme#v0.2.0",
+    "Nieradj-BB/BiBi-Reusable-Components/utils#v0.2.0"
   ],
   "files": [
     {

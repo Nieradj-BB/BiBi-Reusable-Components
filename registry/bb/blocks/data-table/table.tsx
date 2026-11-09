@@ -80,16 +80,24 @@ function TableFooter({ className, ...props }: React.ComponentProps<"tfoot">) {
 function TableRow({
   className,
   interactive = true,
+  active = false,
   ...props
 }: React.ComponentProps<"tr"> & {
   /** Rows without data (loading, empty) set this to false: no hover fill. */
   interactive?: boolean
+  /** The row whose details are open next to the table: the brand-ice tint. */
+  active?: boolean
 }) {
   return (
     <tr
       data-slot="table-row"
+      data-active={active || undefined}
       className={cn(
-        interactive && "transition-colors hover:bg-accent",
+        "transition-colors",
+        active ? "bg-brand-ice" : interactive && "hover:bg-accent",
+        // Muted text is too light on the brand-ice tint: it turns dark.
+        active &&
+          "**:data-muted:text-foreground **:data-[slot=table-cell-description]:text-foreground [&_[data-slot=badge][data-variant=outline]]:text-foreground",
         className
       )}
       {...props}
@@ -177,6 +185,7 @@ function TableCell({
   return (
     <td
       data-slot="table-cell"
+      data-muted={muted || undefined}
       className={cn(
         cellClassName,
         cellLayout({ align, nowrap, shrink }),
@@ -239,6 +248,45 @@ function TableSortButton({
   )
 }
 
+const tableLinkClassName =
+  "cursor-pointer rounded-md font-medium text-brand-cyan underline decoration-transparent underline-offset-4 transition-colors hover:decoration-current focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+
+/** Cyan link in the row header to the record's detail page. */
+function TableLink({
+  className,
+  children,
+  ...props
+}: React.ComponentProps<"a">) {
+  return (
+    <a
+      data-slot="table-link"
+      className={cn(tableLinkClassName, className)}
+      {...props}
+    >
+      {children}
+    </a>
+  )
+}
+
+/**
+ * The same look as a button, for a row header that opens a Sheet or Dialog.
+ * Set `aria-haspopup="dialog"` and `aria-expanded` on it.
+ */
+function TableLinkButton({
+  className,
+  type = "button",
+  ...props
+}: React.ComponentProps<"button">) {
+  return (
+    <button
+      data-slot="table-link-button"
+      type={type}
+      className={cn(tableLinkClassName, className)}
+      {...props}
+    />
+  )
+}
+
 /** Right-aligned row of icon buttons in the last column. */
 function TableRowActions({ className, ...props }: React.ComponentProps<"div">) {
   return (
@@ -259,6 +307,8 @@ export {
   TableFooter,
   TableHead,
   TableHeader,
+  TableLink,
+  TableLinkButton,
   TableRow,
   TableRowActions,
   TableRowHeader,
