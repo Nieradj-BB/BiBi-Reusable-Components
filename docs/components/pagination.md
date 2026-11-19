@@ -17,7 +17,7 @@ Moves between pages of a long list or table: previous and next, page numbers, an
 ## Install
 
 ```bash
-npx shadcn@latest add Nieradj-BB/BiBi-Reusable-Components/pagination#v0.2.0
+npx shadcn@latest add Nieradj-BB/BiBi-Reusable-Components/pagination#v0.2.1
 ```
 
 This also installs Select.
@@ -100,6 +100,8 @@ import { PaginationBar } from "@/components/ui/pagination"
 
 DataTable has this bar built in (`paginated`); see the DataTable page.
 
+With server data, pass `totalCount={undefined}` until the server has sent the total (`totalCount={data?.total}`). The bar then shows a skeleton line at the range text's height in place of the text, announces no count, and shows previous, the requested page and next, all disabled. The page-size select stays usable: it does not depend on the total. The bar keeps its height when the total arrives, at every width: its rows follow its own width, not the number of page buttons (see Bar below).
+
 The compact form is built from the parts: icon buttons for first, previous, next and last around a `PaginationStatus`.
 
 ```tsx
@@ -151,20 +153,20 @@ For a router link component, put `paginationLinkVariants({ shape })` on it and s
 
 ### PaginationBar
 
-| Prop               | Type                          | Default              | Notes                                               |
-| ------------------ | ----------------------------- | -------------------- | --------------------------------------------------- |
-| `page`             | `number`                      | required             | Current page, starting at 1.                        |
-| `pageSize`         | `number`                      | required             |                                                     |
-| `totalCount`       | `number`                      | required             | Total rows; sets the page count and the range text. |
-| `onPageChange`     | `(page: number) => void`      | required             |                                                     |
-| `onPageSizeChange` | `(pageSize: number) => void`  |                      | Shows the page-size select when set.                |
-| `pageSizeOptions`  | `number[]`                    | `[10, 25, 50, 100]`  |                                                     |
-| `siblingCount`     | `number`                      | `1`                  | Pages on each side of the current page.             |
-| `label`            | `string`                      | `"Paginering"`       | Name of the page navigation.                        |
-| `pageSizeLabel`    | `string`                      | `"Rijen per pagina"` | Visible label of the select.                        |
-| `previousLabel`    | `string`                      | `"Vorige pagina"`    | Name of the previous button.                        |
-| `nextLabel`        | `string`                      | `"Volgende pagina"`  | Name of the next button.                            |
-| `rangeLabel`       | `(from, to, total) => string` | `21–30 van 248`      | Numbers are formatted for `nl-NL` (`1.284`).        |
+| Prop               | Type                          | Default              | Notes                                                                                             |
+| ------------------ | ----------------------------- | -------------------- | ------------------------------------------------------------------------------------------------- |
+| `page`             | `number`                      | required             | Current page, starting at 1.                                                                      |
+| `pageSize`         | `number`                      | required             |                                                                                                   |
+| `totalCount`       | `number \| undefined`         | required             | Total rows; sets the page count and the range text. `undefined` while the total is not known yet. |
+| `onPageChange`     | `(page: number) => void`      | required             |                                                                                                   |
+| `onPageSizeChange` | `(pageSize: number) => void`  |                      | Shows the page-size select when set.                                                              |
+| `pageSizeOptions`  | `number[]`                    | `[10, 25, 50, 100]`  |                                                                                                   |
+| `siblingCount`     | `number`                      | `1`                  | Pages on each side of the current page.                                                           |
+| `label`            | `string`                      | `"Paginering"`       | Name of the page navigation.                                                                      |
+| `pageSizeLabel`    | `string`                      | `"Rijen per pagina"` | Visible label of the select.                                                                      |
+| `previousLabel`    | `string`                      | `"Vorige pagina"`    | Name of the previous button.                                                                      |
+| `nextLabel`        | `string`                      | `"Volgende pagina"`  | Name of the next button.                                                                          |
+| `rangeLabel`       | `(from, to, total) => string` | `21–30 van 248`      | Numbers are formatted for `nl-NL` (`1.284`).                                                      |
 
 ### getPaginationRange
 
@@ -177,7 +179,8 @@ For a router link component, put `paginationLinkVariants({ shape })` on it and s
 - **Previous / next:** a chevron with the text `Vorige` / `Volgende`; icon-only (`shape="icon"`) in the bar and the compact form.
 - **Disabled:** 50% opacity and a not-allowed cursor, on the first or last page. Kept in place so the layout does not jump.
 - **Ellipsis:** muted dots in a 36px (32px) square.
-- **Bar:** range text (muted) on the left; page-size select (32px, 76px wide) and the size `sm` pages on the right; wraps on narrow screens.
+- **Bar:** range text (muted) on the left; page-size select (32px, 76px wide) and the size `sm` pages on the right, 24px apart. The rows follow the bar's own width: from 640px everything shares one row (it wraps only when it does not fit, such as a page in the middle of a long list); from 512px the range text gets its own row above the page size and the pages; below 512px the range text, the page size and the pages each get a row, left-aligned, 12px apart.
+- **Bar, unknown total:** a 96px skeleton line (`muted`, pulsing, at the text's 20px line height) in place of the range text; previous, the requested page and next, all disabled. When the total arrives, the range and the page numbers replace them.
 - **Compact:** first, previous, the status text and next, last, all size `sm`.
 
 ## Accessibility
@@ -185,6 +188,6 @@ For a router link component, put `paginationLinkVariants({ shape })` on it and s
 - The list sits in a `nav` with a name (`Paginering`, or after the list when a page has more than one). The current page has `aria-current="page"` and is marked by border and weight, not only by colour.
 - Previous and next have names (`Ga naar vorige pagina`). On the first or last page they are disabled, not removed: a link loses its `href` and gets `aria-disabled`; a `PaginationButton` gets `aria-disabled` and stays focusable, so focus is not lost when you reach the first or last page. This deliberately replaces the gallery spec's `disabled` attribute on a button (an accepted deviation): a disabled button drops focus to the page body.
 - The ellipsis dots are `aria-hidden`; visually hidden text `Meer pagina's` stands next to them.
-- The range text in the bar is a `role="status"` region and `PaginationStatus` is `aria-live="polite"`, so page changes are announced.
+- The range text in the bar is a `role="status"` region and `PaginationStatus` is `aria-live="polite"`, so page changes are announced. While the total is unknown the region stays in place but empty (the skeleton line is `aria-hidden`), so no wrong count is announced. The page buttons are `aria-disabled` and stay focusable, and the requested page keeps its button, so focus is not lost when a total disappears during a reload.
 - Page targets are 36px (32px with `size="sm"`). After a page change, focus stays on the button that was pressed; do not move it to the top of the page.
 - Every page shows the 2px focus ring with a 2px offset.

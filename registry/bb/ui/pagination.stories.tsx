@@ -288,6 +288,139 @@ export const WithPageSize: Story = {
   },
 }
 
+// Test only (hidden from the sidebar): while the total is unknown (the first
+// server page is loading) the bar keeps its height, announces no count and
+// its pages cannot be used.
+export const UnknownTotal: Story = {
+  name: "Unknown total",
+  tags: ["!dev", "!autodocs"],
+  render: function Render() {
+    const [totalCount, setTotalCount] = React.useState<number>()
+    const [page, setPage] = React.useState(3)
+    const [pageSize, setPageSize] = React.useState(10)
+    React.useEffect(() => {
+      const timer = setTimeout(() => setTotalCount(248), 800)
+      return () => clearTimeout(timer)
+    }, [])
+    return (
+      <PaginationBar
+        page={page}
+        pageSize={pageSize}
+        totalCount={totalCount}
+        label="Paginering facturen"
+        onPageChange={setPage}
+        onPageSizeChange={setPageSize}
+      />
+    )
+  },
+  play: async ({ canvas, canvasElement, userEvent }) => {
+    const bar = canvasElement.querySelector('[data-slot="pagination-bar"]')
+    const range = canvas.getByRole("status")
+    await expect(range).toHaveTextContent("")
+    await expect(
+      range.querySelector('[data-slot="pagination-range-skeleton"]')
+    ).toHaveAttribute("aria-hidden", "true")
+
+    // Only the requested page shows; every page button is disabled.
+    const nav = canvas.getByRole("navigation", { name: "Paginering facturen" })
+    const buttons = within(nav).getAllByRole("button")
+    await expect(buttons.map((button) => button.textContent)).toEqual([
+      "",
+      "3",
+      "",
+    ])
+    for (const button of buttons) {
+      await expect(button).toHaveAttribute("aria-disabled", "true")
+    }
+    await expect(canvas.getByRole("button", { name: "3" })).toHaveAttribute(
+      "aria-current",
+      "page"
+    )
+    await userEvent.click(
+      canvas.getByRole("button", { name: "Volgende pagina" })
+    )
+    await expect(range).toHaveTextContent("")
+    // The page size does not depend on the total.
+    await expect(
+      canvas.getByRole("combobox", { name: "Rijen per pagina" })
+    ).toBeEnabled()
+    const height = bar?.getBoundingClientRect().height
+
+    // The total arrives: the range and the pages, at the same height.
+    await waitFor(() => expect(range).toHaveTextContent("21–30 van 248"), {
+      timeout: 3000,
+    })
+    await expect(bar?.getBoundingClientRect().height).toBe(height)
+    await expect(
+      within(nav)
+        .getAllByRole("button")
+        .map((button) => button.textContent)
+    ).toEqual(["", "1", "2", "3", "4", "25", ""])
+    await expect(
+      canvas.getByRole("button", { name: "Volgende pagina" })
+    ).not.toHaveAttribute("aria-disabled")
+  },
+}
+
+// Test only (hidden from the sidebar): the bar's rows follow its own width,
+// so at 360, 560 and 800px it keeps its height when the page list arrives.
+export const UnknownTotalWidths: Story = {
+  name: "Unknown total widths",
+  tags: ["!dev", "!autodocs"],
+  render: function Render() {
+    const [totalCount, setTotalCount] = React.useState<number>()
+    const [page, setPage] = React.useState(1)
+    const [pageSize, setPageSize] = React.useState(10)
+    React.useEffect(() => {
+      const timer = setTimeout(() => setTotalCount(1284), 800)
+      return () => clearTimeout(timer)
+    }, [])
+    return (
+      <div className="flex flex-col gap-8">
+        {[
+          { width: 360, className: "w-90" },
+          { width: 560, className: "w-140" },
+          { width: 800, className: "w-200" },
+        ].map(({ width, className }) => (
+          <div key={width} className={className}>
+            <PaginationBar
+              page={page}
+              pageSize={pageSize}
+              totalCount={totalCount}
+              label={`Paginering ${width}px`}
+              onPageChange={setPage}
+              onPageSizeChange={setPageSize}
+            />
+          </div>
+        ))}
+      </div>
+    )
+  },
+  play: async ({ canvasElement }) => {
+    const bars = Array.from(
+      canvasElement.querySelectorAll<HTMLElement>(
+        '[data-slot="pagination-bar"]'
+      )
+    )
+    const heights = () => bars.map((bar) => bar.getBoundingClientRect().height)
+    const before = heights()
+    // Three rows, two rows, one row.
+    await expect(before).toEqual([108, 64, 32])
+
+    await waitFor(
+      () => {
+        for (const bar of bars) {
+          expect(
+            bar.querySelector('[data-slot="pagination-range"]')
+          ).toHaveTextContent("1–10 van 1.284")
+        }
+      },
+      { timeout: 3000 }
+    )
+    await expect(heights()).toEqual(before)
+  },
+}
+
 export const Compact: Story = {
   render: function Render() {
     const pageCount = 12

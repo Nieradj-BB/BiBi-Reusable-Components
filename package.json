@@ -1,6 +1,6 @@
 {
   "name": "bb-ui",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "private": true,
   "description": "Blue Bricks UI library: theme, tokens and React components distributed as a shadcn registry.",
   "type": "module",

@@ -15,7 +15,7 @@ Optional react-hook-form binding for FormField: label, help text and error messa
 ## Install
 
 ```bash
-npx shadcn@latest add Nieradj-BB/BiBi-Reusable-Components/form-rhf#v0.2.0
+npx shadcn@latest add Nieradj-BB/BiBi-Reusable-Components/form-rhf#v0.2.1
 ```
 
 This also installs `form-field`, `label`, `react-hook-form` and `radix-ui`. Install `zod` and `@hookform/resolvers` yourself when you validate with a schema.

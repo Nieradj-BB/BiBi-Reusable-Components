@@ -15,7 +15,7 @@ The frame of every app: a sidebar with the app name, navigation and signed-in us
 ## Install
 
 ```bash
-npx shadcn@latest add Nieradj-BB/BiBi-Reusable-Components/app-shell#v0.2.0
+npx shadcn@latest add Nieradj-BB/BiBi-Reusable-Components/app-shell#v0.2.1
 ```
 
 Also installs `badge`, `button` and `sheet` from this registry. The block lands in `components/app-shell/app-shell.tsx`.
@@ -30,7 +30,6 @@ import {
   AppShell,
   type AppShellNavItem,
 } from "@/components/app-shell/app-shell"
-import { PageHeader } from "@/components/ui/page-header"
 
 export function Layout({ children }: { children: React.ReactNode }) {
   const { pathname } = useLocation()
@@ -48,9 +47,26 @@ export function Layout({ children }: { children: React.ReactNode }) {
       onSignOut={() => signOut()}
       renderLink={({ href, ...props }) => <Link to={href} {...props} />}
     >
-      <PageHeader title="Projecten" subtitle="Alle lopende projecten" />
       {children}
     </AppShell>
+  )
+}
+```
+
+Each page renders a `PageHeader` and its content in `PageContent`, which uses the header's padding so everything lines up with the title. AppShell already renders `<main>`, so pages never add one:
+
+```tsx
+import { PageContent, PageSection } from "@/components/ui/page-content"
+import { PageHeader } from "@/components/ui/page-header"
+
+export function ProjectsPage() {
+  return (
+    <>
+      <PageHeader title="Projecten" subtitle="Alle lopende projecten" />
+      <PageContent>
+        <PageSection>{/* table, cards or form */}</PageSection>
+      </PageContent>
+    </>
   )
 }
 ```

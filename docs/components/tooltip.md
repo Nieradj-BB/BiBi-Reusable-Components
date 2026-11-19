@@ -16,7 +16,7 @@ A short text label that appears next to an icon button on hover and on keyboard 
 ## Install
 
 ```bash
-npx shadcn@latest add Nieradj-BB/BiBi-Reusable-Components/tooltip#v0.2.0
+npx shadcn@latest add Nieradj-BB/BiBi-Reusable-Components/tooltip#v0.2.1
 ```
 
 ## Usage

@@ -16,7 +16,7 @@ The top block of every page: title, one-line subtitle and the short cyan accent 
 ## Install
 
 ```bash
-npx shadcn@latest add Nieradj-BB/BiBi-Reusable-Components/page-header#v0.2.0
+npx shadcn@latest add Nieradj-BB/BiBi-Reusable-Components/page-header#v0.2.1
 ```
 
 ## Usage
@@ -60,6 +60,33 @@ export function ProjectHeader() {
         </Button>
       }
     />
+  )
+}
+```
+
+The page's content goes in `PageContent` right under the header. It uses the same padding, so section titles line up with the page title:
+
+```tsx
+import {
+  PageContent,
+  PageSection,
+  PageSectionHeader,
+  PageSectionTitle,
+} from "@/components/ui/page-content"
+
+export function ProjectPage() {
+  return (
+    <>
+      <ProjectHeader />
+      <PageContent>
+        <PageSection>
+          <PageSectionHeader>
+            <PageSectionTitle>Taken</PageSectionTitle>
+          </PageSectionHeader>
+          {/* table or cards */}
+        </PageSection>
+      </PageContent>
+    </>
   )
 }
 ```

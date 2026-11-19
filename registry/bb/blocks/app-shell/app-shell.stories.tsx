@@ -24,6 +24,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog"
+import { PageContent } from "@/components/ui/page-content"
 import { PageHeader } from "@/components/ui/page-header"
 
 const navItems: AppShellNavItem[] = [
@@ -81,17 +82,19 @@ function DemoShell({
             )
           }
         />
-        <div
-          aria-hidden="true"
-          className="grid grid-cols-[repeat(auto-fill,minmax(10rem,1fr))] gap-4 p-6"
-        >
-          {Array.from({ length: 6 }, (_, index) => (
-            <div
-              key={index}
-              className="h-24 rounded-xl border border-border bg-card shadow-tile"
-            />
-          ))}
-        </div>
+        <PageContent>
+          <div
+            aria-hidden="true"
+            className="grid grid-cols-[repeat(auto-fill,minmax(10rem,1fr))] gap-4"
+          >
+            {Array.from({ length: 6 }, (_, index) => (
+              <div
+                key={index}
+                className="h-24 rounded-xl border border-border bg-card shadow-tile"
+              />
+            ))}
+          </div>
+        </PageContent>
       </AppShell>
       <Dialog open={helpOpen} onOpenChange={setHelpOpen}>
         <DialogContent size="md">

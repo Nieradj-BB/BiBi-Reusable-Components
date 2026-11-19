@@ -17,7 +17,7 @@ A month grid for picking one date or a date range, with today marked by a cyan r
 ## Install
 
 ```bash
-npx shadcn@latest add Nieradj-BB/BiBi-Reusable-Components/calendar#v0.2.0
+npx shadcn@latest add Nieradj-BB/BiBi-Reusable-Components/calendar#v0.2.1
 ```
 
 Also installs `react-day-picker` and the library's Button. Do not import `react-day-picker/style.css`: the component is styled with the theme tokens.

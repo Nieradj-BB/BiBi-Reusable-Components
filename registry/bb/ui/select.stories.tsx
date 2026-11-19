@@ -74,6 +74,10 @@ export const Closed: Story = {
     await waitFor(() => expect(body.queryByRole("listbox")).toBeNull())
     await expect(trigger).toHaveTextContent("Betaald")
     await expect(trigger).toHaveFocus()
+    // After a pointer pick the trigger shows no ring until a key is pressed.
+    await expect(getComputedStyle(trigger).outlineWidth).toBe("0px")
+    await userEvent.keyboard("{Shift}")
+    await expect(getComputedStyle(trigger).outlineWidth).toBe("2px")
 
     // Escape closes without a change and returns focus to the trigger.
     await userEvent.keyboard("{Enter}")
@@ -81,6 +85,7 @@ export const Closed: Story = {
     await userEvent.keyboard("{Escape}")
     await waitFor(() => expect(body.queryByRole("listbox")).toBeNull())
     await expect(trigger).toHaveFocus()
+    await expect(getComputedStyle(trigger).outlineWidth).toBe("2px")
     await expect(trigger).toHaveTextContent("Betaald")
 
     // Typing jumps to a matching option; Enter selects it.
@@ -126,6 +131,18 @@ export const Placeholder: Story = {
   },
 }
 
+async function expectRing(option: HTMLElement, visible: boolean) {
+  await waitFor(() => expect(option).toHaveFocus())
+  await expect(option).toHaveAttribute("data-highlighted")
+  const { outlineStyle, outlineWidth } = getComputedStyle(option)
+  if (visible) {
+    await expect(outlineStyle).toBe("solid")
+    await expect(outlineWidth).toBe("2px")
+  } else {
+    await expect(outlineWidth).toBe("0px")
+  }
+}
+
 export const Open: Story = {
   args: { defaultValue: "Verzonden" },
   render: (args) => (
@@ -149,21 +166,39 @@ export const Open: Story = {
   ),
   play: async ({ canvas }) => {
     const trigger = canvas.getByRole("combobox", { name: "Status" })
+    const body = within(document.body)
+    const option = (name: string) =>
+      within(body.getByRole("listbox")).getByRole("option", { name })
+
+    // Opened with the keyboard, the selected item shows the ring at once.
     trigger.focus()
     await userEvent.keyboard("{Enter}")
-    const body = within(document.body)
-    const listbox = await body.findByRole("listbox")
+    await body.findByRole("listbox")
     await expect(trigger).toHaveAttribute("aria-expanded", "true")
-    await waitFor(() =>
-      expect(
-        within(listbox).getByRole("option", { name: "Verzonden" })
-      ).toHaveFocus()
-    )
-
+    await expectRing(option("Verzonden"), true)
     await userEvent.keyboard("{ArrowDown}")
-    await expect(
-      within(listbox).getByRole("option", { name: "Betaald" })
-    ).toHaveAttribute("data-highlighted")
+    await expectRing(option("Betaald"), true)
+    await userEvent.keyboard("{Escape}")
+    await waitFor(() => expect(body.queryByRole("listbox")).toBeNull())
+    await expect(trigger).toHaveFocus()
+
+    // Opened with the mouse, items take focus without the ring; the keyboard
+    // brings the ring back and the next mouse move hides it again.
+    await userEvent.click(trigger)
+    await body.findByRole("listbox")
+    await expectRing(option("Verzonden"), false)
+    await userEvent.hover(option("Concept"))
+    await expectRing(option("Concept"), false)
+    await userEvent.keyboard("{ArrowDown}")
+    await expectRing(option("Verzonden"), true)
+    await userEvent.hover(option("Vervallen"))
+    await expectRing(option("Vervallen"), false)
+    await userEvent.keyboard("Verz")
+    await expectRing(option("Verzonden"), true)
+
+    // Left open on the hovered item, as in the visual spec.
+    await userEvent.hover(option("Betaald"))
+    await expectRing(option("Betaald"), false)
   },
 }
 

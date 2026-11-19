@@ -241,6 +241,9 @@ export const CheckboxItems: Story = {
     await userEvent.click(amount)
     await expect(amount).toHaveAttribute("aria-checked", "true")
     await expect(menu).toBeInTheDocument()
+    // The click's hover focused the item without the ring.
+    await expect(amount).toHaveFocus()
+    await expect(getComputedStyle(amount).outlineWidth).toBe("0px")
     await userEvent.click(amount)
     await expect(amount).toHaveAttribute("aria-checked", "false")
     await expect(trigger).toHaveAttribute("aria-expanded", "true")
@@ -297,10 +300,21 @@ export const RadioItems: Story = {
       within(group).getByRole("menuitemradio", { name: "Nieuwste eerst" })
     ).toHaveAttribute("aria-checked", "true")
 
-    await userEvent.click(
-      within(group).getByRole("menuitemradio", { name: "Oudste eerst" })
-    )
+    // Hover focuses an item without the ring.
+    const oldest = within(group).getByRole("menuitemradio", {
+      name: "Oudste eerst",
+    })
+    await userEvent.hover(oldest)
+    await waitFor(() => expect(oldest).toHaveFocus())
+    await expect(getComputedStyle(oldest).outlineWidth).toBe("0px")
+
+    await userEvent.click(oldest)
     await waitFor(() => expect(body.queryByRole("menu")).toBeNull())
+    // After a pointer pick the trigger shows no ring until a key is pressed.
+    await waitFor(() => expect(trigger).toHaveFocus())
+    await expect(getComputedStyle(trigger).outlineWidth).toBe("0px")
+    await userEvent.keyboard("{Shift}")
+    await expect(getComputedStyle(trigger).outlineWidth).toBe("2px")
 
     const reopened = await openMenu(trigger, "Sorteren")
     await expect(
@@ -429,7 +443,25 @@ export const Submenu: Story = {
     await expect(subTrigger).toHaveFocus()
 
     await userEvent.keyboard("{ArrowRight}")
-    await body.findByRole("menu", { name: "Verplaatsen naar" })
+    const reopened = await body.findByRole("menu", { name: "Verplaatsen naar" })
+
+    // Hover in the submenu and on its trigger moves focus without the ring;
+    // the keyboard brings it back.
+    const lindenpark = within(reopened).getByRole("menuitem", {
+      name: "Project Lindenpark",
+    })
+    await userEvent.hover(lindenpark)
+    await waitFor(() => expect(lindenpark).toHaveFocus())
+    await expect(getComputedStyle(lindenpark).outlineWidth).toBe("0px")
+    await userEvent.keyboard("{ArrowDown}")
+    const vijverhof = within(reopened).getByRole("menuitem", {
+      name: "Project Vijverhof",
+    })
+    await waitFor(() => expect(vijverhof).toHaveFocus())
+    await expect(getComputedStyle(vijverhof).outlineWidth).toBe("2px")
+    await userEvent.hover(subTrigger)
+    await waitFor(() => expect(subTrigger).toHaveFocus())
+    await expect(getComputedStyle(subTrigger).outlineWidth).toBe("0px")
   },
 }
 

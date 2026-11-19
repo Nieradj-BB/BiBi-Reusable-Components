@@ -15,7 +15,7 @@ Picks one value from a known list in a dropdown that opens below the field.
 ## Install
 
 ```bash
-npx shadcn@latest add Nieradj-BB/BiBi-Reusable-Components/select#v0.2.0
+npx shadcn@latest add Nieradj-BB/BiBi-Reusable-Components/select#v0.2.1
 ```
 
 ## Usage
@@ -80,20 +80,22 @@ The parts follow shadcn/ui and Radix Select: `Select`, `SelectTrigger`, `SelectV
 
 The trigger matches Input: 36px high, 12px padding, 14px text, 6px radius, a 1px input border, white fill and the tile shadow, with a muted 16px chevron on the right. The list is a white panel 6px below the trigger: 4px padding, a 1px border, 12px radius and the panel shadow. Items are 32px rows with a 6px radius, 32px left padding and 8px right padding.
 
-| State       | Look                                                                                                   |
-| ----------- | ------------------------------------------------------------------------------------------------------ |
-| Closed      | Value in dark text                                                                                     |
-| Placeholder | Placeholder in muted text                                                                              |
-| Hover       | Strong grey trigger border                                                                             |
-| Open        | Chevron turned 180°; selected item marked with a cyan check; highlighted item gets the grey hover fill |
-| Focus       | 2px cyan outline with a 2px offset on the trigger (and on items reached by keyboard)                   |
-| Invalid     | Red trigger border, error message under the field                                                      |
-| Disabled    | 50% opacity, not-allowed cursor                                                                        |
+| State       | Look                                                                                                                                                                       |
+| ----------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Closed      | Value in dark text                                                                                                                                                         |
+| Placeholder | Placeholder in muted text                                                                                                                                                  |
+| Hover       | Strong grey trigger border                                                                                                                                                 |
+| Open        | Chevron turned 180°; selected item marked with a cyan check; highlighted item gets the grey hover fill                                                                     |
+| Focus       | 2px cyan outline with a 2px offset on the trigger, and on the highlighted item while the keyboard is used; none on the trigger after a pointer pick until a key is pressed |
+| Item hover  | Grey hover fill on the item under the pointer, no outline (also when the list was opened by mouse)                                                                         |
+| Invalid     | Red trigger border, error message under the field                                                                                                                          |
+| Disabled    | 50% opacity, not-allowed cursor                                                                                                                                            |
 
 ## Accessibility
 
 - Built on Radix Select: the trigger is `role="combobox"` with `aria-expanded`; options are `role="option"` with `aria-selected`.
 - Arrow keys move the highlight, Enter or Space selects, Escape closes and returns focus to the trigger, typing jumps to a matching option.
+- The highlighted option holds DOM focus, also when the pointer moved it there. The list records whether the pointer or the keyboard was used last (`data-input` on `SelectContent`, set first by how the trigger opened the list): the focus outline shows only for the keyboard, so mouse users see the grey fill alone and keyboard users get the outline as soon as they press a key. When a pointer pick closes the list, focus returns to the trigger without the outline (`data-input="pointer"` on `SelectTrigger`); the first key press brings it back, and focus that reaches the trigger with Tab always shows it.
 - The selected option shows a check icon, not colour alone.
 - Invalid: `aria-invalid="true"` on the trigger and the error linked with `aria-describedby`.
 - Label the trigger with `<Label htmlFor>` pointing at the `SelectTrigger` id.

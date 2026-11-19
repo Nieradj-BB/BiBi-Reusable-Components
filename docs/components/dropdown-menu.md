@@ -17,7 +17,7 @@ A menu of actions or view options that opens from a button, in the same white pa
 ## Install
 
 ```bash
-npx shadcn@latest add Nieradj-BB/BiBi-Reusable-Components/dropdown-menu#v0.2.0
+npx shadcn@latest add Nieradj-BB/BiBi-Reusable-Components/dropdown-menu#v0.2.1
 ```
 
 ## Usage
@@ -111,19 +111,21 @@ The parts follow shadcn/ui and Radix DropdownMenu: `DropdownMenu`, `DropdownMenu
 
 The panel is white with a 1px border, 12px radius, 4px padding, the panel shadow and a minimum width of 192px (176px for a submenu). Items are at least 32px high with 8px by 6px padding, a 6px radius and 14px text; 16px icons in muted grey come first and shortcuts sit right-aligned in 12px muted text with wide tracking. Labels are 12px muted text; separators run edge to edge. Checkbox and radio items have a 32px inset with a cyan check or a cyan dot.
 
-| State               | Look                                                                                     |
-| ------------------- | ---------------------------------------------------------------------------------------- |
-| Hover / highlighted | Grey accent fill; a shortcut turns dark (muted text on the accent fill fails contrast)   |
-| Keyboard focus      | Accent fill plus a 2px cyan outline with a 2px offset (not on pointer hover)             |
-| Disabled            | 50% opacity, not-allowed cursor                                                          |
-| Destructive hover   | Red fill with white text, icon and shortcut                                              |
-| Sub-trigger open    | Keeps the accent fill while its submenu is open                                          |
-| Trigger open        | Outline and ghost Button triggers keep the accent fill; `DropdownMenuChevron` turns 180° |
+| State               | Look                                                                                       |
+| ------------------- | ------------------------------------------------------------------------------------------ |
+| Hover / highlighted | Grey accent fill; a shortcut turns dark (muted text on the accent fill fails contrast)     |
+| Keyboard focus      | Accent fill plus a 2px cyan outline with a 2px offset (not on pointer hover)               |
+| Disabled            | 50% opacity, not-allowed cursor                                                            |
+| Destructive hover   | Red fill with white text, icon and shortcut                                                |
+| Sub-trigger open    | Keeps the accent fill while its submenu is open                                            |
+| Trigger open        | Outline and ghost Button triggers keep the accent fill; `DropdownMenuChevron` turns 180°   |
+| Trigger focus       | The 2px cyan outline; none when focus returns after a pointer pick, until a key is pressed |
 
 ## Accessibility
 
 - The trigger is a real button with `aria-haspopup="menu"` and `aria-expanded`; name an icon-only trigger after its object ("Acties voor factuur 2026-014").
 - Arrow keys move between items, Enter or Space activates, typing a letter jumps to an item, Escape closes and returns focus to the trigger; ArrowRight opens a submenu, ArrowLeft closes it.
+- Items show the focus outline only while the keyboard is used (`data-input` on the content). When a pointer pick closes the menu, focus returns to the trigger without the outline (`data-input="pointer"` on `DropdownMenuTrigger`); the first key press brings it back, and focus that reaches the trigger with Tab always shows it.
 - Items use `menuitem`, `menuitemcheckbox` (`aria-checked`) or `menuitemradio`. Label a group by giving the `DropdownMenuLabel` an `id` and the `DropdownMenuGroup` or `DropdownMenuRadioGroup` `aria-labelledby`.
 - Checked state is shown by a check or dot, never by colour alone. Icons are decorative: give them `aria-hidden`.
 - While a modal menu is open the rest of the page is hidden from assistive technology; the trigger then leaves the tab order (`tabIndex={-1}`) and gets focus back when the menu closes.

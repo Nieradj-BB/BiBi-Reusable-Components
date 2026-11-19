@@ -45,7 +45,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import { Skeleton } from "@/components/ui/skeleton"
+import { Skeleton, skeletonVariants } from "@/components/ui/skeleton"
 import { cn } from "@/lib/utils"
 import {
   Table,
@@ -434,6 +434,13 @@ function DataTable<TData extends RowData>({
   // In server mode the counts come from the server, not from the loaded page.
   const serverCount = isServerPaged ? rowCount : undefined
   const hasServerCount = serverCount !== undefined
+  // Server mode before the server has sent a total (a 0 while loading is a
+  // placeholder too): no count is shown or announced and no page is usable.
+  const totalUnknown =
+    isServerPaged && (rowCount === undefined || (loading && rowCount === 0))
+  // A skeleton only while a total can still come: a page is loading, or the
+  // rows came first. Loading that ends without rows or total leaves it empty.
+  const countPending = totalUnknown && (loading || loadedCount > 0)
   const totalCount =
     serverCount === undefined
       ? loadedCount
@@ -718,9 +725,18 @@ function DataTable<TData extends RowData>({
         <p
           data-slot="data-table-count"
           role="status"
-          className="text-sm text-muted-foreground tabular-nums"
+          className="min-h-5 text-sm text-muted-foreground tabular-nums"
         >
-          {resultCountLabel(loading ? 0 : shownCount, totalCount)}
+          {countPending ? (
+            <span
+              data-slot="data-table-count-skeleton"
+              aria-hidden="true"
+              className={cn(skeletonVariants(), "my-0.5 w-24")}
+            />
+          ) : (
+            !totalUnknown &&
+            resultCountLabel(loading ? 0 : shownCount, totalCount)
+          )}
         </p>
       )}
       {showSelectionBar && (
@@ -767,7 +783,7 @@ function DataTable<TData extends RowData>({
           data-slot="data-table-pagination"
           page={paginationState.pageIndex + 1}
           pageSize={paginationState.pageSize}
-          totalCount={pagedRowCount}
+          totalCount={totalUnknown ? undefined : pagedRowCount}
           pageSizeOptions={pageSizeOptions}
           label={paginationLabel}
           pageSizeLabel={pageSizeLabel}

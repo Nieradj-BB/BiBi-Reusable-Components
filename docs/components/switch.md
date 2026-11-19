@@ -15,7 +15,7 @@ Turns a single setting on or off, read as a live on/off state.
 ## Install
 
 ```bash
-npx shadcn@latest add Nieradj-BB/BiBi-Reusable-Components/switch#v0.2.0
+npx shadcn@latest add Nieradj-BB/BiBi-Reusable-Components/switch#v0.2.1
 ```
 
 ## Usage

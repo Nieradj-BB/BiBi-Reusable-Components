@@ -4,6 +4,25 @@ All notable changes to this library are documented here. The format follows [Kee
 
 ## [Unreleased]
 
+## [0.2.1] - 2026-11-19
+
+### Added
+
+- `page-content`: PageContent, the content area under the PageHeader inside AppShell's `<main>`, with the header's page padding (24px, 32px left and right from 1024px) so content lines up with the page title, and 32px between sections. `width="readable"` keeps the column at most 768px wide and left-aligned, for forms and text pages. Parts: `PageSection` (16px from header to content), `PageSectionHeader`, `PageSectionTitle` (20px `h2`, `asChild` for an `h3` in a nested section), `PageSectionDescription` (4px under the title) and `PageSectionAction` (top right, or under the title block when the header is narrower than 448px).
+
+### Fixed
+
+- `select`: hovering an item, or opening the list with the mouse, no longer shows the keyboard focus ring; the ring shows as soon as the keyboard opens the list or moves the highlight (the same approach as DropdownMenu, with `data-input` on `SelectContent`). After a pointer pick, focus returns to the trigger without the ring (`data-input="pointer"` on `SelectTrigger`) until a key is pressed; Tab focus always shows it. The page-size select in PaginationBar and DataTable and the DataTable filter selects get the fix through Select. A sweep of the other components found no other item where hover moves focus without this fix.
+- `dropdown-menu`: after a pointer pick, focus returns to the trigger without the ring (`data-input="pointer"` on `DropdownMenuTrigger`) until a key is pressed, as in Select.
+- `data-table`: in server mode the table no longer shows "0–0 van 0" or "0 van 0" before the server has sent a total. While `rowCount` is unknown (`undefined`, or 0 while `loading`) the range text and the result count are skeleton lines that announce nothing, and the page buttons are disabled; when loading ends without rows or a total (a failed request) the count line is empty, without a skeleton. Later loads with a known total and a real total of 0 behave as before.
+- `pagination`: `PaginationBar` accepts `totalCount={undefined}` for a total that is not known yet: a skeleton line in place of the range text (the status region stays empty), and only previous, the requested page and next, all `aria-disabled` and focusable. The page-size select stays usable. The bar's rows now follow its own width instead of the number of page buttons (one row from 640px while it fits, the range text on its own row below 640px, and range, page size and pages on three rows below 512px), so it keeps its height when the total arrives.
+
+### Changed
+
+- Docs: the AppShell and PageHeader pages show a page with PageContent under the header; the consumer CLAUDE.md block lists `page-content`; every install command uses `#v0.2.1`.
+- Storybook: the AppShell story renders its page content in PageContent (its hand-written padding was 8px off the page title from 1024px).
+- Registry: every own registry address is pinned to `#v0.2.1`.
+
 ## [0.2.0] - 2026-11-09
 
 ### Added

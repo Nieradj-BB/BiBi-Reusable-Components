@@ -284,8 +284,12 @@ type PaginationBarProps = Omit<React.ComponentProps<"div">, "children"> & {
   /** Current page, starting at 1. */
   page: number
   pageSize: number
-  /** Total number of rows or items, for the range text and the page count. */
-  totalCount: number
+  /**
+   * Total number of rows or items, for the range text and the page count.
+   * `undefined` while it is not known yet (the first server page is loading):
+   * the range shows a placeholder and the page buttons are disabled.
+   */
+  totalCount: number | undefined
   onPageChange: (page: number) => void
   /** Shows the page-size select when set. */
   onPageSizeChange?: (pageSize: number) => void
@@ -321,16 +325,28 @@ function PaginationBar({
   ...props
 }: PaginationBarProps) {
   const sizeId = React.useId()
-  const pageCount = Math.max(1, Math.ceil(totalCount / pageSize))
-  const current = Math.min(Math.max(1, page), pageCount)
-  const from = totalCount === 0 ? 0 : (current - 1) * pageSize + 1
-  const to = Math.min(current * pageSize, totalCount)
+  // Without a total there is no page count: only the requested page shows.
+  const unknown = totalCount === undefined
+  const total = totalCount ?? 0
+  const pageCount = Math.max(1, Math.ceil(total / pageSize))
+  const current = unknown
+    ? Math.max(1, page)
+    : Math.min(Math.max(1, page), pageCount)
+  const from = total === 0 ? 0 : (current - 1) * pageSize + 1
+  const to = Math.min(current * pageSize, total)
+  const pages: PaginationRangeItem[] = unknown
+    ? [current]
+    : getPaginationRange({ page: current, pageCount, siblingCount })
 
+  // The rows follow the bar's width, not the number of page buttons, so the
+  // bar keeps its height when the page list changes (a total arrives): below
+  // 512px range, page size and pages each get a row; below 640px the range
+  // gets its own row; wider, everything shares one row while it fits.
   return (
     <div
       data-slot="pagination-bar"
       className={cn(
-        "flex w-full flex-wrap items-center justify-between gap-x-6 gap-y-3",
+        "@container/pagination-bar flex w-full flex-wrap items-center justify-between gap-x-6 gap-y-3",
         className
       )}
       {...props}
@@ -338,11 +354,20 @@ function PaginationBar({
       <p
         data-slot="pagination-range"
         role="status"
-        className="text-sm whitespace-nowrap text-muted-foreground tabular-nums"
+        className="basis-full text-sm whitespace-nowrap text-muted-foreground tabular-nums @min-[40rem]/pagination-bar:basis-auto"
       >
-        {rangeLabel(from, to, totalCount)}
+        {totalCount === undefined ? (
+          // The Skeleton look at the text's line height; nothing to announce.
+          <span
+            data-slot="pagination-range-skeleton"
+            aria-hidden="true"
+            className="my-0.5 block h-4 w-24 rounded-md bg-muted motion-safe:animate-pulse"
+          />
+        ) : (
+          rangeLabel(from, to, totalCount)
+        )}
       </p>
-      <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
+      <div className="flex flex-col flex-wrap items-start gap-x-6 gap-y-3 @lg/pagination-bar:flex-row @lg/pagination-bar:items-center">
         {onPageSizeChange && (
           <div
             data-slot="pagination-page-size"
@@ -380,35 +405,34 @@ function PaginationBar({
               <PaginationButton
                 shape="icon"
                 aria-label={previousLabel}
-                disabled={current <= 1}
+                disabled={unknown || current <= 1}
                 onClick={() => onPageChange(current - 1)}
               >
                 <ChevronLeftIcon aria-hidden="true" />
               </PaginationButton>
             </PaginationItem>
-            {getPaginationRange({ page: current, pageCount, siblingCount }).map(
-              (item) => (
-                <PaginationItem key={item}>
-                  {typeof item === "number" ? (
-                    <PaginationButton
-                      isActive={item === current}
-                      onClick={() => {
-                        if (item !== current) onPageChange(item)
-                      }}
-                    >
-                      {numberFormat.format(item)}
-                    </PaginationButton>
-                  ) : (
-                    <PaginationEllipsis />
-                  )}
-                </PaginationItem>
-              )
-            )}
+            {pages.map((item) => (
+              <PaginationItem key={item}>
+                {typeof item === "number" ? (
+                  <PaginationButton
+                    isActive={item === current}
+                    disabled={unknown}
+                    onClick={() => {
+                      if (item !== current) onPageChange(item)
+                    }}
+                  >
+                    {numberFormat.format(item)}
+                  </PaginationButton>
+                ) : (
+                  <PaginationEllipsis />
+                )}
+              </PaginationItem>
+            ))}
             <PaginationItem>
               <PaginationButton
                 shape="icon"
                 aria-label={nextLabel}
-                disabled={current >= pageCount}
+                disabled={unknown || current >= pageCount}
                 onClick={() => onPageChange(current + 1)}
               >
                 <ChevronRightIcon aria-hidden="true" />

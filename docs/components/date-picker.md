@@ -17,7 +17,7 @@ A field-like button that opens a Calendar in a panel, for choosing one date or a
 ## Install
 
 ```bash
-npx shadcn@latest add Nieradj-BB/BiBi-Reusable-Components/date-picker#v0.2.0
+npx shadcn@latest add Nieradj-BB/BiBi-Reusable-Components/date-picker#v0.2.1
 ```
 
 Also installs the library's Calendar and Popover, and `react-day-picker`.

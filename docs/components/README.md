@@ -2,7 +2,7 @@
 
 One page per registry item: purpose, when to use it, install command, usage, props, variants and states, and accessibility notes. Live examples are in Storybook. Install every item at the tag the app is on (see [Use it in an app](../../README.md#use-it-in-an-app)).
 
-All items are in v0.2.0. Items new in v0.2.0 are marked _(0.2.0)_; the rest came with v0.1.0.
+All items are in v0.2.1. Items new in v0.2.0 are marked _(0.2.0)_ and the item new in v0.2.1 _(0.2.1)_; the rest came with v0.1.0.
 
 ## Actions
 
@@ -60,11 +60,12 @@ All items are in v0.2.0. Items new in v0.2.0 are marked _(0.2.0)_; the rest came
 
 ## Navigation and layout
 
-| Item                            | Component            | Also installs              |
-| ------------------------------- | -------------------- | -------------------------- |
-| [`tabs`](tabs.md)               | Tabs                 |                            |
-| [`pagination`](pagination.md)   | Pagination _(0.2.0)_ | `select`                   |
-| [`page-header`](page-header.md) | PageHeader           |                            |
-| [`app-shell`](app-shell.md)     | AppShell             | `badge`, `button`, `sheet` |
+| Item                              | Component             | Also installs              |
+| --------------------------------- | --------------------- | -------------------------- |
+| [`tabs`](tabs.md)                 | Tabs                  |                            |
+| [`pagination`](pagination.md)     | Pagination _(0.2.0)_  | `select`                   |
+| [`page-header`](page-header.md)   | PageHeader            |                            |
+| [`page-content`](page-content.md) | PageContent _(0.2.1)_ |                            |
+| [`app-shell`](app-shell.md)       | AppShell              | `badge`, `button`, `sheet` |
 
 Every component also installs `theme` and `utils`, and the items those items need (DatePicker also brings Button through Calendar). The npm packages each item needs (for example `react-day-picker` for Calendar and DatePicker) are listed per item in [`registry.json`](../../registry.json).

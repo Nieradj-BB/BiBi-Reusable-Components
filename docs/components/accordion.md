@@ -16,7 +16,7 @@ Collapsible sections with a title and a chevron that hide secondary content; one
 ## Install
 
 ```bash
-npx shadcn@latest add Nieradj-BB/BiBi-Reusable-Components/accordion#v0.2.0
+npx shadcn@latest add Nieradj-BB/BiBi-Reusable-Components/accordion#v0.2.1
 ```
 
 ## Usage

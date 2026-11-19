@@ -16,15 +16,52 @@ const itemClassName = cn(
 const panelClassName =
   "z-50 flex flex-col overflow-x-hidden overflow-y-auto rounded-xl border border-border bg-card p-1 text-foreground shadow-panel focus:outline-none"
 
+type DropdownMenuInput = "pointer" | "keyboard"
+
 // Records whether the pointer or the keyboard moved the highlight last.
 function trackInput<E extends HTMLElement>(
+  lastInput: React.RefObject<DropdownMenuInput | undefined> | undefined,
   onPointerMove: React.PointerEventHandler<E> | undefined,
   onKeyDown: React.KeyboardEventHandler<E> | undefined
 ) {
   return {
     onPointerMove: (event: React.PointerEvent<E>) => {
       event.currentTarget.dataset.input = "pointer"
+      if (lastInput) lastInput.current = "pointer"
       onPointerMove?.(event)
+    },
+    onKeyDown: (event: React.KeyboardEvent<E>) => {
+      event.currentTarget.dataset.input = "keyboard"
+      if (lastInput) lastInput.current = "keyboard"
+      onKeyDown?.(event)
+    },
+  }
+}
+
+// After a pointer pick the trigger gets focus back without the ring; a key
+// press brings the ring back, and leaving the trigger resets it.
+function trackTriggerInput<E extends HTMLElement>(
+  lastInput: React.RefObject<DropdownMenuInput | undefined> | undefined,
+  {
+    onFocus,
+    onBlur,
+    onKeyDown,
+  }: {
+    onFocus?: React.FocusEventHandler<E>
+    onBlur?: React.FocusEventHandler<E>
+    onKeyDown?: React.KeyboardEventHandler<E>
+  }
+) {
+  return {
+    onFocus: (event: React.FocusEvent<E>) => {
+      if (lastInput?.current === "pointer") {
+        event.currentTarget.dataset.input = "pointer"
+      }
+      onFocus?.(event)
+    },
+    onBlur: (event: React.FocusEvent<E>) => {
+      delete event.currentTarget.dataset.input
+      onBlur?.(event)
     },
     onKeyDown: (event: React.KeyboardEvent<E>) => {
       event.currentTarget.dataset.input = "keyboard"
@@ -33,9 +70,24 @@ function trackInput<E extends HTMLElement>(
   }
 }
 
+// Only the focus that returns to the trigger as the menu closes takes over
+// its last input.
+function forgetInput(
+  lastInput: React.RefObject<DropdownMenuInput | undefined> | undefined
+) {
+  queueMicrotask(() => {
+    if (lastInput) lastInput.current = undefined
+  })
+}
+
 // While a modal menu is open the rest of the page is aria-hidden; the trigger
 // leaves the tab order then so it is not a focusable element inside it.
-const DropdownMenuOpenContext = React.createContext(false)
+// `lastInput` is the input last used in the open menu; the trigger takes it
+// over as focus returns to it on close.
+const DropdownMenuContext = React.createContext<{
+  open: boolean
+  lastInput?: React.RefObject<DropdownMenuInput | undefined>
+}>({ open: false })
 
 function DropdownMenu({
   open: openProp,
@@ -45,10 +97,15 @@ function DropdownMenu({
   ...props
 }: React.ComponentProps<typeof DropdownMenuPrimitive.Root>) {
   const [uncontrolledOpen, setUncontrolledOpen] = React.useState(defaultOpen)
+  const lastInput = React.useRef<DropdownMenuInput>(undefined)
   const open = openProp ?? uncontrolledOpen
+  const context = React.useMemo(
+    () => ({ open: modal && open, lastInput }),
+    [modal, open]
+  )
 
   return (
-    <DropdownMenuOpenContext value={modal && open}>
+    <DropdownMenuContext value={context}>
       <DropdownMenuPrimitive.Root
         data-slot="dropdown-menu"
         open={open}
@@ -59,7 +116,7 @@ function DropdownMenu({
         }}
         {...props}
       />
-    </DropdownMenuOpenContext>
+    </DropdownMenuContext>
   )
 }
 
@@ -74,9 +131,12 @@ function DropdownMenuPortal({
 function DropdownMenuTrigger({
   className,
   tabIndex,
+  onFocus,
+  onBlur,
+  onKeyDown,
   ...props
 }: React.ComponentProps<typeof DropdownMenuPrimitive.Trigger>) {
-  const open = React.use(DropdownMenuOpenContext)
+  const { open, lastInput } = React.use(DropdownMenuContext)
 
   return (
     <DropdownMenuPrimitive.Trigger
@@ -84,9 +144,10 @@ function DropdownMenuTrigger({
       tabIndex={open ? -1 : tabIndex}
       // Outline and ghost Buttons keep their hover fill while the menu is open.
       className={cn(
-        "group/dropdown-menu-trigger focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring data-[state=open]:data-[variant=ghost]:bg-accent data-[state=open]:data-[variant=outline]:bg-accent",
+        "group/dropdown-menu-trigger focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring data-[input=pointer]:focus-visible:outline-0 data-[state=open]:data-[variant=ghost]:bg-accent data-[state=open]:data-[variant=outline]:bg-accent",
         className
       )}
+      {...trackTriggerInput(lastInput, { onFocus, onBlur, onKeyDown })}
       {...props}
     />
   )
@@ -116,8 +177,11 @@ function DropdownMenuContent({
   sideOffset = 4,
   onPointerMove,
   onKeyDown,
+  onCloseAutoFocus,
   ...props
 }: React.ComponentProps<typeof DropdownMenuPrimitive.Content>) {
+  const { lastInput } = React.use(DropdownMenuContext)
+
   return (
     <DropdownMenuPrimitive.Portal>
       <DropdownMenuPrimitive.Content
@@ -129,7 +193,11 @@ function DropdownMenuContent({
           "max-h-(--radix-dropdown-menu-content-available-height) min-w-48 origin-(--radix-dropdown-menu-content-transform-origin)",
           className
         )}
-        {...trackInput(onPointerMove, onKeyDown)}
+        {...trackInput(lastInput, onPointerMove, onKeyDown)}
+        onCloseAutoFocus={(event) => {
+          onCloseAutoFocus?.(event)
+          forgetInput(lastInput)
+        }}
         {...props}
       />
     </DropdownMenuPrimitive.Portal>
@@ -337,6 +405,8 @@ function DropdownMenuSubContent({
   onKeyDown,
   ...props
 }: React.ComponentProps<typeof DropdownMenuPrimitive.SubContent>) {
+  const { lastInput } = React.use(DropdownMenuContext)
+
   return (
     <DropdownMenuPrimitive.Portal>
       <DropdownMenuPrimitive.SubContent
@@ -348,7 +418,7 @@ function DropdownMenuSubContent({
           "max-h-(--radix-dropdown-menu-content-available-height) min-w-44 origin-(--radix-dropdown-menu-content-transform-origin)",
           className
         )}
-        {...trackInput(onPointerMove, onKeyDown)}
+        {...trackInput(lastInput, onPointerMove, onKeyDown)}
         {...props}
       />
     </DropdownMenuPrimitive.Portal>

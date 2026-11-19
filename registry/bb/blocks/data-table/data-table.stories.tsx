@@ -1054,6 +1054,221 @@ export const ServerSearch: Story = {
   },
 }
 
+/**
+ * Server search and pagination where the total only comes with the first
+ * response. `placeholderTotal` is what the app passes before that.
+ */
+function FirstLoadTable({ placeholderTotal }: { placeholderTotal?: 0 }) {
+  const [pagination, setPagination] = React.useState({
+    pageIndex: 0,
+    pageSize: 10,
+  })
+  const [search, setSearch] = React.useState("")
+  const { pageIndex, pageSize } = pagination
+  const key = `${pageIndex}:${pageSize}:${search}`
+  // Later loads keep the last total until the new one arrives.
+  const [loaded, setLoaded] = React.useState<{
+    key: string
+    rows: Invoice[]
+    total?: number
+  }>({ key: "", rows: [] })
+
+  React.useEffect(() => {
+    const timer = setTimeout(() => {
+      const matches = fetchInvoicePage(0, serverTotal).filter((invoice) =>
+        invoice.number.includes(search)
+      )
+      const first = pageIndex * pageSize
+      setLoaded({
+        key,
+        rows: matches.slice(first, first + pageSize),
+        total: matches.length,
+      })
+    }, serverDelay)
+    return () => clearTimeout(timer)
+  }, [key, pageIndex, pageSize, search])
+
+  return (
+    <DataTable
+      caption="Facturen"
+      columns={listColumns}
+      data={loaded.rows}
+      getRowId={getInvoiceId}
+      search={{ label: "Zoeken in facturen" }}
+      globalFilter={search}
+      onGlobalFilterChange={setSearch}
+      resultCountLabel={(shown, total) => `${shown} van ${total} facturen`}
+      paginated
+      manualPagination
+      manualFiltering
+      rowCount={loaded.total ?? placeholderTotal}
+      totalRowCount={
+        loaded.total === undefined ? placeholderTotal : serverTotal
+      }
+      pagination={pagination}
+      onPaginationChange={setPagination}
+      paginationLabel="Paginering facturen"
+      loading={loaded.key !== key}
+      loadingLabel="Facturen laden…"
+    />
+  )
+}
+
+// Test only (hidden from the sidebar): until the server has sent a total,
+// the table shows and announces no count and the pages cannot be used.
+export const ServerFirstLoad: Story = {
+  name: "Server first load",
+  tags: ["!dev", "!autodocs"],
+  render: () => <FirstLoadTable />,
+  play: async ({ canvas, canvasElement, userEvent }) => {
+    const slot = (name: string) =>
+      canvasElement.querySelector<HTMLElement>(`[data-slot="${name}"]`)
+    const bar = slot("data-table-pagination")
+    const range = slot("pagination-range")
+    const count = slot("data-table-count")
+    await expect(slot("data-table-loading")).toHaveTextContent(
+      "Facturen laden…"
+    )
+
+    // No made-up count: the range and the result count are empty, and no
+    // status region announces a number.
+    await expect(canvas.queryByText(/0–0 van 0/)).toBeNull()
+    await expect(range).toHaveTextContent("")
+    await expect(count).toHaveTextContent("")
+    for (const status of canvas.getAllByRole("status")) {
+      await expect(status.textContent).not.toMatch(/\d/)
+    }
+
+    // The pages cannot be used yet.
+    await expect(pageButtons(canvas)).toEqual([
+      "Vorige pagina",
+      "1",
+      "Volgende pagina",
+    ])
+    for (const name of ["Vorige pagina", "1", "Volgende pagina"]) {
+      await expect(canvas.getByRole("button", { name })).toHaveAttribute(
+        "aria-disabled",
+        "true"
+      )
+    }
+    await userEvent.click(
+      canvas.getByRole("button", { name: "Volgende pagina" })
+    )
+    const barHeight = bar?.getBoundingClientRect().height
+    const countHeight = count?.getBoundingClientRect().height
+
+    // The first page arrives: the real counts, without a layout jump.
+    await expect(
+      await canvas.findByRole(
+        "rowheader",
+        { name: "2026-1284" },
+        { timeout: 3000 }
+      )
+    ).toBeVisible()
+    await expect(range).toHaveTextContent("1–10 van 1.284")
+    await expect(count).toHaveTextContent("1284 van 1284 facturen")
+    await expect(bar?.getBoundingClientRect().height).toBe(barHeight)
+    await expect(count?.getBoundingClientRect().height).toBe(countHeight)
+    await expect(pageButtons(canvas)).toEqual([
+      "Vorige pagina",
+      "1",
+      "2",
+      "3",
+      "129",
+      "Volgende pagina",
+    ])
+
+    // Later pages: the total is known, so the pager moves at once.
+    const two = canvas.getByRole("button", { name: "2" })
+    await userEvent.click(two)
+    await expect(range).toHaveTextContent("11–20 van 1.284")
+    await expect(two).toHaveFocus()
+    await canvas.findByRole(
+      "rowheader",
+      { name: "2026-1274" },
+      { timeout: 3000 }
+    )
+
+    // A real total of 0 after loading: no pager, the count says 0.
+    const searchbox = canvas.getByRole("searchbox", {
+      name: "Zoeken in facturen",
+    })
+    await userEvent.type(searchbox, "2025")
+    await waitFor(
+      () =>
+        expect(
+          canvas.queryByRole("navigation", { name: "Paginering facturen" })
+        ).toBeNull(),
+      { timeout: 3000 }
+    )
+    await expect(count).toHaveTextContent("0 van 1284 facturen")
+    searchbox.blur()
+  },
+}
+
+// Test only (hidden from the sidebar): the same with `rowCount={total ?? 0}`;
+// a 0 while loading is no total either.
+export const ServerFirstLoadZeroPlaceholder: Story = {
+  ...ServerFirstLoad,
+  name: "Server first load zero placeholder",
+  render: () => <FirstLoadTable placeholderTotal={0} />,
+}
+
+// Test only (hidden from the sidebar): the first request fails, so loading
+// ends without rows or a total. Nothing pulses any more and no count shows.
+export const ServerFirstLoadFailed: Story = {
+  name: "Server first load failed",
+  tags: ["!dev", "!autodocs"],
+  render: function Render() {
+    const [loading, setLoading] = React.useState(true)
+    React.useEffect(() => {
+      const timer = setTimeout(() => setLoading(false), serverDelay)
+      return () => clearTimeout(timer)
+    }, [])
+    return (
+      <DataTable
+        caption="Facturen"
+        columns={listColumns}
+        data={[]}
+        getRowId={getInvoiceId}
+        search={{ label: "Zoeken in facturen" }}
+        paginated
+        manualPagination
+        loading={loading}
+        loadingLabel="Facturen laden…"
+        empty={{
+          icon: FileTextIcon,
+          title: "Facturen niet geladen",
+          description: "Probeer het later opnieuw.",
+        }}
+      />
+    )
+  },
+  play: async ({ canvas, canvasElement }) => {
+    const count = canvasElement.querySelector<HTMLElement>(
+      '[data-slot="data-table-count"]'
+    )
+    const skeleton = '[data-slot="data-table-count-skeleton"]'
+    await expect(count?.querySelector(skeleton)).not.toBeNull()
+    const height = count?.getBoundingClientRect().height
+
+    await waitFor(
+      () =>
+        expect(canvasElement.querySelector("table")).not.toHaveAttribute(
+          "aria-busy"
+        ),
+      { timeout: 3000 }
+    )
+    await expect(count?.querySelector(skeleton)).toBeNull()
+    await expect(count).toHaveTextContent("")
+    await expect(count?.getBoundingClientRect().height).toBe(height)
+    await expect(canvas.getByText("Facturen niet geladen")).toBeVisible()
+    await expect(
+      canvas.queryByRole("navigation", { name: "Paginering" })
+    ).toBeNull()
+  },
+}
+
 export const ToolbarFilters: Story = {
   name: "Toolbar filters",
   render: function Render() {

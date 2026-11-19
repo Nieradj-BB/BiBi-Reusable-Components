@@ -17,7 +17,7 @@ A single-line text field for values people type, such as names, amounts and e-ma
 ## Install
 
 ```bash
-npx shadcn@latest add Nieradj-BB/BiBi-Reusable-Components/input#v0.2.0
+npx shadcn@latest add Nieradj-BB/BiBi-Reusable-Components/input#v0.2.1
 ```
 
 ## Usage

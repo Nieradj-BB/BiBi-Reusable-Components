@@ -16,7 +16,7 @@ A bordered table for records, with sortable headers, row selection, row actions,
 ## Install
 
 ```bash
-npx shadcn@latest add Nieradj-BB/BiBi-Reusable-Components/data-table#v0.2.0
+npx shadcn@latest add Nieradj-BB/BiBi-Reusable-Components/data-table#v0.2.1
 ```
 
 This adds `components/data-table/data-table.tsx` (the `DataTable` component) and `components/data-table/table.tsx` (the table primitives), plus Button, Checkbox, Input, Label, Pagination, Select, Skeleton and EmptyState. Add Badge yourself for status cells, DropdownMenu for a row actions menu and Sheet for a detail panel.
@@ -147,13 +147,15 @@ const { data, isLoading } = useInvoicePage(pagination) // your data hook
   data={data?.rows ?? []}
   paginated
   manualPagination
-  rowCount={data?.total ?? 0}
+  rowCount={data?.total}
   pagination={pagination}
   onPaginationChange={setPagination}
   loading={isLoading}
   loadingLabel={`Pagina ${pagination.pageIndex + 1} laden…`}
 />
 ```
+
+Leave `rowCount` `undefined` until the server has sent the total. Until then (the first page is loading, or the count comes later than the rows) the table shows no made-up count: the range text and the result count are skeleton lines of the same height, and the page buttons are disabled. If loading ends with no rows and still no total (a failed request), the result count stays empty and nothing pulses; the table shows its `empty` state, so say what went wrong there or in an Alert above the table. A `rowCount` of 0 while `loading` counts as no total either, so `data?.total ?? 0` works too. To keep the pager usable while later pages load, keep passing the last total (with TanStack Query, `placeholderData: keepPreviousData`).
 
 Set `manualSorting` and `manualFiltering` too when the server also sorts and searches. With `manualFiltering`, pass the filtered total as `rowCount` and the unfiltered total as `totalRowCount`: the result count reads `3 van 1284`. A new search or filter goes back to the first page (TanStack only does that itself in client mode), so `onPaginationChange` is called with `pageIndex` 0. Selection covers the loaded rows only: in server mode, select-all and the selection count apply to the current page.
 
@@ -323,7 +325,7 @@ For a table without TanStack (a static summary, a hand-built layout), use the pr
 | `onPaginationChange`   | `OnChangeFn<PaginationState>`                             |                        | Called with the TanStack updater. In server mode, load the page here.                                                                             |
 | `pageSizeOptions`      | `number[]`                                                | `[10, 25, 50]`         | Options of the page-size select. Changing the size keeps the first visible row on screen.                                                         |
 | `manualPagination`     | `boolean`                                                 | `false`                | Server mode: `data` is the current page.                                                                                                          |
-| `rowCount`             | `number`                                                  |                        | Total rows on the server after search and filters, in server mode. Drives the pager and the result count.                                         |
+| `rowCount`             | `number`                                                  |                        | Total rows on the server after search and filters, in server mode. Drives the pager and the result count. `undefined` until the server sends it.  |
 | `totalRowCount`        | `number`                                                  | `rowCount`             | Server mode with `manualFiltering`: the total without search and filters, for the result count (`3 van 1284`).                                    |
 | `manualSorting`        | `boolean`                                                 | `false`                | The server sorts; sorting only updates the state.                                                                                                 |
 | `manualFiltering`      | `boolean`                                                 | `false`                | The server filters; search and filters only update the state. In server mode they also go back to the first page.                                 |
@@ -390,6 +392,7 @@ The block also exports `dataTableFeatures` (the registered TanStack features), `
 - **Empty:** EmptyState without its dashed border, spanning all columns; sort buttons are hidden.
 - **Pagination:** the Pagination bar under the table, 16px below it: range text left; page size (32px select) and size `sm` page buttons right. Previous is disabled on the first page, next on the last.
 - **Server pagination:** while a page loads, the pager already shows the new page and as many skeleton rows as the page size keep the table height.
+- **Server first load:** until `rowCount` arrives, the range text and the result count are 96px skeleton lines at the text's height, and the pager shows previous, the requested page and next, all disabled. Then the real counts and pages replace them without a layout jump: the bar's rows follow its width, not the number of page buttons (see Pagination). Loading that ends without rows or a total leaves the count line empty, at the same height.
 - **Toolbar filters:** search (32px, at most 320px wide), inline-labelled Select size `sm`, and a ghost `sm` "Filters wissen" button with an X icon, 12px apart in one wrapping row; the count below.
 - **Row link:** the record number in the row header as brand-cyan medium text, underlined on hover, with the focus ring.
 - **Row opens a Sheet:** pointer cursor on the rows; the open row is tinted brand-ice.
@@ -402,7 +405,7 @@ The block also exports `dataTableFeatures` (the registered TanStack features), `
 - Name every row checkbox and icon button with the action and the record (`Selecteer factuur 2026-041`, `Bewerken: factuur 2026-041`). Checkboxes sit in a 24px target; row action buttons are 32px.
 - The result count and the selection count are persistent `role="status"` regions, so changes are announced. While loading, a visually hidden status announces `loadingLabel`, the table has `aria-busy` and the skeleton rows are hidden from screen readers.
 - The table scrolls inside its own frame on narrow screens. When the table has no controls, set `focusable` so keyboard users can scroll it: the frame becomes a focusable `region` named by the caption (on automatically while loading).
-- Pagination follows the Pagination component: a `nav` named after the table (`paginationLabel`), `aria-current="page"` on the current page and named previous and next buttons that stay focusable when disabled. The range text is a status region. In server mode the table has `aria-busy` and `loadingLabel` is announced while a page loads.
+- Pagination follows the Pagination component: a `nav` named after the table (`paginationLabel`), `aria-current="page"` on the current page and named previous and next buttons that stay focusable when disabled. The range text is a status region. In server mode the table has `aria-busy` and `loadingLabel` is announced while a page loads. Before the server has sent a total, the range and the result count stay empty (their skeleton lines are `aria-hidden`), so screen readers hear no wrong count, and the page buttons are `aria-disabled`.
 - With `filters`, the search label is visually hidden but still names the field; every filter Select has a visible label. "Filters wissen" moves focus to the search field (or, without one, the first filter) when it disappears.
 - A row link lives in the row header cell. A row that opens a Sheet keeps a real button there (`aria-haspopup="dialog"`, `aria-expanded`, `aria-controls`); the row click is a mouse shortcut only. While the Sheet loads, set `aria-busy` on its body and announce the loading text.
 - The row actions button is named with the record (`Acties: factuur 2026-044`) and gets `aria-haspopup="menu"` and `aria-expanded` from DropdownMenu.

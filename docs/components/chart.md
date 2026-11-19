@@ -17,7 +17,7 @@ A chart card with a title, a one-sentence takeaway and bars in the three chart c
 ## Install
 
 ```bash
-npx shadcn@latest add Nieradj-BB/BiBi-Reusable-Components/chart#v0.2.0
+npx shadcn@latest add Nieradj-BB/BiBi-Reusable-Components/chart#v0.2.1
 ```
 
 ## Usage
