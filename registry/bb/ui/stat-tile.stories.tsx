@@ -212,7 +212,7 @@ export const DashboardRow: Story = {
   play: async ({ canvas }) => {
     const terms = canvas.getAllByRole("term")
     await expect(terms).toHaveLength(4)
-    const list = terms[0].closest("dl")
+    const list = terms[0]?.closest("dl")
     if (!(list instanceof HTMLElement)) throw new Error("list not found")
     await expect(within(list).getAllByRole("definition")).toHaveLength(8)
     const spark = list.querySelector("[data-slot=stat-tile-sparkline]")

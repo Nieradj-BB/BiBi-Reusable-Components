@@ -163,9 +163,11 @@ export const StackedBars: Story = {
 
     // Pointing at October shows the three values in the tooltip.
     const wrapper = canvasElement.querySelector(".recharts-wrapper")
-    const october = canvasElement
-      .querySelectorAll(".recharts-bar-rectangle path")[4]
-      .getBoundingClientRect()
+    const octoberBar = canvasElement.querySelectorAll(
+      ".recharts-bar-rectangle path"
+    )[4]
+    if (!octoberBar) throw new Error("October bar not found")
+    const october = octoberBar.getBoundingClientRect()
     if (!wrapper) throw new Error("Chart did not render")
     await userEvent.pointer({
       target: wrapper,

@@ -82,7 +82,7 @@ const months = [
 ]
 
 function formatDate(iso: string) {
-  const [year, month, day] = iso.split("-").map(Number)
+  const [year = 0, month = 1, day = 0] = iso.split("-").map(Number)
   return `${day} ${months[month - 1]} ${year}`
 }
 
@@ -182,6 +182,13 @@ const otherNumbers = [
 
 const statusCycle: InvoiceStatus[] = ["paid", "sent", "paid", "draft"]
 
+/** The item at `index`, counting round the list. */
+function cycle<T>(list: readonly T[], index: number): T {
+  const item = list[index % list.length]
+  if (item === undefined) throw new Error("cycle: empty list")
+  return item
+}
+
 // 48 invoices in total; two clients match the search term "advies".
 const manyInvoices: Invoice[] = [
   ...invoices,
@@ -198,10 +205,10 @@ const manyInvoices: Invoice[] = [
     return {
       number: `2026-${String(n).padStart(3, "0")}`,
       issued: `2026-${n < 20 ? "08" : "09"}-${day}`,
-      client: otherClients[i % otherClients.length],
+      client: cycle(otherClients, i),
       due: `2026-${n < 20 ? "09" : "10"}-${day}`,
       amount: 750 + ((i * 1375) % 11000),
-      status: statusCycle[i % statusCycle.length],
+      status: cycle(statusCycle, i),
     }
   }),
 ]
@@ -430,7 +437,9 @@ export const RowHoverAndFocus: Story = {
   ),
   play: async ({ canvas, canvasElement, userEvent }) => {
     await userEvent.hover(canvas.getByRole("button", { name: "Vervaldatum" }))
-    await userEvent.hover(bodyRows(canvasElement)[1])
+    const [, secondRow] = bodyRows(canvasElement)
+    if (!secondRow) throw new Error("second row not found")
+    await userEvent.hover(secondRow)
 
     canvas
       .getByRole("button", { name: "Verwijderen: factuur 2026-041" })
@@ -610,7 +619,7 @@ const timesheets: Timesheet[] = [
 const hoursFormat = new Intl.NumberFormat("nl-NL")
 const timesheetHelper = createDataTableColumnHelper<Timesheet>()
 const dayColumns = (["Ma", "Di", "Wo", "Do", "Vr"] as const).map((day, i) =>
-  timesheetHelper.accessor((row) => row.hours[i], {
+  timesheetHelper.accessor((row) => row.hours[i] ?? 0, {
     id: day,
     header: day,
     meta: { align: "end" },
@@ -768,10 +777,10 @@ const pagedInvoices: Invoice[] = [
     return {
       number: `2026-${String(n).padStart(3, "0")}`,
       issued: `2026-${n < 20 ? "07" : "08"}-${day}`,
-      client: otherClients[i % otherClients.length],
+      client: cycle(otherClients, i),
       due: `2026-${n < 20 ? "08" : "09"}-${day}`,
       amount: 750 + ((i * 1375) % 11000),
-      status: statusCycle[i % statusCycle.length],
+      status: cycle(statusCycle, i),
     }
   }),
 ]
@@ -897,10 +906,10 @@ function fetchInvoicePage(pageIndex: number, pageSize: number): Invoice[] {
     return {
       number: `2026-${String(n).padStart(4, "0")}`,
       issued: `2026-10-${day}`,
-      client: otherClients[n % otherClients.length],
+      client: cycle(otherClients, n),
       due: `2026-11-${day}`,
       amount: 750 + ((n * 1375) % 11000),
-      status: statusCycle[n % statusCycle.length],
+      status: cycle(statusCycle, n),
     }
   })
 }

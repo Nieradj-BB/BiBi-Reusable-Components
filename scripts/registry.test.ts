@@ -71,14 +71,16 @@ describe("registry dependencies", () => {
       const own = new Set<string>()
       for (const file of item.files) {
         const source = readFileSync(file.path, "utf8")
-        for (const [, specifier] of source.matchAll(/from "([^"]+)"/g)) {
+        for (const [, specifier = ""] of source.matchAll(/from "([^"]+)"/g)) {
           if (specifier.startsWith("@/")) {
             const name = aliasToItem(specifier)
             if (name && name !== item.name) own.add(name)
           } else if (specifier !== "react" && specifier !== "react-dom") {
             const parts = specifier.split("/")
             packages.add(
-              specifier.startsWith("@") ? parts.slice(0, 2).join("/") : parts[0]
+              specifier.startsWith("@")
+                ? parts.slice(0, 2).join("/")
+                : (parts[0] ?? specifier)
             )
           }
         }

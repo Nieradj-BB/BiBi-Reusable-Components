@@ -641,7 +641,7 @@ function ChartProportion({
               "box-border h-full flex-none not-first:border-l-2 not-first:border-card first:rounded-l-sm last:rounded-r-sm",
               seriesColors[index]
             )}
-            style={{ width: `${shares[index] * 100}%` }}
+            style={{ width: `${(shares[index] ?? 0) * 100}%` }}
           />
         ))}
       </div>
@@ -654,7 +654,9 @@ function ChartProportion({
             />
             <span className="min-w-0 flex-1">{item.label}</span>
             <span className="tabular-nums">
-              {item.valueLabel ?? <>{Math.round(shares[index] * 100)}&nbsp;%</>}
+              {item.valueLabel ?? (
+                <>{Math.round((shares[index] ?? 0) * 100)}&nbsp;%</>
+              )}
             </span>
           </li>
         ))}

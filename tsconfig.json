@@ -20,6 +20,7 @@
     "noImplicitOverride": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
+    "noUncheckedIndexedAccess": true,
     "paths": {
       "@/lib/utils": ["./registry/bb/lib/utils.ts"],
       "@/lib/*": ["./registry/bb/lib/*"],

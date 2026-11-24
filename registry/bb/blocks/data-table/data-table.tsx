@@ -536,7 +536,7 @@ function DataTable<TData extends RowData>({
               {leafColumns.map((column, columnIndex) => {
                 const meta = column.columnDef.meta
                 const width =
-                  skeletonWidths[rowIndex % skeletonWidths.length][
+                  skeletonWidths[rowIndex % skeletonWidths.length]?.[
                     columnIndex % 5
                   ]
 
