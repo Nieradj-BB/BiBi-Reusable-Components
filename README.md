@@ -28,11 +28,23 @@ The app needs React 19, Tailwind CSS 4 and a `components.json` with the standard
 }
 ```
 
+The CLI resolves these aliases through `compilerOptions.paths` in the app's root `tsconfig.json`. A Vite app often keeps `paths` only in `tsconfig.app.json`; add them to `tsconfig.json` as well (`"baseUrl": "."`, `"paths": { "@/*": ["./src/*"] }`), otherwise the CLI writes the files to a folder literally named `@`.
+
 Make npm save exact versions, so the app gets the package versions the library was tested with (the registry asks for `radix-ui@1.8.1`; without this setting npm writes `^1.8.1`). Add this `.npmrc` to the app before the first install:
 
 ```ini
 save-exact=true
 ```
+
+Keep the files the registry writes exactly as delivered. Add them to the app's `.prettierignore`:
+
+```gitignore
+src/components/ui/
+src/lib/utils.ts
+src/index.css
+```
+
+Add `src/components/<name>/` for each installed block, and use the CSS file from `tailwind.css` in `components.json`. The CLI recognises its own blocks in the CSS file by their exact text: once a formatter rewrites one (for example `h1, h2, h3` split over three lines), adding the theme again appends a second copy.
 
 ### 2. Install the theme and the components
 
@@ -52,7 +64,9 @@ Add more components later the same way, always at the tag the app is on:
 npx shadcn@latest add Nieradj-BB/BiBi-Reusable-Components/data-table#v0.2.1
 ```
 
-The theme item writes the colour variables to `:root`, maps them to Tailwind colours in `@theme inline`, adds the font import, the shadows, `animate-enter` and the base layer to the app's CSS file, and installs `@fontsource-variable/figtree`. Components land in `components/ui/` (multi-file blocks such as `data-table` and `app-shell` in `components/<name>/`), with their imports rewritten to the app's aliases. Each component also brings the library items it needs (`theme`, `utils`, `button`, ...) at the same tag and its npm packages at exact versions. Adding the theme again leaves the CSS file unchanged.
+The theme item writes the colour variables to `:root`, maps them to Tailwind colours in `@theme inline`, adds the font import, the shadows, `animate-enter` and the base layer to the app's CSS file, and installs `@fontsource-variable/figtree`. Components land in `components/ui/` (multi-file blocks such as `data-table` and `app-shell` in `components/<name>/`), with their imports rewritten to the app's aliases. Each component also brings the library items it needs (`theme`, `utils`, `button`, ...) at the same tag and its npm packages at exact versions. Adding the theme again leaves the CSS file unchanged, as long as nothing reformatted the CLI's blocks (see step 1).
+
+The CLI also writes `@custom-variant dark (&:is(.dark *));` to the CSS file. The library has no dark mode and never uses `dark:`, but leave the line in place: the CLI adds it back on every update.
 
 Useful commands:
 
@@ -66,7 +80,19 @@ If the repository is private, sign in once with `gh auth login`; in CI set `GH_T
 
 The built registry JSON is also committed under `public/r/`, so an item can be installed by URL as well, for example `https://raw.githubusercontent.com/Nieradj-BB/BiBi-Reusable-Components/v0.2.1/public/r/button.json`.
 
-### 3. Tell the app's agents
+### 3. Guard the theme in the app (recommended)
+
+Drop Tailwind's default palette in the app's CSS file, right after the font import, as this repo does in `src/library-guard.css`:
+
+```css
+@theme {
+  --color-*: initial;
+}
+```
+
+A palette class such as `bg-blue-500` then does not exist in the app, so it renders nothing and [`eslint-plugin-better-tailwindcss`](https://github.com/schoero/eslint-plugin-better-tailwindcss) reports it as an unknown class. For the other rules of the fixed theme (white and black, arbitrary colours, `dark:`, radii, shadows, `outline-none`), copy `restrictedClasses` from this repo's [`eslint.config.js`](eslint.config.js) into the app's `better-tailwindcss/no-restricted-classes` rule, with the app's CSS file as `entryPoint`.
+
+### 4. Tell the app's agents
 
 Paste the block from [`docs/consumer-claude-md.md`](docs/consumer-claude-md.md) into the app's `CLAUDE.md`.
 

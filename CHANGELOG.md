@@ -4,6 +4,10 @@ All notable changes to this library are documented here. The format follows [Kee
 
 ## [Unreleased]
 
+### Changed
+
+- README, "Use it in an app": the `@` alias must also be in the root `tsconfig.json` of a Vite app; installed library files and the CSS file stay out of Prettier, because a reformatted CSS file makes the CLI append the base layer again; the CLI's `@custom-variant dark` line stays; a new recommended step drops Tailwind's palette in the app and reuses this repo's restricted classes in the app's lint. The consumer `CLAUDE.md` block says the same in two clauses.
+
 ## [0.2.1] - 2026-11-19
 
 ### Added
