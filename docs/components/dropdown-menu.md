@@ -17,7 +17,7 @@ A menu of actions or view options that opens from a button, in the same white pa
 ## Install
 
 ```bash
-npx shadcn@latest add Nieradj-BB/BiBi-Reusable-Components/dropdown-menu#v0.2.1
+npx shadcn@latest add Nieradj-BB/BiBi-Reusable-Components/dropdown-menu#v0.2.2
 ```
 
 ## Usage

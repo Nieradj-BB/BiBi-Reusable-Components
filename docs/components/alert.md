@@ -17,7 +17,7 @@ An inline notice with an icon and text, in four variants: info, success, warning
 ## Install
 
 ```bash
-npx shadcn@latest add Nieradj-BB/BiBi-Reusable-Components/alert#v0.2.1
+npx shadcn@latest add Nieradj-BB/BiBi-Reusable-Components/alert#v0.2.2
 ```
 
 Also installs the `class-variance-authority` package.

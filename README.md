@@ -52,16 +52,16 @@ Items are addressed as `owner/repo/item#tag`. Install the theme, `utils` and eve
 
 ```bash
 npx shadcn@latest add \
-  Nieradj-BB/BiBi-Reusable-Components/theme#v0.2.1 \
-  Nieradj-BB/BiBi-Reusable-Components/utils#v0.2.1 \
-  Nieradj-BB/BiBi-Reusable-Components/button#v0.2.1 \
-  Nieradj-BB/BiBi-Reusable-Components/dialog#v0.2.1
+  Nieradj-BB/BiBi-Reusable-Components/theme#v0.2.2 \
+  Nieradj-BB/BiBi-Reusable-Components/utils#v0.2.2 \
+  Nieradj-BB/BiBi-Reusable-Components/button#v0.2.2 \
+  Nieradj-BB/BiBi-Reusable-Components/dialog#v0.2.2
 ```
 
 Add more components later the same way, always at the tag the app is on:
 
 ```bash
-npx shadcn@latest add Nieradj-BB/BiBi-Reusable-Components/data-table#v0.2.1
+npx shadcn@latest add Nieradj-BB/BiBi-Reusable-Components/data-table#v0.2.2
 ```
 
 The theme item writes the colour variables to `:root`, maps them to Tailwind colours in `@theme inline`, adds the font import, the shadows, `animate-enter` and the base layer to the app's CSS file, and installs `@fontsource-variable/figtree`. Components land in `components/ui/` (multi-file blocks such as `data-table` and `app-shell` in `components/<name>/`), with their imports rewritten to the app's aliases. Each component also brings the library items it needs (`theme`, `utils`, `button`, ...) at the same tag and its npm packages at exact versions. Adding the theme again leaves the CSS file unchanged, as long as nothing reformatted the CLI's blocks (see step 1).
@@ -71,14 +71,14 @@ The CLI also writes `@custom-variant dark (&:is(.dark *));` to the CSS file. The
 Useful commands:
 
 ```bash
-npx shadcn@latest list Nieradj-BB/BiBi-Reusable-Components#v0.2.1            # all items
-npx shadcn@latest view Nieradj-BB/BiBi-Reusable-Components/button#v0.2.1     # inspect an item before installing
-npx shadcn@latest add Nieradj-BB/BiBi-Reusable-Components/button#v0.2.1 --dry-run --diff
+npx shadcn@latest list Nieradj-BB/BiBi-Reusable-Components#v0.2.2            # all items
+npx shadcn@latest view Nieradj-BB/BiBi-Reusable-Components/button#v0.2.2     # inspect an item before installing
+npx shadcn@latest add Nieradj-BB/BiBi-Reusable-Components/button#v0.2.2 --dry-run --diff
 ```
 
 If the repository is private, sign in once with `gh auth login`; in CI set `GH_TOKEN` to a fine-grained token with read access to this repository.
 
-The built registry JSON is also committed under `public/r/`, so an item can be installed by URL as well, for example `https://raw.githubusercontent.com/Nieradj-BB/BiBi-Reusable-Components/v0.2.1/public/r/button.json`.
+The built registry JSON is also committed under `public/r/`, so an item can be installed by URL as well, for example `https://raw.githubusercontent.com/Nieradj-BB/BiBi-Reusable-Components/v0.2.2/public/r/button.json`.
 
 ### 3. Guard the theme in the app (recommended)
 
@@ -98,12 +98,12 @@ Paste the block from [`docs/consumer-claude-md.md`](docs/consumer-claude-md.md) 
 
 ### Versions
 
-Releases are semver git tags (`v0.1.0`, `v0.2.0`, `v0.2.1`, ...) with notes in [`CHANGELOG.md`](CHANGELOG.md). The library stays on 0.x while things settle; breaking changes only come with a new major version.
+Releases are semver git tags (`v0.1.0`, `v0.2.0`, `v0.2.1`, `v0.2.2`, ...) with notes in [`CHANGELOG.md`](CHANGELOG.md). The library stays on 0.x while things settle; breaking changes only come with a new major version.
 
 How pinning works:
 
-- The shadcn CLI does not pass the `#tag` of the item you add on to that item's `registryDependencies`. An untagged dependency would resolve to the default branch, and its files would overwrite the tagged files of the same item. So in a release every `registryDependencies` entry carries the release tag itself (`Nieradj-BB/BiBi-Reusable-Components/utils#v0.2.1`), and every `dependencies` entry an exact version (`radix-ui@1.8.1`). `npm run build:registry` sets both from `package.json` (`scripts/pin-registry.mjs`); a unit test fails when they drift.
-- Apps install only from tags. Adding `button#v0.2.1` brings `theme#v0.2.1` and `utils#v0.2.1`: the same files as adding them yourself.
+- The shadcn CLI does not pass the `#tag` of the item you add on to that item's `registryDependencies`. An untagged dependency would resolve to the default branch, and its files would overwrite the tagged files of the same item. So in a release every `registryDependencies` entry carries the release tag itself (`Nieradj-BB/BiBi-Reusable-Components/utils#v0.2.2`), and every `dependencies` entry an exact version (`radix-ui@1.8.1`). `npm run build:registry` sets both from `package.json` (`scripts/pin-registry.mjs`); a unit test fails when they drift.
+- Apps install only from tags. Adding `button#v0.2.2` brings `theme#v0.2.2` and `utils#v0.2.2`: the same files as adding them yourself.
 - Never install from the default branch (no `#tag`, or `#main`): its items point at the last release tag, not at the branch.
 
 To update, add every installed library item again at the newer tag in one command and review the changes (`--dry-run --diff` first, then `--overwrite`). Mixing tags in one app is not supported.
@@ -112,7 +112,7 @@ To release: set `version` in `package.json`, run `npm run build:registry`, move 
 
 ## Components
 
-The current release is v0.2.1; the Since column gives the release that added each item. Each has a page in [`docs/components/`](docs/components/) and stories in Storybook.
+The current release is v0.2.2; the Since column gives the release that added each item. Each has a page in [`docs/components/`](docs/components/) and stories in Storybook.
 
 | Item                                                | Component              | What it is for                                                                                        | Since |
 | --------------------------------------------------- | ---------------------- | ----------------------------------------------------------------------------------------------------- | ----- |

@@ -15,7 +15,7 @@ Picks exactly one option from a small set that stays visible.
 ## Install
 
 ```bash
-npx shadcn@latest add Nieradj-BB/BiBi-Reusable-Components/radio-group#v0.2.1
+npx shadcn@latest add Nieradj-BB/BiBi-Reusable-Components/radio-group#v0.2.2
 ```
 
 ## Usage

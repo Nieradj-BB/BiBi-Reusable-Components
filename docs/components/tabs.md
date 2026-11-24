@@ -16,7 +16,7 @@ Switches between views of one subject inside a page (Radix Tabs), or between sub
 ## Install
 
 ```bash
-npx shadcn@latest add Nieradj-BB/BiBi-Reusable-Components/tabs#v0.2.1
+npx shadcn@latest add Nieradj-BB/BiBi-Reusable-Components/tabs#v0.2.2
 ```
 
 ## Usage

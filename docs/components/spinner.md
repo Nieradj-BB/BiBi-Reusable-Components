@@ -18,7 +18,7 @@ A small rotating icon that tells people a short job is running: inline next to t
 ## Install
 
 ```bash
-npx shadcn@latest add Nieradj-BB/BiBi-Reusable-Components/spinner#v0.2.1
+npx shadcn@latest add Nieradj-BB/BiBi-Reusable-Components/spinner#v0.2.2
 ```
 
 Also installs the `class-variance-authority` and `lucide-react` packages.

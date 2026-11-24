@@ -17,7 +17,7 @@ Moves between pages of a long list or table: previous and next, page numbers, an
 ## Install
 
 ```bash
-npx shadcn@latest add Nieradj-BB/BiBi-Reusable-Components/pagination#v0.2.1
+npx shadcn@latest add Nieradj-BB/BiBi-Reusable-Components/pagination#v0.2.2
 ```
 
 This also installs Select.

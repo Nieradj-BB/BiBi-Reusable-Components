@@ -4,6 +4,8 @@ All notable changes to this library are documented here. The format follows [Kee
 
 ## [Unreleased]
 
+## [0.2.2] - 2026-11-24
+
 ### Fixed
 
 - `app-shell`, `data-table`, `chart`, `stat-tile`: the items now typecheck in apps that use `noUncheckedIndexedAccess`. AppShell's initials, the DataTable skeleton widths, the Chart proportion bar and the StatTile sparkline no longer index an array without handling a missing item; behaviour is unchanged. This repo now typechecks with `noUncheckedIndexedAccess` too, stories and tests included, so items keep passing it.

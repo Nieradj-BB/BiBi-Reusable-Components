@@ -17,7 +17,7 @@ The content area under the page header: the same page padding as the header, so 
 ## Install
 
 ```bash
-npx shadcn@latest add Nieradj-BB/BiBi-Reusable-Components/page-content#v0.2.1
+npx shadcn@latest add Nieradj-BB/BiBi-Reusable-Components/page-content#v0.2.2
 ```
 
 ## Usage

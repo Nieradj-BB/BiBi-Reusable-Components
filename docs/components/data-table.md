@@ -16,7 +16,7 @@ A bordered table for records, with sortable headers, row selection, row actions,
 ## Install
 
 ```bash
-npx shadcn@latest add Nieradj-BB/BiBi-Reusable-Components/data-table#v0.2.1
+npx shadcn@latest add Nieradj-BB/BiBi-Reusable-Components/data-table#v0.2.2
 ```
 
 This adds `components/data-table/data-table.tsx` (the `DataTable` component) and `components/data-table/table.tsx` (the table primitives), plus Button, Checkbox, Input, Label, Pagination, Select, Skeleton and EmptyState. Add Badge yourself for status cells, DropdownMenu for a row actions menu and Sheet for a detail panel.
