@@ -2,7 +2,7 @@
 
 One page per registry item: purpose, when to use it, install command, usage, props, variants and states, and accessibility notes. Live examples are in Storybook. Install every item at the tag the app is on (see [Use it in an app](../../README.md#use-it-in-an-app)).
 
-All items are in v0.2.1. Items new in v0.2.0 are marked _(0.2.0)_ and the item new in v0.2.1 _(0.2.1)_; the rest came with v0.1.0.
+All items are in v0.2.2. Items new in v0.2.0 are marked _(0.2.0)_ and the item new in v0.2.1 _(0.2.1)_; the rest came with v0.1.0.
 
 ## Actions
 

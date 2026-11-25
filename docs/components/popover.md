@@ -16,7 +16,7 @@ A small panel anchored to a button, for a short explanation (toggletip) or a qui
 ## Install
 
 ```bash
-npx shadcn@latest add Nieradj-BB/BiBi-Reusable-Components/popover#v0.2.1
+npx shadcn@latest add Nieradj-BB/BiBi-Reusable-Components/popover#v0.2.2
 ```
 
 ## Usage

@@ -60,10 +60,9 @@ function declarations(selector: string) {
   expect(start, `${selector} block`).toBeGreaterThanOrEqual(0)
   const body = css.slice(start, css.indexOf("}", start))
   return Object.fromEntries(
-    [...body.matchAll(/--([\w-]+):\s*([^;]+);/g)].map(([, name, value]) => [
-      name,
-      value.replace(/\s+/g, " ").trim(),
-    ])
+    [...body.matchAll(/--([\w-]+):\s*([^;]+);/g)].map(
+      ([, name = "", value = ""]) => [name, value.replace(/\s+/g, " ").trim()]
+    )
   )
 }
 

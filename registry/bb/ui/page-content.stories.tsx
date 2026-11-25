@@ -260,16 +260,19 @@ export const Sections: Story = {
 
     // The header and the content share the page padding.
     const content = getSlot(canvasElement, "page-content")
-    await expect(box(sectionTitles[0]).left).toBeCloseTo(box(title).left, 0)
+    const [firstTitle] = sectionTitles
+    const [firstSection] = sections
+    if (!firstTitle || !firstSection) throw new Error("first section not found")
+    await expect(box(firstTitle).left).toBeCloseTo(box(title).left, 0)
     await expect(box(title).left - box(content).left).toBeCloseTo(
       pagePadding(),
       0
     )
 
     // The action sits top right, level with the section title.
-    const action = getSlot(sections[0], "page-section-action")
-    await expect(box(action).top).toBeCloseTo(box(sectionTitles[0]).top, 0)
-    await expect(box(action).right).toBeCloseTo(box(sections[0]).right, 0)
+    const action = getSlot(firstSection, "page-section-action")
+    await expect(box(action).top).toBeCloseTo(box(firstTitle).top, 0)
+    await expect(box(action).right).toBeCloseTo(box(firstSection).right, 0)
   },
 }
 
@@ -414,7 +417,9 @@ export const NestedSection: Story = {
     ).toHaveLength(3)
 
     const action = getSlot(canvasElement, "page-section-action")
-    await expect(box(action).top).toBeCloseTo(box(nestedTitles[1]).top, 0)
+    const [, secondNested] = nestedTitles
+    if (!secondNested) throw new Error("second nested title not found")
+    await expect(box(action).top).toBeCloseTo(box(secondNested).top, 0)
   },
 }
 

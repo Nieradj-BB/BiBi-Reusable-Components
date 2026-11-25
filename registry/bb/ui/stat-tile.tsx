@@ -67,7 +67,9 @@ function Sparkline({ values }: { values: number[] }) {
         : sparkBottom - ((value - min) / (max - min)) * (sparkBottom - sparkTop)
     return [Math.round(x * 10) / 10, Math.round(y * 10) / 10] as const
   })
-  const [lastX, lastY] = points[points.length - 1]
+  const last = points.at(-1)
+  if (!last) return null
+  const [lastX, lastY] = last
 
   return (
     <svg

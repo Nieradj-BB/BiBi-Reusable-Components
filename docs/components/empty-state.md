@@ -16,7 +16,7 @@ A dashed box that says nothing is here yet, how items appear, and what to do nex
 ## Install
 
 ```bash
-npx shadcn@latest add Nieradj-BB/BiBi-Reusable-Components/empty-state#v0.2.1
+npx shadcn@latest add Nieradj-BB/BiBi-Reusable-Components/empty-state#v0.2.2
 ```
 
 ## Usage

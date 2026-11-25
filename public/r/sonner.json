@@ -8,9 +8,9 @@
     "lucide-react@1.69.0"
   ],
   "registryDependencies": [
-    "Nieradj-BB/BiBi-Reusable-Components/theme#v0.2.1",
-    "Nieradj-BB/BiBi-Reusable-Components/utils#v0.2.1",
-    "Nieradj-BB/BiBi-Reusable-Components/button#v0.2.1"
+    "Nieradj-BB/BiBi-Reusable-Components/theme#v0.2.2",
+    "Nieradj-BB/BiBi-Reusable-Components/utils#v0.2.2",
+    "Nieradj-BB/BiBi-Reusable-Components/button#v0.2.2"
   ],
   "files": [
     {

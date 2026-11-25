@@ -18,7 +18,7 @@ Wraps a control with its label, required or optional mark, help text and error m
 ## Install
 
 ```bash
-npx shadcn@latest add Nieradj-BB/BiBi-Reusable-Components/form-field#v0.2.1
+npx shadcn@latest add Nieradj-BB/BiBi-Reusable-Components/form-field#v0.2.2
 ```
 
 Also installs `label` and `alert` from this registry.

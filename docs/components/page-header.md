@@ -16,7 +16,7 @@ The top block of every page: title, one-line subtitle and the short cyan accent 
 ## Install
 
 ```bash
-npx shadcn@latest add Nieradj-BB/BiBi-Reusable-Components/page-header#v0.2.1
+npx shadcn@latest add Nieradj-BB/BiBi-Reusable-Components/page-header#v0.2.2
 ```
 
 ## Usage

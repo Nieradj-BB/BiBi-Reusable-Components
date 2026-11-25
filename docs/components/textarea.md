@@ -15,7 +15,7 @@ A multi-line text field for notes, descriptions and comments, optionally with a 
 ## Install
 
 ```bash
-npx shadcn@latest add Nieradj-BB/BiBi-Reusable-Components/textarea#v0.2.1
+npx shadcn@latest add Nieradj-BB/BiBi-Reusable-Components/textarea#v0.2.2
 ```
 
 ## Usage

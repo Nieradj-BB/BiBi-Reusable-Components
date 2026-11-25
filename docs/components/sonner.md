@@ -17,7 +17,7 @@ A short, temporary message in a corner of the screen that confirms a result or r
 ## Install
 
 ```bash
-npx shadcn@latest add Nieradj-BB/BiBi-Reusable-Components/sonner#v0.2.1
+npx shadcn@latest add Nieradj-BB/BiBi-Reusable-Components/sonner#v0.2.2
 ```
 
 Also installs `button` from this registry (`buttonVariants` styles the action and cancel buttons) and the `sonner` package.

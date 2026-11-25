@@ -15,7 +15,7 @@ Turns an independent option on or off, or selects rows; supports a mixed (indete
 ## Install
 
 ```bash
-npx shadcn@latest add Nieradj-BB/BiBi-Reusable-Components/checkbox#v0.2.1
+npx shadcn@latest add Nieradj-BB/BiBi-Reusable-Components/checkbox#v0.2.2
 ```
 
 ## Usage

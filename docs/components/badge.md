@@ -16,7 +16,7 @@ A small pill label that shows a status, a category, a role or a count.
 ## Install
 
 ```bash
-npx shadcn@latest add Nieradj-BB/BiBi-Reusable-Components/badge#v0.2.1
+npx shadcn@latest add Nieradj-BB/BiBi-Reusable-Components/badge#v0.2.2
 ```
 
 ## Usage

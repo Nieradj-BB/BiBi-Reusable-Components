@@ -15,7 +15,7 @@ A tile that shows one key number with its label, optionally with a caption, a tr
 ## Install
 
 ```bash
-npx shadcn@latest add Nieradj-BB/BiBi-Reusable-Components/stat-tile#v0.2.1
+npx shadcn@latest add Nieradj-BB/BiBi-Reusable-Components/stat-tile#v0.2.2
 ```
 
 Also installs `skeleton` from this registry (the loading placeholder).

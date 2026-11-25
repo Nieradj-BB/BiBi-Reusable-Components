@@ -595,6 +595,7 @@ export const TriggerStates: Story = {
   ),
   play: async ({ canvas }) => {
     const [rest] = canvas.getAllByRole("button", { name: "Acties" })
+    if (!rest) throw new Error("trigger not found")
     const accent = getComputedStyle(
       canvas.getByRole("button", { name: "Acties voor project Lindenpark" })
     ).backgroundColor

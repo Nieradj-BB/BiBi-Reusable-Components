@@ -362,6 +362,7 @@ function StepsDialog() {
   const [step, setStep] = React.useState(0)
   const current = steps[step]
   const last = step === steps.length - 1
+  if (!current) return null
 
   return (
     <Dialog>
